@@ -1,0 +1,156 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+# Data Estructure
+
+```{r data-load, cache=TRUE, echo=FALSE}
+yard_moves_by_year.df <- read.csv("yard_moves_for_year.csv", header = TRUE)
+
+```
+
+```{r adding-data-colunms, cache=TRUE, echo=FALSE}
+yard_moves_by_year.df$year_ <-
+  as.integer(substr(yard_moves_by_year.df$period, 1, 4))
+yard_moves_by_year.df$month_ <-
+  as.integer(substr(yard_moves_by_year.df$period, 6, 7))
+yard_moves_by_year.df$day_ <-
+  as.integer(substr(yard_moves_by_year.df$period, 9, 10))
+
+yard_moves_by_year.df[yard_moves_by_year.df$mve_gkey == "NA", ]
+
+
+# Cleaning some data based on MANVI's comments on  24 APR 2024
+## ufv_gkey: Feel free to disregard this gkey for your analysis, its an internal key we use to join across tables.
+yard_moves_by_year.df <-
+  subset(
+    yard_moves_by_year.df,
+    select = -c(
+      che_fetch_login_name,
+      che_carry_login_name,
+      che_put_login_name
+    )
+  )
+
+## rehandle_count if NA will be 0
+yard_moves_by_year.df$rehandle_count[is.na(yard_moves_by_year.df$rehandle_count)] <-
+  0
+
+## twin_fetch and twin_carry if NA will be 0
+yard_moves_by_year.df$twin_carry[is.na(yard_moves_by_year.df$twin_carry)] <-
+  0
+yard_moves_by_year.df$twin_fetch[is.na(yard_moves_by_year.df$twin_fetch)] <-
+  0
+
+# Cleaning some data based on MANVI's comments on  26 APR 2024
+yard_moves_by_year.df$dist_start[is.na(yard_moves_by_year.df$dist_start)] <-
+  0
+yard_moves_by_year.df$dist_carry[is.na(yard_moves_by_year.df$dist_carry)] <-
+  0
+yard_moves_by_year.df$twin_put[is.na(yard_moves_by_year.df$twin_put)] <-
+  0
+
+
+cols_with_na <-
+  sapply(yard_moves_by_year.df, function(x)
+    any(is.na(x)))
+columns_with_na <- names(cols_with_na[cols_with_na])
+
+```
+
+```{r, echo=FALSE}
+str(yard_moves_by_year.df)
+```
+
+
+# Years and months Provided
+
+```{r, echo=FALSE, cache=TRUE}
+table(yard_moves_by_year.df$year_,yard_moves_by_year.df$month_)
+```
+# Categorical Data
+
+| ID's Column Name      |   Description                                                                                                          |
+|-----------------------|------------------------------------------------------------------------------------------------------------------------|
+| nominal_length        |   Container size that could be 20, 40, 45, and 10                                                                      |
+| arrive_pos_loctype    |   Type of location arrival                                                                                             |
+| last_pos_loctype      |   Last position's type where the container was fetched from, elated to fm_pos_locid                                    |
+
+
+
+### category
+
+| Name Category  | Description                                                                    |
+|----------------|--------------------------------------------------------------------------------|
+| IMPRT          | Import                                                                         |
+| EXPRT          | Export                                                                         |
+| STRGE          | Storage                                                                        |
+| TRSHP          | When a box comes off a vessel and goes on another vessel                       |
+| THRGH          | When a box leaves on the same vessel it came on, it just went through          |
+
+### move_kind
+
+| Name Category  | Description                                            |
+|----------------|--------------------------------------------------------|
+| DLVR           | Delivery                                               |
+| LOAD           | Load                                                   |
+| YARD           | Yard Move                                              |
+| SHFT           | Yard Shift                                             |
+| RECV           | Receival                                               |
+| RLOD           | Rail load                                              |
+| OTHR           | Other                                                  |
+| RDSC           | Rail Discharge                                         |
+| DSCH           | Discharge                                              |
+| SHOB           | Shift O.B                                              |
+
+### freight_kind
+| Name Category  | Description                                            |
+|----------------|--------------------------------------------------------|
+| MTY            | Empty                                                  |
+| FCL            | Full Container Load                                    |
+
+
+## Binary Variables
+
+| ID's Column Name |   Description                                                                                                                           |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| requires_power   |   Container deigned to be transported as temperature sensitive cargo and the temperatures associated with them are precisely controlled |
+| twin_fetch       |   Pairs of containers that were able be twin fetched                                                                                    |
+| twin_carry       |   Pairs of containers that can able be twin carried                                                                                     |
+| twin_put         |   time when the whole chain of events related to a container_visit_gkey is completed **(TO DOUBLE CHECK)**                              |
+
+## Dates
+
+| ID's Column Name    | Description.                                                                                                                                     |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| t_put               | It is the time completed                                                                                                                         |
+| t_dispatch          | This is the time when a container is dispatched somewhere like on a vessel or on truck                                                           |
+| t_carry_dispatch    | **Unsure about this one, need to be double checked**                                                                                             |
+| t_fetch             | Datetime when the container was fetched                                                                                                          |
+| t_discharge         | Datetime when the container is left in a certain position after being fetched (which could be twin_fetched)                                      |
+| time_in             | Datetime when the container arrives at the port.  In case of stranships this field could also indicate change of category from storage to export |
+| time_out            | It is associated with each stage, if a container was tranship and it changed from import to storage to export, each stage would have a time_out. |
+
+## Numerical Data
+
+| Name Category           | Description                                                                                                             |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| rehandle_count          | How many times a container was rehandled. NOT needless                                                                  |
+| goods_and_ctr_wt_kg     | Total weight goods and container (Container weight and Goods weight)                                                    |
+| dist_start              | Distance where the container started to ve moved, related to dist_carry (Need to be verified)                           |
+| dist_carry              | Distance the container was carried during the move would be correlated to distance it started at (Need to be verified)  |
+
+
+## Identifiers
+
+| ID's Column Name  | Description                                                                                        |
+|-------------------|----------------------------------------------------------------------------------------------------|
+| mve_gkey          | Unique identifier for each move                                                                    |
+| fm_pos_locid      | FROM Position location id associated with fm_pos_name                                              |
+| fm_pos_name       | Name of the location associated with fm_pos_locid                                                  |
+| to_pos_locid      | TO Position location associated with to_pos_name                                                   |
+| to_pos_name       | Name of the location associated with to_pos_locid                                                  |
+| inv_unit_id       | Container ID, same even if revisit the port                                                        |
+| bizunit_id        | Line operator's ID.                                                                                |

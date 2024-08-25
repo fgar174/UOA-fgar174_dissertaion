@@ -1,0 +1,7 @@
+.R*
+renv
+*.csv
+DataExplorationOne_cache
+R_analysis.Rproj
+Images
+*.xlsx
