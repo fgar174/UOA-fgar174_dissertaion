@@ -3,6 +3,8 @@ import time
 import os
 import joblib
 import json
+
+import numpy as np
 from sklearn.pipeline import Pipeline
 
 import matplotlib.pyplot as plt
@@ -109,6 +111,17 @@ class ModelTrainer:
         self.bins = bins
         self.save = save
         self.stratified_split_testing = stratified_split_testing
+        self.categorical_cols = ['nominal_length', 'freight_kind', 'category']
+        self.numerical_cols = [
+            'time_in_month',
+            'time_in_hour',
+            'time_in_weekday',
+            'requires_power',
+            'time_in_business_day',
+            'time_in_week_of_year',
+            'time_in_week_of_month',
+        ]
+
 
     def get_model_and_params(self):
         model_classes = {
@@ -174,7 +187,7 @@ class ModelTrainer:
         data_preprocessor = DataPreprocessor(dataset=train_df, bins=self.bins)
         X, y = data_preprocessor.preprocess()
 
-        self.preprocessor, numerical_cols, categorical_cols = self.preprocess_features(X)
+        self.preprocessor = self.preprocess_features()
 
         if self.stratified_split_testing:
             X_train, X_test, y_train, y_test = self.split_data_stratified(X, y)
@@ -193,15 +206,15 @@ class ModelTrainer:
         elapsed_time_minutes = elapsed_time_seconds / 60
 
         best_params = grid_search.best_params_
-        best_model = grid_search.best_estimator_
-        cv_scores = cross_val_score(best_model, X_train, y_train, cv=kf, scoring='accuracy', n_jobs=-1)
-        y_pred = best_model.predict(X_test)
-        y_proba = best_model.predict_proba(X_test) if hasattr(best_model.named_steps['model'],
+        self.best_model = grid_search.best_estimator_
+        cv_scores = cross_val_score(self.best_model, X_train, y_train, cv=kf, scoring='accuracy', n_jobs=-1)
+        y_pred = self.best_model.predict(X_test)
+        y_proba = self.best_model.predict_proba(X_test) if hasattr(self.best_model.named_steps['model'],
                                                               'predict_proba') else None
-        test_accuracy = best_model.score(X_test, y_test)
+        test_accuracy = self.best_model.score(X_test, y_test)
 
         # Metrics and Results
-        metrics = self.evaluate_model(best_model, X_test, y_test, y_pred, y_proba, numerical_cols)
+        metrics = self.evaluate_model(y_test, y_pred, y_proba, elapsed_time_minutes)
         metrics['cv_scores'] = cv_scores.tolist()
         metrics['test_accuracy'] = test_accuracy
 
@@ -213,15 +226,15 @@ class ModelTrainer:
 
             filename = f"{self.get_config_filename()}.joblib"
             model_filepath = os.path.join(models_dir, filename)
-            joblib.dump(best_model, model_filepath)
+            joblib.dump(self.best_model, model_filepath)
 
-        self.best_model = best_model
 
-        return best_model, metrics
+        return self.best_model, metrics
 
     def get_config_filename(self):
+        not_tuned = self.param_grid == {}
         filename_conf = f'b_{"_".join(map(str, self.bins))}_sst_{self.stratified_split_testing}_scaled_{self.scaled_data}'
-        return f"{''.join(self.model_type.value.split())}_{filename_conf}"
+        return f"{''.join(self.model_type.value.split())}_{filename_conf}_{'not_tuned' if not_tuned else 'tuned'}"
 
     def save_results(self, best_params, metrics, output_dir="model_results"):
         """Save the best parameters and metrics to a JSON file."""
@@ -231,10 +244,13 @@ class ModelTrainer:
         filename = f"{self.get_config_filename()}.json"
         filepath = os.path.join(output_dir, filename)
 
+        not_tuned = self.param_grid == {}
+
         results = {
             "model_type": self.model_type.value,
             "bins": self.bins,
             "scaled": self.scaled_data,
+            "tuned": not not_tuned,
             "stratified_split_testing": self.stratified_split_testing,
             "best_params": best_params,
             "metrics": metrics,
@@ -244,18 +260,7 @@ class ModelTrainer:
         with open(filepath, 'w') as f:
             json.dump(results, f, indent=4)
 
-    def preprocess_features(self, X):
-        categorical_cols = ['nominal_length', 'freight_kind', 'category']
-        numerical_cols = [
-            'time_in_month',
-            'time_in_hour',
-            'time_in_weekday',
-            'requires_power',
-            'time_in_business_day',
-            'time_in_week_of_year',
-            'time_in_week_of_month',
-        ]
-
+    def preprocess_features(self):
         numerical_transformer = Pipeline(steps=[
             ('imputer', SimpleImputer(strategy='mean')),
             ('scaler', StandardScaler())
@@ -268,11 +273,11 @@ class ModelTrainer:
 
         preprocessor = ColumnTransformer(
             transformers=[
-                ('num', numerical_transformer, numerical_cols),
-                ('cat', categorical_transformer, categorical_cols)
+                ('num', numerical_transformer, self.numerical_cols),
+                ('cat', categorical_transformer, self.categorical_cols)
             ])
 
-        return preprocessor, numerical_cols, categorical_cols
+        return preprocessor
 
     def split_data_stratified(self, X, y):
         X['strat_group'] = X['time_in_month'].astype(str) + '_' + X['time_in_week_of_month'].astype(str)
@@ -337,31 +342,30 @@ class ModelTrainer:
         file_path = os.path.join(output_dir, file_name)
         plt.savefig(file_path, bbox_inches='tight')
 
-    def evaluate_model(self, best_model, X_test, y_test, y_pred, y_proba, elapsed_time_minutes):
-        # Feature Importances
+    def evaluate_model(self, y_test, y_pred, y_proba, elapsed_time_minutes):
         feature_importances = None
-        if hasattr(best_model.named_steps['model'], 'coef_'):
-            feature_importances = best_model.named_steps['model'].coef_[0]
-        elif hasattr(best_model.named_steps['model'], 'feature_importances_'):
-            feature_importances = best_model.named_steps['model'].feature_importances_
+        if hasattr(self.best_model.named_steps['model'], 'coef_'):
+            feature_importances = self.best_model.named_steps['model'].coef_[0]
+        elif hasattr(self.best_model.named_steps['model'], 'feature_importances_'):
+            feature_importances = self.best_model.named_steps['model'].feature_importances_
 
         feature_importances_dict = None
-        # if feature_importances is not None:
-        #     categorical_feature_names = self.preprocessor.named_transformers_['cat']['onehot'].get_feature_names_out(
-        #         categorical_cols)
-        #     print(numerical_cols, "HERE numerical_cols ::::::::::::.")
-        #     print(categorical_feature_names, "HERE categorical_feature_names ::::::::::::.")
-        #     feature_names = np.concatenate([numerical_cols, categorical_feature_names])
-        #     feature_importances_dict = {feature: importance for feature, importance in
-        #                                 zip(feature_names, feature_importances)}
-        #
-        #     feature_importances_df = pd.DataFrame({
-        #         'feature': feature_names,
-        #         'importance': feature_importances
-        #     })
-        #     feature_importances_df = feature_importances_df.sort_values(by='importance', ascending=False)
-        #     print("Feature Importances:")
-        #     print(feature_importances_df)
+        if feature_importances is not None:
+            categorical_feature_names = self.preprocessor.named_transformers_['cat']['onehot'].get_feature_names_out(
+                self.categorical_cols)
+            print(self.numerical_cols, "HERE numerical_cols ::::::::::::.")
+            print(categorical_feature_names, "HERE categorical_feature_names ::::::::::::.")
+            feature_names = np.concatenate([self.numerical_cols, categorical_feature_names])
+            feature_importances_dict = {feature: importance for feature, importance in
+                                        zip(feature_names, feature_importances)}
+
+            feature_importances_df = pd.DataFrame({
+                'feature': feature_names,
+                'importance': feature_importances
+            })
+            feature_importances_df = feature_importances_df.sort_values(by='importance', ascending=False)
+            print("Feature Importances:")
+            print(feature_importances_df)
 
         # Evaluation Metrics
         accuracy = accuracy_score(y_test, y_pred)
@@ -424,8 +428,6 @@ class ModelTrainer:
 
         # Evaluate metrics
         return self.evaluate_model(
-            self.best_model,
-            X_processed,
             y_true,
             y_pred,
             y_proba,
@@ -441,10 +443,12 @@ class ModelTrainer:
         filename = f"{self.get_config_filename()}_{filename_wm}.json"
         filepath = os.path.join(output_dir, filename)
 
+        tuned = self.param_grid != {}
         results = {
             "model_type": self.model_type.value,
             "bins": self.bins,
             "scaled": self.scaled_data,
+            "tuned": tuned,
             "stratified_split_testing": self.stratified_split_testing,
             "week": week,
             "month": month,
@@ -496,6 +500,9 @@ class ReportGenerator:
                 bins = results['bins']
                 metrics = results['metrics']
                 file_name = file
+                scaled = results['scaled']
+                tuned = results['tuned']
+                stratified_split_testing = results['stratified_split_testing']
 
                 # Extract relevant metrics
                 cv_scores = metrics.get("cv_scores", None)
@@ -503,8 +510,6 @@ class ReportGenerator:
                 accuracy = metrics.get("accuracy", None)
                 precision = metrics.get("precision", None)
                 recall = metrics.get("recall", None)
-                scaled = metrics.get("scaled", None)
-                stratified_split_testing = metrics.get("stratified_split_testing", None)
                 matthews_corrcoef = metrics.get("matthews_corrcoef", None)
                 cohen_kappa_score = metrics.get("cohen_kappa_score", None)
                 roc_auc_score = metrics.get("roc_auc_score", None)
@@ -518,6 +523,7 @@ class ReportGenerator:
                     "model_type": model_type,
                     "bins": str(bins),
                     "scaled": scaled,
+                    "tuned": tuned,
                     "stratified_split_testing": stratified_split_testing,
                     "accuracy": accuracy,
                     "precision": precision,
@@ -537,7 +543,7 @@ class ReportGenerator:
         df_comparison.to_excel(output_path.replace('.csv', '.xlsx'), index=False)
         print(df_comparison)
 
-    def extract_classification_report(self, report_str, model_type, bins, scaled, stratified_split_testing):
+    def extract_classification_report(self, report_str, model_type, bins, scaled, tuned, stratified_split_testing):
         """Extract the classification report into a structured DataFrame."""
         report_lines = report_str.strip().split("\n")
         classes = []
@@ -556,6 +562,7 @@ class ReportGenerator:
                     model_type,
                     str(bins),
                     scaled,
+                    tuned,
                     stratified_split_testing,
                     class_name,
                     precision,
@@ -569,6 +576,7 @@ class ReportGenerator:
                 "model_type",
                 "bins",
                 "scaled",
+                "tuned",
                 "stratified_split_testing",
                 "class",
                 "precision",
@@ -599,6 +607,7 @@ class ReportGenerator:
                 model_type = results['model_type']
                 bins = results['bins']
                 scaled = results['scaled']
+                tuned = results['tuned']
                 stratified_split_testing = results['stratified_split_testing']
                 classification_report_str = results['metrics'].get('classification_report', '')
 
@@ -608,6 +617,7 @@ class ReportGenerator:
                         model_type,
                         bins,
                         scaled,
+                        tuned,
                         stratified_split_testing
                     )
                     all_reports.append(df_report)  # Append each report DataFrame to the list
@@ -639,6 +649,7 @@ class ReportGenerator:
                 model_type = results['model_type']
                 bins = results['bins']
                 scaled = results['scaled']
+                tuned = results['tuned']
                 stratified_split_testing = results['stratified_split_testing']
                 week = results['week']
                 month = results['month']
@@ -650,6 +661,7 @@ class ReportGenerator:
                         model_type,
                         bins,
                         scaled,
+                        tuned,
                         stratified_split_testing
                     )
                     df_report['week'] = week
@@ -681,8 +693,11 @@ class ReportGenerator:
                 model_type = results['model_type']
                 bins = results['bins']
                 week = results['week']
+                tuned = results['tuned']
                 month = results['month']
                 metrics = results['metrics']
+                scaled = results['scaled']
+                stratified_split_testing = results['stratified_split_testing']
                 file_name = file
 
                 # Extract relevant metrics
@@ -690,7 +705,6 @@ class ReportGenerator:
                 precision = metrics.get("precision", None)
                 recall = metrics.get("recall", None)
                 matthews_corrcoef = metrics.get("matthews_corrcoef", None)
-                stratified_split_testing = metrics.get("stratified_split_testing", None)
                 cohen_kappa_score = metrics.get("cohen_kappa_score", None)
                 roc_auc_score = metrics.get("roc_auc_score", None)
                 log_loss = metrics.get("log_loss", None)
@@ -700,6 +714,8 @@ class ReportGenerator:
                 comparison_data.append({
                     "file_name": file_name,
                     "model_type": model_type,
+                    "tuned": tuned,
+                    "scaled": scaled,
                     "stratified_split_testing": stratified_split_testing,
                     "bins": str(bins),
                     "week": week,
@@ -745,8 +761,8 @@ def run_all_combinations(dataset_name, train_df, final_test_df):
         [0, 6, 9, 21],
     ]
 
-    stratified_options = [True, False]
-    scaled_options = [True, False]
+    stratified_options = [False, True]
+    scaled_options = [False, False]
 
     for model_type in model_types:
         for bins in bins_list:
@@ -763,6 +779,7 @@ def run_all_combinations(dataset_name, train_df, final_test_df):
                         scaled_data=scaled,
                         save=True,
                         bins=bins,
+                        param_grid={},
                         stratified_split_testing=stratified
                     )
 
