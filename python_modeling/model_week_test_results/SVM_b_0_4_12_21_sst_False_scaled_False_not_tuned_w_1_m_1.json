@@ -1,0 +1,45 @@
+{
+    "model_type": "SVM",
+    "bins": [
+        0,
+        4,
+        12,
+        21
+    ],
+    "scaled": false,
+    "tuned": false,
+    "stratified_split_testing": false,
+    "week": 1,
+    "month": 1,
+    "metrics": {
+        "accuracy": 0.7545454545454545,
+        "precision": 0.4989524831041156,
+        "recall": 0.5026313318380403,
+        "f1_score": 0.5005949320237377,
+        "matthews_corrcoef": 0.4988399484525901,
+        "cohen_kappa_score": 0.4982138261018,
+        "roc_auc_score": null,
+        "log_loss": null,
+        "confusion_matrix": [
+            [
+                3130,
+                646,
+                21
+            ],
+            [
+                812,
+                1767,
+                6
+            ],
+            [
+                24,
+                84,
+                0
+            ]
+        ],
+        "classification_report": "              precision    recall  f1-score   support\n\n     00 - 03       0.79      0.82      0.81      3797\n     04 - 11       0.71      0.68      0.70      2585\n     12 - 20       0.00      0.00      0.00       108\n\n    accuracy                           0.75      6490\n   macro avg       0.50      0.50      0.50      6490\nweighted avg       0.74      0.75      0.75      6490\n",
+        "feature_importances": null,
+        "elapsed_time_minutes": null
+    },
+    "dataset_name": "subset_base.csv"
+}

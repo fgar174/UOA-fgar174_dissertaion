@@ -1,0 +1,63 @@
+{
+    "model_type": "RandomForest",
+    "bins": [
+        0,
+        6,
+        11,
+        21
+    ],
+    "scaled": true,
+    "tuned": false,
+    "stratified_split_testing": false,
+    "week": 4,
+    "month": 2,
+    "metrics": {
+        "accuracy": 0.3534515277253866,
+        "precision": 0.4150810805217335,
+        "recall": 0.3546131663029181,
+        "f1_score": 0.3032083801489397,
+        "matthews_corrcoef": 0.15488518163089895,
+        "cohen_kappa_score": 0.10508392323515559,
+        "roc_auc_score": 0.5511362848072742,
+        "log_loss": 1.8070797938533454,
+        "confusion_matrix": [
+            [
+                2360,
+                2269,
+                3557
+            ],
+            [
+                223,
+                1344,
+                461
+            ],
+            [
+                73,
+                273,
+                44
+            ]
+        ],
+        "classification_report": "              precision    recall  f1-score   support\n\n     00 - 05       0.89      0.29      0.44      8186\n     06 - 10       0.35      0.66      0.45      2028\n     11 - 20       0.01      0.11      0.02       390\n\n    accuracy                           0.35     10604\n   macro avg       0.42      0.35      0.30     10604\nweighted avg       0.75      0.35      0.42     10604\n",
+        "feature_importances": {
+            "time_in_month": 0.08884103466611272,
+            "time_in_hour": 0.26932435736478566,
+            "time_in_weekday": 0.12001639342163595,
+            "requires_power": 0.007165365962200869,
+            "time_in_business_day": 0.006871799478337782,
+            "time_in_week_of_year": 0.13808941107272862,
+            "time_in_week_of_month": 0.07829026313355199,
+            "nominal_length_NOM20": 0.011056774655008593,
+            "nominal_length_NOM40": 0.010770808567115013,
+            "nominal_length_NOM45": 1.0091215760802518e-05,
+            "freight_kind_FCL": 0.01982791476956065,
+            "freight_kind_MTY": 0.018226023032307023,
+            "category_EXPRT": 0.06918221692100732,
+            "category_IMPRT": 0.10501915533376119,
+            "category_STRGE": 0.022494593110472066,
+            "category_THRGH": 0.0017194625169140193,
+            "category_TRSHP": 0.03309433477873985
+        },
+        "elapsed_time_minutes": null
+    },
+    "dataset_name": "subset_base.csv"
+}

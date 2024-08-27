@@ -1,6 +1,5 @@
 .idea
 dataset
-model_week_test_results
 plots
 trained_models
 temporal.py

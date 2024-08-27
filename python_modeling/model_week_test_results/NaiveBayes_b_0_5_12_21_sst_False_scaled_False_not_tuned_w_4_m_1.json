@@ -1,0 +1,45 @@
+{
+    "model_type": "NaiveBayes",
+    "bins": [
+        0,
+        5,
+        12,
+        21
+    ],
+    "scaled": false,
+    "tuned": false,
+    "stratified_split_testing": false,
+    "week": 4,
+    "month": 1,
+    "metrics": {
+        "accuracy": 0.0922988174214018,
+        "precision": 0.5267165265690464,
+        "recall": 0.3700644370053498,
+        "f1_score": 0.11345157815265493,
+        "matthews_corrcoef": 0.08289084149161678,
+        "cohen_kappa_score": 0.027547603907522866,
+        "roc_auc_score": 0.7262949442526062,
+        "log_loss": 4.945367735466887,
+        "confusion_matrix": [
+            [
+                91,
+                455,
+                6010
+            ],
+            [
+                0,
+                579,
+                2955
+            ],
+            [
+                0,
+                21,
+                290
+            ]
+        ],
+        "classification_report": "              precision    recall  f1-score   support\n\n     00 - 04       1.00      0.01      0.03      6556\n     05 - 11       0.55      0.16      0.25      3534\n     12 - 20       0.03      0.93      0.06       311\n\n    accuracy                           0.09     10401\n   macro avg       0.53      0.37      0.11     10401\nweighted avg       0.82      0.09      0.10     10401\n",
+        "feature_importances": null,
+        "elapsed_time_minutes": null
+    },
+    "dataset_name": "subset_base.csv"
+}

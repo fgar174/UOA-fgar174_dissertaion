@@ -1,0 +1,45 @@
+{
+    "model_type": "KNN",
+    "bins": [
+        0,
+        6,
+        12,
+        21
+    ],
+    "scaled": false,
+    "tuned": false,
+    "stratified_split_testing": false,
+    "week": 3,
+    "month": 1,
+    "metrics": {
+        "accuracy": 0.5837942477876106,
+        "precision": 0.43287205454990724,
+        "recall": 0.4441669685104253,
+        "f1_score": 0.40416145445809576,
+        "matthews_corrcoef": 0.2620399196120038,
+        "cohen_kappa_score": 0.22505394247299138,
+        "roc_auc_score": 0.6278395068086544,
+        "log_loss": 9.884748809953873,
+        "confusion_matrix": [
+            [
+                2742,
+                2388,
+                16
+            ],
+            [
+                420,
+                1474,
+                66
+            ],
+            [
+                39,
+                81,
+                6
+            ]
+        ],
+        "classification_report": "              precision    recall  f1-score   support\n\n     00 - 05       0.86      0.53      0.66      5146\n     06 - 11       0.37      0.75      0.50      1960\n     12 - 20       0.07      0.05      0.06       126\n\n    accuracy                           0.58      7232\n   macro avg       0.43      0.44      0.40      7232\nweighted avg       0.71      0.58      0.60      7232\n",
+        "feature_importances": null,
+        "elapsed_time_minutes": null
+    },
+    "dataset_name": "subset_base.csv"
+}
