@@ -575,6 +575,21 @@ class ReportGenerator:
                     f1_score,
                     support
                 ])
+
+        macro_avg_line = report_lines[-2].split()
+        weighted_avg_line = report_lines[-1].split()
+        print(macro_avg_line, "HERE ::::::::::::::::::::::::")
+        print(weighted_avg_line, "HERE ::::::::::::::::::::::::")
+
+        macro_precision = float(macro_avg_line[2])
+        print(macro_precision, "HERE ::::::::::::::::::::::::")
+        macro_recall = float(macro_avg_line[3])
+        macro_f1_score = float(macro_avg_line[4])
+
+        weighted_precision = float(weighted_avg_line[2])
+        weighted_recall = float(weighted_avg_line[3])
+        weighted_f1_score = float(weighted_avg_line[4])
+
         df_report = pd.DataFrame(
             data,
             columns=[
@@ -591,6 +606,13 @@ class ReportGenerator:
             ],
             index=classes
         )
+        df_report["precision_macro_avg"] = macro_precision
+        df_report["recall_macro_avg"] = macro_recall
+        df_report["f1_score_macro_avg"] = macro_f1_score
+
+        df_report["precision_weighted_avg"] = weighted_precision
+        df_report["recall_weighted_avg"] = weighted_recall
+        df_report["f1_score_weighted_avg"] = weighted_f1_score
         return df_report.reset_index(drop=True)
 
     def generate_classification_reports_comparison(self, output_file="classification_report_comparison.xlsx"):
@@ -741,7 +763,6 @@ class ReportGenerator:
 
 
 def run_all_combinations(dataset_name, train_df, final_test_df):
-    report_generator = ReportGenerator(output_dir="model_metrics", result_dir="model_results")
     model_types = [
         # ModelType.SVM,
         ModelType.RANDOM_FOREST,
@@ -805,10 +826,6 @@ def run_all_combinations(dataset_name, train_df, final_test_df):
                         weeks = range(1, 5) if month < 3 else range(1, 3)
                         for week in weeks:
                             trainer.evaluate_testing_data(final_test_df, month, week)
-    report_generator.generate_model_comparison()
-    report_generator.generate_classification_reports_comparison()
-    report_generator.generate_month_week_classification_reports()
-    report_generator.generate_week_month_testing_metrics()
 
 
 if __name__ == '__main__':
@@ -818,4 +835,9 @@ if __name__ == '__main__':
 
     train_df = data[data['FOR_TEST'] == False].copy()
     final_test_df = data[data['FOR_TEST'] == True].copy()
-    run_all_combinations(dataset_name, train_df, final_test_df)
+    report_generator = ReportGenerator(output_dir="model_metrics", result_dir="model_results")
+    report_generator.generate_model_comparison()
+    report_generator.generate_classification_reports_comparison()
+    report_generator.generate_month_week_classification_reports()
+    report_generator.generate_week_month_testing_metrics()
+    # run_all_combinations(dataset_name, train_df, final_test_df)
