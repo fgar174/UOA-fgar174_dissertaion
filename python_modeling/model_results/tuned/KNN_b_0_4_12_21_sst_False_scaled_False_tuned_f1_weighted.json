@@ -8,6 +8,7 @@
     ],
     "scaled": false,
     "tuned": true,
+    "scoring": "f1_weighted",
     "stratified_split_testing": false,
     "best_params": {
         "model__metric": "manhattan",

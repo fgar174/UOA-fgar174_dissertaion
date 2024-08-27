@@ -7,37 +7,38 @@
         21
     ],
     "scaled": false,
+    "scoring": "f1_weighted",
     "tuned": true,
     "stratified_split_testing": false,
-    "week": 2,
-    "month": 3,
+    "week": 3,
+    "month": 1,
     "metrics": {
-        "accuracy": 0.7698165023093246,
-        "precision": 0.518228860475841,
-        "recall": 0.5248629129381954,
-        "f1_score": 0.5130724851933816,
-        "matthews_corrcoef": 0.5639909888050789,
-        "cohen_kappa_score": 0.5460834161697761,
-        "roc_auc_score": 0.8681570759656188,
-        "log_loss": 0.5380052783434605,
+        "accuracy": 0.7920353982300885,
+        "precision": 0.5309250639540605,
+        "recall": 0.537110557889254,
+        "f1_score": 0.5323491576451387,
+        "matthews_corrcoef": 0.5948551654623678,
+        "cohen_kappa_score": 0.5908237989919987,
+        "roc_auc_score": 0.7812741398735712,
+        "log_loss": 0.5478744148227228,
         "confusion_matrix": [
             [
-                3327,
-                1419,
+                2655,
+                870,
                 0
             ],
             [
-                411,
-                2840,
+                508,
+                3073,
                 0
             ],
             [
-                0,
-                14,
+                24,
+                102,
                 0
             ]
         ],
-        "classification_report": "              precision    recall  f1-score   support\n\n     00 - 03       0.89      0.70      0.78      4746\n     04 - 11       0.66      0.87      0.75      3251\n     12 - 20       0.00      0.00      0.00        14\n\n    accuracy                           0.77      8011\n   macro avg       0.52      0.52      0.51      8011\nweighted avg       0.80      0.77      0.77      8011\n",
+        "classification_report": "              precision    recall  f1-score   support\n\n     00 - 03       0.83      0.75      0.79      3525\n     04 - 11       0.76      0.86      0.81      3581\n     12 - 20       0.00      0.00      0.00       126\n\n    accuracy                           0.79      7232\n   macro avg       0.53      0.54      0.53      7232\nweighted avg       0.78      0.79      0.78      7232\n",
         "feature_importances": {
             "time_in_month": -0.010015709061342144,
             "time_in_hour": 0.020331195661612,

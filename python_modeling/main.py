@@ -167,15 +167,10 @@ class ModelTrainer:
             ModelType.LOGISTIC_REGRESSION: (
                 LogisticRegression(random_state=42, max_iter=1000, n_jobs=-1, verbose=2),
                 {
-                    # Regularization strength: Smaller values specify stronger regularization
                     'model__C': [0.001, 0.01, 0.1, 1, 10, 100],
-                    # Regularization type: L1 or L2 regularization or both using elastic net
                     'model__penalty': ['l1', 'l2', 'elasticnet', 'none'],
-                    # Solver: Algorithm used in the optimization process
                     'model__solver': ['newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga'],
-                    # Class balancing: Adjusting for imbalanced datasets
                     'model__class_weight': [None, 'balanced'],
-                    # Elastic net mixing parameter (only if penalty is 'elasticnet')
                     'model__l1_ratio': [0.0, 0.5, 1.0]  # Only relevant if 'penalty' is 'elasticnet'
                 }
             ),
@@ -295,14 +290,18 @@ class ModelTrainer:
         return f"{''.join(self.model_type.value.split())}_{filename_conf}_{'not_tuned' if not_tuned else f'tuned_{self.scoring}'}"
 
     def save_results(self, best_params, metrics, output_dir="model_results"):
+        not_tuned = self.param_grid == {}
         """Save the best parameters and metrics to a JSON file."""
+
+        if not not_tuned:
+            output_dir = os.path.join(output_dir, "tuned")
+
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
         filename = f"{self.get_config_filename()}.json"
         filepath = os.path.join(output_dir, filename)
 
-        not_tuned = self.param_grid == {}
 
         results = {
             "model_type": self.model_type.value,
@@ -494,6 +493,11 @@ class ModelTrainer:
         )
 
     def save_week_test(self, month, week, metrics, output_dir="model_week_test_results"):
+        tuned = self.param_grid != {}
+
+        if tuned:
+            output_dir = os.path.join(output_dir, "tuned")
+
         """Save the best parameters and metrics to a JSON file."""
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
@@ -502,7 +506,6 @@ class ModelTrainer:
         filename = f"{self.get_config_filename()}_{filename_wm}.json"
         filepath = os.path.join(output_dir, filename)
 
-        tuned = self.param_grid != {}
         results = {
             "model_type": self.model_type.value,
             "bins": self.bins,
