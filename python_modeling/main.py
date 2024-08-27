@@ -126,7 +126,7 @@ class ModelTrainer:
     def get_model_and_params(self):
         model_classes = {
             ModelType.RANDOM_FOREST: (
-                RandomForestClassifier(random_state=42, n_jobs=-1, verbose=3),
+                RandomForestClassifier(random_state=42, n_jobs=-1, verbose=2),
                 {
                     'model__n_estimators': [100, 200, 500],
                     'model__max_depth': [None, 10, 20, 30],
@@ -137,7 +137,7 @@ class ModelTrainer:
                 }
             ),
             ModelType.LOGISTIC_REGRESSION: (
-                LogisticRegression(random_state=42, max_iter=1000, n_jobs=-1, verbose=3),
+                LogisticRegression(random_state=42, max_iter=1000, n_jobs=-1, verbose=2),
                 {
                     # Regularization strength: Smaller values specify stronger regularization
                     'model__C': [0.001, 0.01, 0.1, 1, 10, 100],
@@ -152,7 +152,7 @@ class ModelTrainer:
                 }
             ),
             ModelType.GRADIENT_BOOSTING: (
-                GradientBoostingClassifier(random_state=42, verbose=3),
+                GradientBoostingClassifier(random_state=42, verbose=2),
                 {
                     'model__n_estimators': [100, 200, 500],
                     'model__learning_rate': [0.01, 0.1, 0.05],
@@ -164,7 +164,7 @@ class ModelTrainer:
                 }
             ),
             ModelType.SVM: (
-                SVC(random_state=42, verbose=3, shrinking=False),
+                SVC(random_state=42, verbose=2, shrinking=False),
                 {
                     'model__C': [0.1, 1, 10, 100],
                     'model__kernel': ['linear', 'rbf', 'poly'],
@@ -872,8 +872,8 @@ if __name__ == '__main__':
     # This run all the base models
     # run_all_combinations(dataset_name, train_df, final_test_df)
 
-    run_all_month_weeks_tuned(train_df, dataset_name, ModelType.RANDOM_FOREST, final_test_df)
-    # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.LOGISTIC_REGRESSION, final_test_df)
+    run_all_month_weeks_tuned(train_df, dataset_name, ModelType.LOGISTIC_REGRESSION, final_test_df)
+    # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.RANDOM_FOREST, final_test_df)
     # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.KNN, final_test_df)
 
 
