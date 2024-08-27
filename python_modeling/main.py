@@ -183,9 +183,9 @@ class ModelTrainer:
             ModelType.KNN: (
                 KNeighborsClassifier(n_jobs=-1),
                 {
-                    'model__n_neighbors': [3, 5, 7, 10, 12, 14],
-                    'model__weights': ['uniform', 'distance'],
-                    'model__metric': ['euclidean', 'manhattan', 'minkowski']
+                    'model__n_neighbors': [14, 16, 18, 20, 23, 26, 40],
+                    'model__weights': ['distance'],
+                    'model__metric': ['manhattan']
                 }
             )
         }
