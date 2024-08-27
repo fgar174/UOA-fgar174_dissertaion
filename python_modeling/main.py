@@ -267,7 +267,7 @@ class ModelTrainer:
     def get_config_filename(self):
         not_tuned = self.param_grid == {}
         filename_conf = f'b_{"_".join(map(str, self.bins))}_sst_{self.stratified_split_testing}_scaled_{self.scaled_data}'
-        return f"{''.join(self.model_type.value.split())}_{filename_conf}_{'not_tuned' if not_tuned else 'tuned'}"
+        return f"{''.join(self.model_type.value.split())}_{filename_conf}_{'not_tuned' if not_tuned else f'tuned_{self.scoring}'}"
 
     def save_results(self, best_params, metrics, output_dir="model_results"):
         """Save the best parameters and metrics to a JSON file."""
