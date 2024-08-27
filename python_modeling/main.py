@@ -578,11 +578,8 @@ class ReportGenerator:
 
         macro_avg_line = report_lines[-2].split()
         weighted_avg_line = report_lines[-1].split()
-        print(macro_avg_line, "HERE ::::::::::::::::::::::::")
-        print(weighted_avg_line, "HERE ::::::::::::::::::::::::")
 
         macro_precision = float(macro_avg_line[2])
-        print(macro_precision, "HERE ::::::::::::::::::::::::")
         macro_recall = float(macro_avg_line[3])
         macro_f1_score = float(macro_avg_line[4])
 
