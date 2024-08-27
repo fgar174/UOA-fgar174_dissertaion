@@ -27,7 +27,7 @@ from sklearn.metrics import (
 )
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import OneHotEncoder, StandardScaler, LabelEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.svm import SVC
@@ -121,6 +121,7 @@ class ModelTrainer:
             'time_in_week_of_year',
             'time_in_week_of_month',
         ]
+        self.le = LabelEncoder()
 
 
     def get_model_and_params(self):
@@ -180,9 +181,9 @@ class ModelTrainer:
                 }
             ),
             ModelType.KNN: (
-                KNeighborsClassifier(),
+                KNeighborsClassifier(n_jobs=-1),
                 {
-                    'model__n_neighbors': [3, 5, 7, 10],
+                    'model__n_neighbors': [3, 5, 7, 10, 12, 14],
                     'model__weights': ['uniform', 'distance'],
                     'model__metric': ['euclidean', 'manhattan', 'minkowski']
                 }
@@ -193,7 +194,7 @@ class ModelTrainer:
 
     def train_model(self, train_df):
         param_grid = self.param_grid if self.param_grid is not None else self.default_param_grid
-        print(param_grid, "THE GRID HERE :::::::::::::::::")
+        print(f":::: Training model {self.model_type.value} with the following parameters: {param_grid} ::::")
         data_preprocessor = DataPreprocessor(dataset=train_df, bins=self.bins)
         X, y = data_preprocessor.preprocess()
 
@@ -209,7 +210,11 @@ class ModelTrainer:
         pipeline = Pipeline(steps=[('model', self.model)])
         kf = KFold(n_splits=5, shuffle=True, random_state=42)
 
-        grid_search = GridSearchCV(pipeline, param_grid, cv=kf, scoring='f1_weighted', n_jobs=-1)
+        if self.model_type == ModelType.KNN:
+            y_train = self.le.fit_transform(y_train)
+            y_test = self.le.transform(y_test)
+
+        grid_search = GridSearchCV(pipeline, param_grid, cv=kf, scoring='f1_weighted', n_jobs=-1, verbose=2)
         start_time = time.time()
         grid_search.fit(X_train, y_train)
         elapsed_time_seconds = time.time() - start_time
@@ -220,13 +225,24 @@ class ModelTrainer:
         tuned = self.param_grid != {}
         cv_scores = []
         if tuned:
-            cv_scores = cross_val_score(self.best_model, X_train, y_train, cv=kf, scoring='f1_weighted', n_jobs=-1)
+            cv_scores = cross_val_score(
+                self.best_model,
+                X_train, y_train,
+                cv=kf,
+                scoring='f1_weighted',
+                n_jobs=-1,
+                verbose=2
+            )
         y_pred = self.best_model.predict(X_test)
         y_proba = self.best_model.predict_proba(X_test) if hasattr(self.best_model.named_steps['model'],
                                                               'predict_proba') else None
         test_accuracy = self.best_model.score(X_test, y_test)
 
         # Metrics and Results
+
+        if self.model_type == ModelType.KNN:
+            y_pred = self.le.inverse_transform(y_pred)
+            y_test = self.le.inverse_transform(y_test)
         metrics = self.evaluate_model(y_test, y_pred, y_proba, elapsed_time_minutes)
 
         metrics['cv_scores'] = cv_scores.tolist() if tuned else cv_scores
@@ -368,8 +384,6 @@ class ModelTrainer:
         if feature_importances is not None:
             categorical_feature_names = self.preprocessor.named_transformers_['cat']['onehot'].get_feature_names_out(
                 self.categorical_cols)
-            print(self.numerical_cols, "HERE numerical_cols ::::::::::::.")
-            print(categorical_feature_names, "HERE categorical_feature_names ::::::::::::.")
             feature_names = np.concatenate([self.numerical_cols, categorical_feature_names])
             feature_importances_dict = {feature: importance for feature, importance in
                                         zip(feature_names, feature_importances)}
@@ -442,6 +456,8 @@ class ModelTrainer:
                                                                         'predict_proba') else None
 
         # Evaluate metrics
+        if self.model_type == ModelType.KNN:
+            y_pred = self.le.inverse_transform(y_pred)
         return self.evaluate_model(
             y_true,
             y_pred,
@@ -872,8 +888,8 @@ if __name__ == '__main__':
     # This run all the base models
     # run_all_combinations(dataset_name, train_df, final_test_df)
 
-    run_all_month_weeks_tuned(train_df, dataset_name, ModelType.LOGISTIC_REGRESSION, final_test_df)
+    run_all_month_weeks_tuned(train_df, dataset_name, ModelType.KNN, final_test_df)
+    # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.LOGISTIC_REGRESSION, final_test_df)
     # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.RANDOM_FOREST, final_test_df)
-    # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.KNN, final_test_df)
 
 
