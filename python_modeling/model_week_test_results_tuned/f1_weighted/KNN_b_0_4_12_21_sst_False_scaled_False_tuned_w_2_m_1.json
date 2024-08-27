@@ -12,32 +12,32 @@
     "week": 2,
     "month": 1,
     "metrics": {
-        "accuracy": 0.6362452321146154,
-        "precision": 0.4749537916951507,
-        "recall": 0.5104864092774022,
-        "f1_score": 0.46080979045224285,
-        "matthews_corrcoef": 0.3471926516933321,
-        "cohen_kappa_score": 0.33793968234405003,
-        "roc_auc_score": 0.7216929063841113,
-        "log_loss": 3.3894694797505394,
+        "accuracy": 0.738859428784073,
+        "precision": 0.5142510349626258,
+        "recall": 0.527532093023186,
+        "f1_score": 0.5185044065529506,
+        "matthews_corrcoef": 0.4791186851584131,
+        "cohen_kappa_score": 0.4783071859657495,
+        "roc_auc_score": 0.7803847176279105,
+        "log_loss": 2.097686007474919,
         "confusion_matrix": [
             [
-                3966,
-                1798,
-                627
+                4880,
+                1387,
+                124
             ],
             [
-                1005,
-                2844,
-                388
+                1108,
+                3050,
+                79
             ],
             [
-                49,
-                43,
-                29
+                69,
+                40,
+                12
             ]
         ],
-        "classification_report": "              precision    recall  f1-score   support\n\n     00 - 03       0.79      0.62      0.70      6391\n     04 - 11       0.61      0.67      0.64      4237\n     12 - 20       0.03      0.24      0.05       121\n\n    accuracy                           0.64     10749\n   macro avg       0.47      0.51      0.46     10749\nweighted avg       0.71      0.64      0.67     10749\n",
+        "classification_report": "              precision    recall  f1-score   support\n\n     00 - 03       0.81      0.76      0.78      6391\n     04 - 11       0.68      0.72      0.70      4237\n     12 - 20       0.06      0.10      0.07       121\n\n    accuracy                           0.74     10749\n   macro avg       0.51      0.53      0.52     10749\nweighted avg       0.75      0.74      0.74     10749\n",
         "feature_importances": null,
         "elapsed_time_minutes": null
     },
