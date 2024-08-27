@@ -36,6 +36,31 @@ from imblearn.over_sampling import SMOTE
 from enum import Enum
 
 
+class ScoringMetrics(Enum):
+    ACCURACY = "accuracy"
+    F1 = "f1"
+    F1_MICRO = "f1_micro"
+    F1_MACRO = "f1_macro"
+    F1_WEIGHTED = "f1_weighted"
+    F1_SAMPLES = "f1_samples"
+    PRECISION = "precision"
+    PRECISION_MICRO = "precision_micro"
+    PRECISION_MACRO = "precision_macro"
+    PRECISION_WEIGHTED = "precision_weighted"
+    PRECISION_SAMPLES = "precision_samples"
+    RECALL = "recall"
+    RECALL_MICRO = "recall_micro"
+    RECALL_MACRO = "recall_macro"
+    RECALL_WEIGHTED = "recall_weighted"
+    RECALL_SAMPLES = "recall_samples"
+    ROC_AUC = "roc_auc"
+    ROC_AUC_OVO_WEIGHTED = "roc_auc_ovo_weighted"
+    ROC_AUC_OVR_WEIGHTED = "roc_auc_ovr_weighted"
+    ROC_AUC_OVO = "roc_auc_ovo"
+    ROC_AUC_OVR = "roc_auc_ovr"
+    BALANCED_ACCURACY = "balanced_accuracy"
+
+
 class ModelType(Enum):
     RANDOM_FOREST = 'RandomForest'
     LOGISTIC_REGRESSION = 'LogisticRegression'
@@ -285,6 +310,7 @@ class ModelTrainer:
             "scaled": self.scaled_data,
             "tuned": not not_tuned,
             "stratified_split_testing": self.stratified_split_testing,
+            "scoring": None if not_tuned else self.scoring,
             "best_params": best_params,
             "metrics": metrics,
             "dataset_name": self.dataset_name,
@@ -481,6 +507,7 @@ class ModelTrainer:
             "model_type": self.model_type.value,
             "bins": self.bins,
             "scaled": self.scaled_data,
+            "scoring": self.scoring if tuned else None,
             "tuned": tuned,
             "stratified_split_testing": self.stratified_split_testing,
             "week": week,
@@ -576,7 +603,7 @@ class ReportGenerator:
         df_comparison.to_excel(output_path.replace('.csv', '.xlsx'), index=False)
         print(df_comparison)
 
-    def extract_classification_report(self, report_str, model_type, bins, scaled, tuned, stratified_split_testing):
+    def extract_classification_report(self, report_str, model_type, bins, scaled, tuned, stratified_split_testing, scoring =None):
         """Extract the classification report into a structured DataFrame."""
         report_lines = report_str.strip().split("\n")
         classes = []
@@ -638,6 +665,9 @@ class ReportGenerator:
         df_report["precision_weighted_avg"] = weighted_precision
         df_report["recall_weighted_avg"] = weighted_recall
         df_report["f1_score_weighted_avg"] = weighted_f1_score
+
+        if scoring:
+            df_report["scoring"] = weighted_f1_score
         return df_report.reset_index(drop=True)
 
     def generate_classification_reports_comparison(self, output_file="classification_report_comparison.xlsx"):
@@ -658,6 +688,7 @@ class ReportGenerator:
                 results = json.load(f)
                 model_type = results['model_type']
                 bins = results['bins']
+                scoring = results['scoring']
                 scaled = results['scaled']
                 tuned = results['tuned']
                 stratified_split_testing = results['stratified_split_testing']
@@ -670,7 +701,8 @@ class ReportGenerator:
                         bins,
                         scaled,
                         tuned,
-                        stratified_split_testing
+                        stratified_split_testing,
+                        scoring
                     )
                     all_reports.append(df_report)  # Append each report DataFrame to the list
 
@@ -700,6 +732,7 @@ class ReportGenerator:
                 results = json.load(f)
                 model_type = results['model_type']
                 bins = results['bins']
+                scoring = results['scoring']
                 scaled = results['scaled']
                 tuned = results['tuned']
                 stratified_split_testing = results['stratified_split_testing']
@@ -714,7 +747,8 @@ class ReportGenerator:
                         bins,
                         scaled,
                         tuned,
-                        stratified_split_testing
+                        stratified_split_testing,
+                        scoring
                     )
                     df_report['week'] = week
                     df_report['month'] = month
@@ -870,7 +904,7 @@ def run_all_month_weeks_tuned(train_df, dataset_name, model_type: ModelType, fin
         bins=[0, 4, 12, 21],
         param_grid=None,
         stratified_split_testing=False,
-        scoring='balanced_accuracy'
+        scoring=ScoringMetrics.BALANCED_ACCURACY.value
     )
     trainer.train_model(train_df)
 
