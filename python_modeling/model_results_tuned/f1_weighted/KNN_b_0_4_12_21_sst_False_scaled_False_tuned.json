@@ -1,0 +1,57 @@
+{
+    "model_type": "KNN",
+    "bins": [
+        0,
+        4,
+        12,
+        21
+    ],
+    "scaled": false,
+    "tuned": true,
+    "stratified_split_testing": false,
+    "best_params": {
+        "model__metric": "manhattan",
+        "model__n_neighbors": 10,
+        "model__weights": "distance"
+    },
+    "metrics": {
+        "accuracy": 0.8327677426250535,
+        "precision": 0.780885060782026,
+        "recall": 0.712710197493101,
+        "f1_score": 0.7392943943811995,
+        "matthews_corrcoef": 0.6764257836249392,
+        "cohen_kappa_score": 0.6710473924574407,
+        "roc_auc_score": 0.8901398282790262,
+        "log_loss": 1.684674722138563,
+        "confusion_matrix": [
+            [
+                37025,
+                3246,
+                129
+            ],
+            [
+                7871,
+                24448,
+                313
+            ],
+            [
+                392,
+                566,
+                858
+            ]
+        ],
+        "classification_report": "              precision    recall  f1-score   support\n\n     00 - 03       0.82      0.92      0.86     40400\n     04 - 11       0.87      0.75      0.80     32632\n     12 - 20       0.66      0.47      0.55      1816\n\n    accuracy                           0.83     74848\n   macro avg       0.78      0.71      0.74     74848\nweighted avg       0.83      0.83      0.83     74848\n",
+        "feature_importances": null,
+        "elapsed_time_minutes": 13.438909534613291,
+        "cv_scores": [
+            0.8273585145212284,
+            0.825427857069045,
+            0.8222925776174931,
+            0.825803794257182,
+            0.8271226519729791
+        ],
+        "cv_scores_mean": 0.8256010790875855,
+        "test_accuracy": 0.8327677426250535
+    },
+    "dataset_name": "subset_base.csv"
+}
