@@ -1,7 +1,5 @@
 .idea
 dataset
-model_metrics
-model_results
 model_week_test_results
 plots
 trained_models

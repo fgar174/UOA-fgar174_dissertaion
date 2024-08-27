@@ -155,7 +155,7 @@ class ModelTrainer:
                 }
             ),
             ModelType.SVM: (
-                SVC(random_state=42, verbose=3),
+                SVC(random_state=42, verbose=3, shrinking=False),
                 {
                     'model__C': [0.1, 1, 10, 100],
                     'model__kernel': ['linear', 'rbf', 'poly'],
@@ -207,7 +207,10 @@ class ModelTrainer:
 
         best_params = grid_search.best_params_
         self.best_model = grid_search.best_estimator_
-        cv_scores = cross_val_score(self.best_model, X_train, y_train, cv=kf, scoring='accuracy', n_jobs=-1)
+        tuned = self.param_grid != {}
+        cv_scores = []
+        if tuned:
+            cv_scores = cross_val_score(self.best_model, X_train, y_train, cv=kf, scoring='accuracy', n_jobs=-1)
         y_pred = self.best_model.predict(X_test)
         y_proba = self.best_model.predict_proba(X_test) if hasattr(self.best_model.named_steps['model'],
                                                               'predict_proba') else None
@@ -215,7 +218,9 @@ class ModelTrainer:
 
         # Metrics and Results
         metrics = self.evaluate_model(y_test, y_pred, y_proba, elapsed_time_minutes)
-        metrics['cv_scores'] = cv_scores.tolist()
+
+        metrics['cv_scores'] = cv_scores.tolist() if tuned else cv_scores
+        metrics['cv_scores_mean'] = cv_scores.mean() if tuned else None
         metrics['test_accuracy'] = test_accuracy
 
         if self.save:
@@ -736,10 +741,14 @@ class ReportGenerator:
 
 
 def run_all_combinations(dataset_name, train_df, final_test_df):
+    report_generator = ReportGenerator(output_dir="model_metrics", result_dir="model_results")
     model_types = [
-        # ModelType.RANDOM_FOREST,
+        # ModelType.SVM,
+        ModelType.RANDOM_FOREST,
         ModelType.LOGISTIC_REGRESSION,
-        # ModelType.GRADIENT_BOOSTING
+        ModelType.GRADIENT_BOOSTING,
+        ModelType.KNN,
+        ModelType.NAIVE_BAYES,
     ]
 
     bins_list = [
@@ -762,9 +771,14 @@ def run_all_combinations(dataset_name, train_df, final_test_df):
     ]
 
     stratified_options = [False, True]
-    scaled_options = [False, False]
+    scaled_options = [False, True]
 
     for model_type in model_types:
+        print(":::::::::::::::::::::::::::::::::::::::::::::::::::::")
+        print(":::::::::::::::::::::::::::::::::::::::::::::::::::::")
+        print(model_type.value)
+        print(":::::::::::::::::::::::::::::::::::::::::::::::::::::")
+        print(":::::::::::::::::::::::::::::::::::::::::::::::::::::")
         for bins in bins_list:
             for stratified in stratified_options:
                 for scaled in scaled_options:
@@ -791,6 +805,10 @@ def run_all_combinations(dataset_name, train_df, final_test_df):
                         weeks = range(1, 5) if month < 3 else range(1, 3)
                         for week in weeks:
                             trainer.evaluate_testing_data(final_test_df, month, week)
+    report_generator.generate_model_comparison()
+    report_generator.generate_classification_reports_comparison()
+    report_generator.generate_month_week_classification_reports()
+    report_generator.generate_week_month_testing_metrics()
 
 
 if __name__ == '__main__':
@@ -801,9 +819,3 @@ if __name__ == '__main__':
     train_df = data[data['FOR_TEST'] == False].copy()
     final_test_df = data[data['FOR_TEST'] == True].copy()
     run_all_combinations(dataset_name, train_df, final_test_df)
-
-    report_generator = ReportGenerator(output_dir="model_metrics", result_dir="model_results")
-    report_generator.generate_model_comparison()
-    report_generator.generate_classification_reports_comparison()
-    report_generator.generate_month_week_classification_reports()
-    report_generator.generate_week_month_testing_metrics()
