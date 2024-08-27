@@ -8,8 +8,8 @@
     ],
     "scaled": false,
     "tuned": true,
-    "scoring": "f1_weighted",
     "stratified_split_testing": false,
+    "scoring": "f1_weighted",
     "best_params": {
         "model__metric": "manhattan",
         "model__n_neighbors": 23,
@@ -17,9 +17,9 @@
     },
     "metrics": {
         "accuracy": 0.83370297135528,
-        "precision": 0.7843033277459767,
-        "recall": 0.7081656607024711,
-        "f1_score": 0.7373006955443353,
+        "precision": 0.8349472656905984,
+        "recall": 0.83370297135528,
+        "f1_score": 0.8308045462916134,
         "matthews_corrcoef": 0.67774915092669,
         "cohen_kappa_score": 0.672814897652981,
         "roc_auc_score": 0.8958552507514663,

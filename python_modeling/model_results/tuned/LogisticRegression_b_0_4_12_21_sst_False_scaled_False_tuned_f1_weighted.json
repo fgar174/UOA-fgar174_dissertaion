@@ -8,8 +8,8 @@
     ],
     "scaled": false,
     "tuned": true,
-    "scoring": "f1_weighted",
     "stratified_split_testing": false,
+    "scoring": "f1_weighted",
     "best_params": {
         "model__C": 1,
         "model__class_weight": null,
@@ -19,9 +19,9 @@
     },
     "metrics": {
         "accuracy": 0.7666203505771697,
-        "precision": 0.5101665881876177,
-        "recall": 0.5244792210282564,
-        "f1_score": 0.5163900203932686,
+        "precision": 0.7520760108871531,
+        "recall": 0.7666203505771697,
+        "f1_score": 0.7580753418343427,
         "matthews_corrcoef": 0.5452348817613524,
         "cohen_kappa_score": 0.5430761568265386,
         "roc_auc_score": 0.8150611923305829,
@@ -63,7 +63,7 @@
             "category_THRGH": 2.6880408941225395,
             "category_TRSHP": -1.1946662363309228
         },
-        "elapsed_time_minutes": 271.57123655080795,
+        "elapsed_time_minutes": 271.571236550807955,
         "cv_scores": [
             0.7559578786842217,
             0.7560082492134745,

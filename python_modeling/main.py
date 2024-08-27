@@ -205,9 +205,9 @@ class ModelTrainer:
             ModelType.KNN: (
                 KNeighborsClassifier(n_jobs=-1),
                 {
-                    'model__n_neighbors': [14, 16, 18, 20, 23, 26, 40],
-                    'model__weights': ['uniform', 'distance'],
-                    'model__metric': ['euclidean', 'manhattan', 'minkowski']
+                    'model__n_neighbors': [3, 5, 7, 10, 12, 14, 20, 23, 26, 40],
+                    'model__weights': ['distance'],
+                    'model__metric': ['manhattan']
                 }
             )
         }
@@ -425,9 +425,9 @@ class ModelTrainer:
 
         # Evaluation Metrics
         accuracy = accuracy_score(y_test, y_pred)
-        precision = precision_score(y_test, y_pred, average='macro')
-        recall = recall_score(y_test, y_pred, average='macro')
-        f1 = f1_score(y_test, y_pred, average='macro')
+        precision = precision_score(y_test, y_pred, average='weighted')
+        recall = recall_score(y_test, y_pred, average='weighted')
+        f1 = f1_score(y_test, y_pred, average='weighted')
         mcc = matthews_corrcoef(y_test, y_pred)
         kappa = cohen_kappa_score(y_test, y_pred)
         auc_score = roc_auc_score(y_test, y_proba, multi_class='ovr') if y_proba is not None else None
@@ -897,7 +897,7 @@ def run_all_combinations(dataset_name, train_df, final_test_df):
         run_all_combinations(dataset_name, train_df, final_test_df)
 
 
-def run_all_month_weeks_tuned(train_df, dataset_name, model_type: ModelType, final_test_df):
+def run_all_month_weeks_tuned(train_df, dataset_name, model_type: ModelType, final_test_df, scoring: ScoringMetrics):
     trainer = ModelTrainer(
         split_test_size=0.2,
         model_type=model_type,
@@ -907,7 +907,7 @@ def run_all_month_weeks_tuned(train_df, dataset_name, model_type: ModelType, fin
         bins=[0, 4, 12, 21],
         param_grid=None,
         stratified_split_testing=False,
-        scoring=ScoringMetrics.BALANCED_ACCURACY.value
+        scoring=scoring.value
     )
     trainer.train_model(train_df)
 
@@ -928,7 +928,13 @@ if __name__ == '__main__':
     # This run all the base models
     # run_all_combinations(dataset_name, train_df, final_test_df)
 
-    run_all_month_weeks_tuned(train_df, dataset_name, ModelType.KNN, final_test_df)
+    run_all_month_weeks_tuned(
+        train_df,
+        dataset_name,
+        ModelType.LOGISTIC_REGRESSION,
+        final_test_df,
+        ScoringMetrics.F1_WEIGHTED
+    )
     # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.LOGISTIC_REGRESSION, final_test_df)
     # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.RANDOM_FOREST, final_test_df)
 

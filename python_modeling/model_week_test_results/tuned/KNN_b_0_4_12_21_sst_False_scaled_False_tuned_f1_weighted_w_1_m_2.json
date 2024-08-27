@@ -13,24 +13,24 @@
     "week": 1,
     "month": 2,
     "metrics": {
-        "accuracy": 0.6446356275303644,
-        "precision": 0.43235372496701996,
-        "recall": 0.43434702331763103,
-        "f1_score": 0.43193480792469413,
-        "matthews_corrcoef": 0.30061292045889526,
-        "cohen_kappa_score": 0.2987068969090033,
-        "roc_auc_score": 0.6631189019589706,
-        "log_loss": 2.8657513383108686,
+        "accuracy": 0.6430161943319838,
+        "precision": 0.6470124989964656,
+        "recall": 0.6430161943319838,
+        "f1_score": 0.6429089678108127,
+        "matthews_corrcoef": 0.29712421962068697,
+        "cohen_kappa_score": 0.29521496061412333,
+        "roc_auc_score": 0.6656395022778128,
+        "log_loss": 2.8477785136028775,
         "confusion_matrix": [
             [
-                3392,
-                1974,
-                21
+                3382,
+                1986,
+                19
             ],
             [
-                1418,
-                2977,
-                26
+                1427,
+                2971,
+                23
             ],
             [
                 30,
@@ -38,7 +38,7 @@
                 0
             ]
         ],
-        "classification_report": "              precision    recall  f1-score   support\n\n     00 - 03       0.70      0.63      0.66      5387\n     04 - 11       0.60      0.67      0.63      4421\n     12 - 20       0.00      0.00      0.00        72\n\n    accuracy                           0.64      9880\n   macro avg       0.43      0.43      0.43      9880\nweighted avg       0.65      0.64      0.64      9880\n",
+        "classification_report": "              precision    recall  f1-score   support\n\n     00 - 03       0.70      0.63      0.66      5387\n     04 - 11       0.59      0.67      0.63      4421\n     12 - 20       0.00      0.00      0.00        72\n\n    accuracy                           0.64      9880\n   macro avg       0.43      0.43      0.43      9880\nweighted avg       0.65      0.64      0.64      9880\n",
         "feature_importances": null,
         "elapsed_time_minutes": null
     },
