@@ -139,7 +139,16 @@ class ModelTrainer:
             ModelType.LOGISTIC_REGRESSION: (
                 LogisticRegression(random_state=42, max_iter=1000, n_jobs=-1, verbose=3),
                 {
-                    'model__C': [0.01]
+                    # Regularization strength: Smaller values specify stronger regularization
+                    'model__C': [0.001, 0.01, 0.1, 1, 10, 100],
+                    # Regularization type: L1 or L2 regularization or both using elastic net
+                    'model__penalty': ['l1', 'l2', 'elasticnet', 'none'],
+                    # Solver: Algorithm used in the optimization process
+                    'model__solver': ['newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga'],
+                    # Class balancing: Adjusting for imbalanced datasets
+                    'model__class_weight': [None, 'balanced'],
+                    # Elastic net mixing parameter (only if penalty is 'elasticnet')
+                    'model__l1_ratio': [0.0, 0.5, 1.0]  # Only relevant if 'penalty' is 'elasticnet'
                 }
             ),
             ModelType.GRADIENT_BOOSTING: (
@@ -184,6 +193,7 @@ class ModelTrainer:
 
     def train_model(self, train_df):
         param_grid = self.param_grid if self.param_grid is not None else self.default_param_grid
+        print(param_grid, "THE GRID HERE :::::::::::::::::")
         data_preprocessor = DataPreprocessor(dataset=train_df, bins=self.bins)
         X, y = data_preprocessor.preprocess()
 
@@ -199,7 +209,7 @@ class ModelTrainer:
         pipeline = Pipeline(steps=[('model', self.model)])
         kf = KFold(n_splits=5, shuffle=True, random_state=42)
 
-        grid_search = GridSearchCV(pipeline, param_grid, cv=kf, scoring='accuracy', n_jobs=-1)
+        grid_search = GridSearchCV(pipeline, param_grid, cv=kf, scoring='f1_weighted', n_jobs=-1)
         start_time = time.time()
         grid_search.fit(X_train, y_train)
         elapsed_time_seconds = time.time() - start_time
@@ -210,7 +220,7 @@ class ModelTrainer:
         tuned = self.param_grid != {}
         cv_scores = []
         if tuned:
-            cv_scores = cross_val_score(self.best_model, X_train, y_train, cv=kf, scoring='accuracy', n_jobs=-1)
+            cv_scores = cross_val_score(self.best_model, X_train, y_train, cv=kf, scoring='f1_weighted', n_jobs=-1)
         y_pred = self.best_model.predict(X_test)
         y_proba = self.best_model.predict_proba(X_test) if hasattr(self.best_model.named_steps['model'],
                                                               'predict_proba') else None
@@ -824,6 +834,32 @@ def run_all_combinations(dataset_name, train_df, final_test_df):
                         for week in weeks:
                             trainer.evaluate_testing_data(final_test_df, month, week)
 
+        report_generator = ReportGenerator(output_dir="model_metrics", result_dir="model_results")
+        report_generator.generate_model_comparison()
+        report_generator.generate_classification_reports_comparison()
+        report_generator.generate_month_week_classification_reports()
+        report_generator.generate_week_month_testing_metrics()
+        run_all_combinations(dataset_name, train_df, final_test_df)
+
+
+def run_all_month_weeks_tuned(train_df, dataset_name, model_type: ModelType, final_test_df):
+    trainer = ModelTrainer(
+        split_test_size=0.2,
+        model_type=model_type,
+        dataset_name=dataset_name,
+        scaled_data=False,
+        save=True,
+        bins=[0, 4, 12, 21],
+        param_grid=None,
+        stratified_split_testing=False
+    )
+    trainer.train_model(train_df)
+
+    for month in range(1, 4):  # Adjust the range as per your dataset
+        weeks = range(1, 5) if month < 3 else range(1, 3)
+        for week in weeks:
+            trainer.evaluate_testing_data(final_test_df, month, week)
+
 
 if __name__ == '__main__':
     dataset_name = 'subset_base.csv'
@@ -832,9 +868,12 @@ if __name__ == '__main__':
 
     train_df = data[data['FOR_TEST'] == False].copy()
     final_test_df = data[data['FOR_TEST'] == True].copy()
-    report_generator = ReportGenerator(output_dir="model_metrics", result_dir="model_results")
-    report_generator.generate_model_comparison()
-    report_generator.generate_classification_reports_comparison()
-    report_generator.generate_month_week_classification_reports()
-    report_generator.generate_week_month_testing_metrics()
+
+    # This run all the base models
     # run_all_combinations(dataset_name, train_df, final_test_df)
+
+    run_all_month_weeks_tuned(train_df, dataset_name, ModelType.RANDOM_FOREST, final_test_df)
+    # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.LOGISTIC_REGRESSION, final_test_df)
+    # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.KNN, final_test_df)
+
+
