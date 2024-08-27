@@ -96,6 +96,7 @@ class ModelTrainer:
             split_test_size,
             save,
             bins,
+            scoring='f1_weighted',
             scaled_data=False,
             param_grid=None,
             stratified_split_testing=False,
@@ -110,6 +111,7 @@ class ModelTrainer:
         self.preprocessor = None
         self.bins = bins
         self.save = save
+        self.scoring = scoring
         self.stratified_split_testing = stratified_split_testing
         self.categorical_cols = ['nominal_length', 'freight_kind', 'category']
         self.numerical_cols = [
@@ -127,14 +129,14 @@ class ModelTrainer:
     def get_model_and_params(self):
         model_classes = {
             ModelType.RANDOM_FOREST: (
-                RandomForestClassifier(random_state=42, n_jobs=-1, verbose=2),
+                RandomForestClassifier(random_state=42, n_jobs=-1, verbose=1),
                 {
                     'model__n_estimators': [100, 200, 500],
                     'model__max_depth': [None, 10, 20, 30],
                     'model__min_samples_split': [2, 5, 10],
                     'model__min_samples_leaf': [1, 2, 4],
                     'model__max_features': ['auto', 'sqrt', 'log2'],
-                    'model__bootstrap': [True, False]
+                    'model__bootstrap': [False]
                 }
             ),
             ModelType.LOGISTIC_REGRESSION: (
@@ -184,8 +186,8 @@ class ModelTrainer:
                 KNeighborsClassifier(n_jobs=-1),
                 {
                     'model__n_neighbors': [14, 16, 18, 20, 23, 26, 40],
-                    'model__weights': ['distance'],
-                    'model__metric': ['manhattan']
+                    'model__weights': ['uniform', 'distance'],
+                    'model__metric': ['euclidean', 'manhattan', 'minkowski']
                 }
             )
         }
@@ -194,7 +196,7 @@ class ModelTrainer:
 
     def train_model(self, train_df):
         param_grid = self.param_grid if self.param_grid is not None else self.default_param_grid
-        print(f":::: Training model {self.model_type.value} with the following parameters: {param_grid} ::::")
+        print(f":::: Training model {self.model_type.value} with the following parameters: {param_grid} scoring by {self.scoring} ::::")
         data_preprocessor = DataPreprocessor(dataset=train_df, bins=self.bins)
         X, y = data_preprocessor.preprocess()
 
@@ -214,7 +216,7 @@ class ModelTrainer:
             y_train = self.le.fit_transform(y_train)
             y_test = self.le.transform(y_test)
 
-        grid_search = GridSearchCV(pipeline, param_grid, cv=kf, scoring='f1_weighted', n_jobs=-1, verbose=2)
+        grid_search = GridSearchCV(pipeline, param_grid, cv=kf, scoring=self.scoring, n_jobs=-1, verbose=2)
         start_time = time.time()
         grid_search.fit(X_train, y_train)
         elapsed_time_seconds = time.time() - start_time
@@ -229,7 +231,7 @@ class ModelTrainer:
                 self.best_model,
                 X_train, y_train,
                 cv=kf,
-                scoring='f1_weighted',
+                scoring=self.scoring,
                 n_jobs=-1,
                 verbose=2
             )
@@ -867,7 +869,8 @@ def run_all_month_weeks_tuned(train_df, dataset_name, model_type: ModelType, fin
         save=True,
         bins=[0, 4, 12, 21],
         param_grid=None,
-        stratified_split_testing=False
+        stratified_split_testing=False,
+        scoring='balanced_accuracy'
     )
     trainer.train_model(train_df)
 
