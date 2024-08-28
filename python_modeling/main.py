@@ -931,7 +931,7 @@ if __name__ == '__main__':
     run_all_month_weeks_tuned(
         train_df,
         dataset_name,
-        ModelType.RANDOM_FOREST,
+        ModelType.GRADIENT_BOOSTING,
         final_test_df,
         ScoringMetrics.F1_WEIGHTED
     )
