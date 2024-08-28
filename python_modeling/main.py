@@ -539,12 +539,23 @@ class ModelTrainer:
 
 
 class ReportGenerator:
-    def __init__(self, output_dir="model_metrics", result_dir="model_results"):
+    def __init__(
+        self,
+        output_dir="model_metrics",
+        result_dir="model_results",
+        tuned=False
+    ):
         self.output_dir = output_dir
         self.result_dir = result_dir
         self.result_dir_month_week = 'model_week_test_results'
 
+        if tuned:
+            self.output_dir = os.path.join(self.output_dir, "tuned")
+            self.result_dir = os.path.join(self.result_dir, "tuned")
+            self.result_dir_month_week = os.path.join(self.result_dir_month_week, "tuned")
+
     def generate_model_comparison(self, output_file="model_comparison.csv"):
+
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
 
@@ -562,6 +573,7 @@ class ReportGenerator:
                 model_type = results['model_type']
                 bins = results['bins']
                 metrics = results['metrics']
+                scoring = results['scoring']
                 file_name = file
                 scaled = results['scaled']
                 tuned = results['tuned']
@@ -587,6 +599,7 @@ class ReportGenerator:
                     "bins": str(bins),
                     "scaled": scaled,
                     "tuned": tuned,
+                    "scoring": scoring,
                     "stratified_split_testing": stratified_split_testing,
                     "accuracy": accuracy,
                     "precision": precision,
@@ -606,7 +619,16 @@ class ReportGenerator:
         df_comparison.to_excel(output_path.replace('.csv', '.xlsx'), index=False)
         print(df_comparison)
 
-    def extract_classification_report(self, report_str, model_type, bins, scaled, tuned, stratified_split_testing, scoring =None):
+    def extract_classification_report(
+        self,
+        report_str,
+        model_type,
+        bins,
+        scaled,
+        tuned,
+        stratified_split_testing,
+        scoring=None
+    ):
         """Extract the classification report into a structured DataFrame."""
         report_lines = report_str.strip().split("\n")
         classes = []
@@ -670,10 +692,13 @@ class ReportGenerator:
         df_report["f1_score_weighted_avg"] = weighted_f1_score
 
         if scoring:
-            df_report["scoring"] = weighted_f1_score
+            df_report["scoring"] = scoring
         return df_report.reset_index(drop=True)
 
-    def generate_classification_reports_comparison(self, output_file="classification_report_comparison.xlsx"):
+    def generate_classification_reports_comparison(
+        self,
+        output_file="classification_report_comparison.xlsx"
+    ):
         if not os.path.exists(self.output_dir):
             print(f"No results directory found at '{self.output_dir}'")
             return
@@ -717,7 +742,10 @@ class ReportGenerator:
         else:
             print("No classification reports found to compare.")
 
-    def generate_month_week_classification_reports(self, output_file="month_week_classification_reports.xlsx"):
+    def generate_month_week_classification_reports(
+        self,
+        output_file="month_week_classification_reports.xlsx"
+    ):
         if not os.path.exists(self.output_dir):
             print(f"No results directory found at '{self.output_dir}'")
             return
@@ -735,7 +763,7 @@ class ReportGenerator:
                 results = json.load(f)
                 model_type = results['model_type']
                 bins = results['bins']
-                scoring = results['scoring']
+                scoring = results.get('scoring', None)
                 scaled = results['scaled']
                 tuned = results['tuned']
                 stratified_split_testing = results['stratified_split_testing']
@@ -764,7 +792,10 @@ class ReportGenerator:
         else:
             print("No classification reports found to compare.")
 
-    def generate_week_month_testing_metrics(self, output_file="month_week_testing_metrics.csv"):
+    def generate_week_month_testing_metrics(
+        self,
+        output_file="month_week_testing_metrics.csv"
+    ):
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
 
@@ -783,6 +814,7 @@ class ReportGenerator:
                 bins = results['bins']
                 week = results['week']
                 tuned = results['tuned']
+                scoring = results.get('scoring', None)
                 month = results['month']
                 metrics = results['metrics']
                 scaled = results['scaled']
@@ -805,6 +837,7 @@ class ReportGenerator:
                     "model_type": model_type,
                     "tuned": tuned,
                     "scaled": scaled,
+                    "scoring": scoring,
                     "stratified_split_testing": stratified_split_testing,
                     "bins": str(bins),
                     "week": week,
@@ -922,20 +955,26 @@ if __name__ == '__main__':
     file_path = f"dataset/{dataset_name}"
     data = pd.read_csv(file_path)
 
-    train_df = data[data['FOR_TEST'] == False].copy()
-    final_test_df = data[data['FOR_TEST'] == True].copy()
+    # train_df = data[data['FOR_TEST'] == False].copy()
+    # final_test_df = data[data['FOR_TEST'] == True].copy()
 
     # This run all the base models
     # run_all_combinations(dataset_name, train_df, final_test_df)
 
-    run_all_month_weeks_tuned(
-        train_df,
-        dataset_name,
-        ModelType.GRADIENT_BOOSTING,
-        final_test_df,
-        ScoringMetrics.F1_WEIGHTED
-    )
+    # run_all_month_weeks_tuned(
+    #     train_df,
+    #     dataset_name,
+    #     ModelType.GRADIENT_BOOSTING,
+    #     final_test_df,
+    #     ScoringMetrics.F1_WEIGHTED
+    # )
     # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.LOGISTIC_REGRESSION, final_test_df)
     # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.RANDOM_FOREST, final_test_df)
+
+    report_generator = ReportGenerator(output_dir="model_metrics", result_dir="model_results", tuned=True)
+    report_generator.generate_model_comparison()
+    report_generator.generate_classification_reports_comparison()
+    report_generator.generate_month_week_classification_reports()
+    report_generator.generate_week_month_testing_metrics()
 
 
