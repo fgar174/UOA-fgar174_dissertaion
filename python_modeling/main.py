@@ -156,12 +156,12 @@ class ModelTrainer:
             ModelType.RANDOM_FOREST: (
                 RandomForestClassifier(random_state=42, n_jobs=-1, verbose=1),
                 {
-                    'model__n_estimators': [100, 200, 500],
+                    'model__n_estimators': [100, 200, 500, 1000],
                     'model__max_depth': [None, 10, 20, 30],
                     'model__min_samples_split': [2, 5, 10],
                     'model__min_samples_leaf': [1, 2, 4],
                     'model__max_features': ['auto', 'sqrt', 'log2'],
-                    'model__bootstrap': [False]
+                    'model__bootstrap': [True, False]
                 }
             ),
             ModelType.LOGISTIC_REGRESSION: (
@@ -206,8 +206,8 @@ class ModelTrainer:
                 KNeighborsClassifier(n_jobs=-1),
                 {
                     'model__n_neighbors': [3, 5, 7, 10, 12, 14, 20, 23, 26, 40],
-                    'model__weights': ['distance'],
-                    'model__metric': ['manhattan']
+                    'model__weights': ['uniform', 'distance'],
+                    'model__metric': ['euclidean', 'manhattan', 'minkowski']
                 }
             )
         }
@@ -931,7 +931,7 @@ if __name__ == '__main__':
     run_all_month_weeks_tuned(
         train_df,
         dataset_name,
-        ModelType.LOGISTIC_REGRESSION,
+        ModelType.RANDOM_FOREST,
         final_test_df,
         ScoringMetrics.F1_WEIGHTED
     )
