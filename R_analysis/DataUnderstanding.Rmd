@@ -1,0 +1,806 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r}
+library(dplyr)
+library(ggplot2)
+yard_moves_by_year.df_base <-
+  read.csv("yard_moves_for_year.csv", header = TRUE)
+yard_location_mapping.df <-
+  read.csv("yard_location_mapping.csv", header = TRUE)
+stack_row_block.df <- read.csv("stack_row_block.csv", header = TRUE)
+
+```
+
+# Data Procesing
+
+## Impute missing values
+
+```{r}
+## rehandle_count if NA will be 0
+yard_moves_by_year.df_base$rehandle_count[is.na(yard_moves_by_year.df_base$rehandle_count)] <-
+  0
+
+## twin_fetch and twin_carry if NA will be 0
+yard_moves_by_year.df_base$twin_carry[is.na(yard_moves_by_year.df_base$twin_carry)] <-
+  0
+yard_moves_by_year.df_base$twin_fetch[is.na(yard_moves_by_year.df_base$twin_fetch)] <-
+  0
+
+# Cleaning some data based on MANVI's comments on  26 APR 2024
+yard_moves_by_year.df_base$dist_start[is.na(yard_moves_by_year.df_base$dist_start)] <-
+  0
+yard_moves_by_year.df_base$dist_carry[is.na(yard_moves_by_year.df_base$dist_carry)] <-
+  0
+yard_moves_by_year.df_base$twin_put[is.na(yard_moves_by_year.df_base$twin_put)] <-
+  0
+
+cols_with_na <-
+  sapply(yard_moves_by_year.df_base, function(x)
+    any(is.na(x)))
+names(cols_with_na[cols_with_na])
+```
+
+
+## Create new columns for data time in and time out
+
+```{r}
+# Turns columns in chr into dates
+yard_moves_by_year.df_base$time_out <- as.POSIXct(yard_moves_by_year.df_base$time_out, format = "%Y-%m-%d %H:%M:%S")
+yard_moves_by_year.df_base$time_in <-
+  as.POSIXct(yard_moves_by_year.df_base$time_in, format = "%Y-%m-%d %H:%M:%S")
+
+
+# Split time_in data column into day, month, year, and weekday
+yard_moves_by_year.df_base$time_in_day <-
+  as.integer(format(yard_moves_by_year.df_base$time_in, "%d"))
+yard_moves_by_year.df_base$time_in_month <-
+  as.integer(format(yard_moves_by_year.df_base$time_in, "%m"))
+yard_moves_by_year.df_base$time_in_year <-
+  as.integer(format(yard_moves_by_year.df_base$time_in, "%Y"))
+yard_moves_by_year.df_base$time_in_weekday <-
+  as.integer(strftime(yard_moves_by_year.df_base$time_in, "%u"))
+yard_moves_by_year.df_base$time_in_hour <- as.numeric(format(yard_moves_by_year.df_base$time_in, "%H"))
+
+yard_moves_by_year.df_base$time_in_week_of_month <- (as.integer(format(
+  yard_moves_by_year.df_base$time_in, "%d"
+)) - 1) %/% 7 + 1
+yard_moves_by_year.df_base$time_in_week_of_year <- as.integer(strftime(yard_moves_by_year.df_base$time_in, "%V"))
+yard_moves_by_year.df_base$time_in_business_day = ifelse(
+  yard_moves_by_year.df_base$time_in_weekday >= 1 &
+    yard_moves_by_year.df_base$time_in_weekday <= 5,
+  1,
+  0
+)
+
+
+
+# Split time_out data column into day, month, year, and weekday
+yard_moves_by_year.df_base$time_out_day <-
+  as.integer(format(yard_moves_by_year.df_base$time_out, "%d"))
+yard_moves_by_year.df_base$time_out_month <-
+  as.integer(format(yard_moves_by_year.df_base$time_out, "%m"))
+yard_moves_by_year.df_base$time_out_year <-
+  as.integer(format(yard_moves_by_year.df_base$time_out, "%Y"))
+yard_moves_by_year.df_base$time_out_weekday <-
+  as.integer(strftime(yard_moves_by_year.df_base$time_out, "%u"))
+```
+
+## Add future_t_fetch that will have the time the current movement will be move in the future
+
+```{r}
+
+yard_moves_by_year.df_base <- yard_moves_by_year.df_base %>% arrange(ufv_gkey, mve_gkey)
+
+na_row_all_cols <- as.data.frame(matrix(
+  NA,
+  nrow = 1,
+  ncol = ncol(yard_moves_by_year.df_base)
+))
+colnames(na_row_all_cols) <- colnames(yard_moves_by_year.df_base)
+
+subset_df <- setNames(
+  subset(yard_moves_by_year.df_base, select = c(ufv_gkey, t_fetch)),
+  c("copy_ufv_gkey", "future_t_fetch")
+)
+
+result <- cbind(rbind(subset_df, data.frame(
+  copy_ufv_gkey = c(NA), future_t_fetch = c(NA)
+)),
+rbind(na_row_all_cols, yard_moves_by_year.df_base))
+
+result[!is.na(result$copy_ufv_gkey) &
+         !is.na(result$ufv_gkey) &
+         result$copy_ufv_gkey != result$ufv_gkey, ]$future_t_fetch <- NA
+
+result[result$ufv_gkey == 9490315, ]
+
+result[result$ufv_gkey == 9236702, ]
+
+# yard_moves_by_year.df_base[yard_moves_by_year.df_base$ufv_gkey == 9236702, ]
+
+yard_moves_by_year.df_base <- result
+
+```
+
+
+## Calculate days in port
+
+```{r}
+yard_moves_by_year.df_base$DAYS_IN_PORT <-
+  as.numeric(round(
+    difftime(
+      yard_moves_by_year.df_base$time_out,
+      yard_moves_by_year.df_base$time_in,
+      units = "days"
+    )
+  ))
+yard_moves_by_year.df_base$DAYS_IN_PORT <-
+  as.numeric(yard_moves_by_year.df_base$DAYS_IN_PORT)
+```
+
+
+## Generates a mapping table from pos_name to stack
+
+```{r, render=FALSE}
+# temporal_pos_name_to_stack <- data.frame(pos_name = unique(union(
+#   unique(yard_moves_by_year.df_base$fm_pos_name),
+#   unique(yard_moves_by_year.df_base$to_pos_name)
+# )))
+# 
+# 
+# str(yard_moves_by_year.df_base)
+# 
+# print(nrow(stack_row_block.df))
+# for (i in 1:nrow(stack_row_block.df)) {
+#   # Create the pattern based on the block value
+#   current_row_value <- stack_row_block.df[i, ]
+#   pattern <- current_row_value$stack
+# 
+#   # Find matching rows in dataframe2 where pos_name contains the block value
+#   matching_rows <- grepl(pattern, temporal_pos_name_to_stack$pos_name)
+#   # Update pos_name in dataframe2 to match the block value where it matches
+#   # print(paste0(round((
+#   #   i / nrow(stack_row_block.df)
+#   # ) * 100, 2), '%'))
+#   temporal_pos_name_to_stack$block[matching_rows] <- current_row_value$block
+#   temporal_pos_name_to_stack$stack[matching_rows] <- current_row_value$stack
+#   temporal_pos_name_to_stack$row[matching_rows] <- current_row_value$row
+#   level_pattern <- paste0(".*", pattern, "[^0-9]*([0-9]+)$")
+#   temporal_pos_name_to_stack$level[matching_rows] <- sub(level_pattern, "\\1", temporal_pos_name_to_stack$pos_name[matching_rows])
+# }
+# temporal_pos_name_to_stack$level <- as.numeric(temporal_pos_name_to_stack$level)
+# temporal_pos_name_to_stack <-
+#   left_join(temporal_pos_name_to_stack,
+#             yard_location_mapping.df,
+#             by = c("block" = "Block"))
+```
+
+## JOIN stack information
+
+```{r}
+joined_df <- left_join(yard_moves_by_year.df_base,
+                       temporal_pos_name_to_stack,
+                       by = c("to_pos_name" = "pos_name"))
+
+# Identify the new columns added from temporal_pos_name_to_stack
+new_columns <- setdiff(names(joined_df), names(yard_moves_by_year.df_base))
+names(joined_df)[names(joined_df) %in% new_columns] <- paste0("to_pos_", new_columns)
+
+yard_moves_by_year.df_base <- joined_df
+
+joined_df <- left_join(yard_moves_by_year.df_base,
+                       temporal_pos_name_to_stack,
+                       by = c("fm_pos_name" = "pos_name"))
+
+# Identify the new columns added from temporal_pos_name_to_stack
+new_columns <- setdiff(names(joined_df), names(yard_moves_by_year.df_base))
+names(joined_df)[names(joined_df) %in% new_columns] <- paste0("fm_pos_", new_columns)
+
+yard_moves_by_year.df_base <- joined_df
+```
+
+## Creating the dadaset to trains models
+
+```{r}
+yard_moves_by_year_unique <- yard_moves_by_year.df_base[!is.na(yard_moves_by_year.df_base$fm_pos_Yard), ] %>%
+  distinct(
+    ufv_gkey,
+    arrive_pos_loctype,
+    requires_power,
+    time_in,
+    time_in_year,
+    time_in_weekday,
+    time_in_business_day,
+    time_in_week_of_year,
+    time_in_week_of_month,
+    time_in_month,
+    time_in_hour,
+    freight_kind,
+    category,
+    nominal_length,
+    DAYS_IN_PORT
+  )
+ufv_gkey_counts <- table(yard_moves_by_year_unique$ufv_gkey)
+nrow(ufv_gkey_counts[ufv_gkey_counts == 1]) == nrow(yard_moves_by_year_unique)
+```
+
+
+## Filter the target values
+
+```{r}
+yard_moves_by_year_unique <- yard_moves_by_year_unique[yard_moves_by_year_unique$time_in_year > 2022, ]
+yard_moves_by_year_unique <- yard_moves_by_year_unique[!is.na(yard_moves_by_year_unique$time_in_year), ]
+yard_moves_by_year_unique <- yard_moves_by_year_unique[!is.na(yard_moves_by_year_unique$DAYS_IN_PORT), ]
+
+yard_moves_by_year_unique$FOR_TEST <- FALSE
+
+yard_moves_by_year_unique[yard_moves_by_year_unique$time_in > as.POSIXct("2023-12-31 23:59:59"), ]$FOR_TEST <- TRUE
+```
+
+## Exploring Categories
+
+```{r}
+ggplot(yard_moves_by_year_unique, aes(x = category)) +
+  geom_bar() +
+  labs(title = "Distribution of Categories", 
+       x = "Category", 
+       y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+```{r}
+ggplot(
+  yard_moves_by_year_unique[
+    yard_moves_by_year_unique$DAYS_IN_PORT < 21 &
+      yard_moves_by_year_unique$category == 'THRGH',
+  ], 
+  aes(x = arrive_pos_loctype, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Vehicle, THRGH", x = "Vehicle", y = "Days in Port") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+The figure above indicates that for THRGH, the data is largely consistent, with a typical duration of around 1 day, though there are some outliers. This pattern suggests that when a container leaves on the same vessel it arrived on, it is simply passing through the port.
+
+```{r}
+ggplot(
+  yard_moves_by_year_unique[
+    yard_moves_by_year_unique$DAYS_IN_PORT < 21 &
+      yard_moves_by_year_unique$category == 'STRGE',
+  ], 
+  aes(x = arrive_pos_loctype, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Vehicle, STRGE", x = "Vehicle", y = "Days in Port") +
+  facet_wrap(~ time_in_month) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+The graph above shows that *STRGE*, which has the second-lowest frequency in the category distribution, exhibits certain patterns related to the type of vehicle used upon arrival at the port, as well as variations across different months.
+
+```{r}
+ggplot(
+  yard_moves_by_year_unique[
+    yard_moves_by_year_unique$DAYS_IN_PORT < 21 &
+      yard_moves_by_year_unique$category == 'TRSHP',
+  ], 
+  aes(x = arrive_pos_loctype, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Vehicle, TRSHP", x = "Vehicle", y = "Days in Port") +
+  facet_wrap(~time_in_month) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+When a container departs on the same vessel it arrived on, *TRSHP*, it is merely passing through. The graph above suggests that seasonality could slighly influence the number of days the container remains in the yard.
+
+```{r}
+ggplot(
+  yard_moves_by_year_unique[
+    yard_moves_by_year_unique$DAYS_IN_PORT < 21 &
+      yard_moves_by_year_unique$time_in_month >= 11 &
+      yard_moves_by_year_unique$time_in_month <= 12 &
+      !yard_moves_by_year_unique$category == 'TRSHP' &
+      !yard_moves_by_year_unique$category == 'THRGH' &
+      !yard_moves_by_year_unique$category == 'STRGE',
+  ], 
+  aes(x = category, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Vehicle, EXPRT and IMPRT, Nov and Dec", x = "Vehicle", y = "Days in Port") +
+  facet_wrap(~ time_in_month + arrive_pos_loctype) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+ggplot(
+  yard_moves_by_year_unique[
+    yard_moves_by_year_unique$DAYS_IN_PORT < 21 &
+      yard_moves_by_year_unique$time_in_month >= 9 &
+      yard_moves_by_year_unique$time_in_month <= 10 &
+      !yard_moves_by_year_unique$category == 'TRSHP' &
+      !yard_moves_by_year_unique$category == 'THRGH' &
+      !yard_moves_by_year_unique$category == 'STRGE',
+  ], 
+  aes(x = category, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Vehicle, EXPRT and IMPRT, Sep and Oct", x = "Vehicle", y = "Days in Port") +
+  facet_wrap(~ time_in_month + arrive_pos_loctype) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+```{r}
+ggplot(
+  yard_moves_by_year_unique[
+    yard_moves_by_year_unique$DAYS_IN_PORT < 21 &
+      yard_moves_by_year_unique$time_in_month >= 7 &
+      yard_moves_by_year_unique$time_in_month <= 8 &
+      !yard_moves_by_year_unique$category == 'TRSHP' &
+      !yard_moves_by_year_unique$category == 'THRGH' &
+      !yard_moves_by_year_unique$category == 'STRGE',
+  ], 
+  aes(x = category, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Vehicle, Jul and Ago", x = "Vehicle", y = "Days in Port") +
+  facet_wrap(~ time_in_month + arrive_pos_loctype) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+For both *Export* and *Import* containers, it’s easy to observe how the number of days spent in the port follows a pattern based on the type of vehicle used for arrival and the month. These types also represent the most common distributions in the data.
+
+## Exploring Freight Kind
+
+```{r}
+ggplot(yard_moves_by_year_unique, aes(x = category, fill = category)) +  # Add fill to color by category
+  geom_bar(aes(y = ..count.. / 1000), stat = "count", width = 0.7) +  # Divide counts by 1000 and set bar width
+  labs(
+    title = "Feature Selecction: Distribution of Categories",
+    subtitle = "By Years, 2023 and 2024",
+    x = "Category",
+    y = "Count (in thousands)"
+  ) +  # Update y-axis label
+  facet_wrap( ~ time_in_year) +  # Facet by year
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(strip.background = element_rect(
+    color = "black",
+    fill = "lightgray",
+    size = 1,
+    linetype = "solid"
+  ))  # Add a square-like border around facet labels
+```
+```{r}
+ggplot(yard_moves_by_year_unique,
+       aes(x = freight_kind, fill = freight_kind)) +
+  geom_bar(aes(y = ..count.. / 1000)) +  # Divide counts by 1000
+  labs(
+    title = "Feature Selecction: Distribution of Freight Kind",
+    subtitle = "By Years, 2023 and 2024",
+    x = "Freight Kind",
+    y = "Count (in thousands)"
+  ) +  # Update y-axis label
+  facet_wrap( ~ time_in_year) +  # Facet by year
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(strip.background = element_rect(
+    color = "black",
+    fill = "lightgray",
+    size = 1,
+    linetype = "solid"
+  ))
+```
+
+```{r}
+ggplot(
+  yard_moves_by_year_unique, 
+  aes(x = freight_kind, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind by Month", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ time_in_month) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylim(0, 15)
+```
+
+Throughout the year, the freight types MTY and FCL consistently follow a pattern where MTY containers always remain in the yard for more days than FCL containers.
+
+```{r}
+ggplot(
+  yard_moves_by_year_unique %>% filter(time_in_year == 2023),
+  aes(
+    x = time_in_month,
+    y = DAYS_IN_PORT,
+    color = nominal_length,
+    group = nominal_length
+  )
+) +
+  stat_summary(fun = mean, geom = "line", size = 1) +  # Add lines for monthly averages
+  geom_point(stat = "summary", fun = mean, size = 3) +  # Add points for monthly averages
+  labs(
+    title = "Average Days in Port by Container Size",
+    subtitle = "Each Month in 2023 (From March to December)",
+    x = "Month",
+    y = "Average Days in Port",
+    color = "Container Size"
+  ) +
+  scale_x_continuous(breaks = 1:12, labels = month.name) +  # Display month names
+  facet_wrap( ~ category) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylim(1, 6)
+```
+```{r}
+ggplot(
+  yard_moves_by_year_unique[yard_moves_by_year_unique$category %in% c('IMPRT', 'EXPRT'), ] %>%
+    filter(time_in_year == 2023),
+  aes(
+    x = time_in_month,
+    y = DAYS_IN_PORT,
+    color = category,
+    group = category
+  )
+) +
+  stat_summary(fun = mean, geom = "line", size = 1) +  # Add lines for monthly averages
+  geom_point(stat = "summary", fun = mean, size = 3) +  # Add points for monthly averages
+  labs(
+    title = "Average Days in Port Each Month in 2023 by Category",
+    x = "Month",
+    y = "Average Days in Port",
+    color = "Category"
+  ) +
+  scale_x_continuous(breaks = 1:12, labels = month.name) +  # Display month names
+  facet_wrap(~ time_in_weekday, labeller = as_labeller(
+    c(
+      "1" = "Monday",
+      "2" = "Tuesday",
+      "3" = "Wednesday",
+      "4" = "Thursday",
+      "5" = "Friday",
+      "6" = "Saturday",
+      "7" = "Sunday"
+    )
+  )) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylim(1, 6)
+```
+```{r}
+ggplot(
+  yard_moves_by_year_unique %>% filter(time_in_year == 2023),
+  aes(
+    x = time_in_month,
+    y = DAYS_IN_PORT,
+    color = freight_kind,
+    group = freight_kind
+  )
+) +
+  stat_summary(fun = mean, geom = "line", size = 1) +  # Add lines for monthly averages
+  geom_point(stat = "summary", fun = mean, size = 3) +  # Add points for monthly averages
+  labs(
+    title = "Average Days in Port Each Month in 2023 by Freight Kind",
+    x = "Month",
+    y = "Average Days in Port",
+    color = "Freight Kind"
+  ) +
+  scale_x_continuous(breaks = 1:12, labels = month.name) +  # Display month names
+  facet_wrap( ~ category) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylim(1, 3)
+```
+
+
+```{r}
+ggplot(
+  yard_moves_by_year_unique %>% filter(time_in_year == 2023),
+  aes(
+    x = time_in_hour,
+    y = DAYS_IN_PORT,
+    color = as.factor(time_in_month)  # Color lines by month
+  )
+) +
+  stat_summary(fun = mean, geom = "line", size = 1) +  # Add lines for monthly averages
+  geom_point(stat = "summary", fun = mean, size = 3) +  # Add points for monthly averages
+  labs(
+    title = "Average Days in Port by Hour in 2023",
+    x = "Hour of the Day",
+    y = "Average Days in Port",
+    color = "Month"
+  ) +
+  scale_x_continuous(breaks = 1:24) +  # Breaks for each hour
+  scale_color_manual(values = rainbow(12), labels = month.name) +  # Color lines by month and use month names as labels
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylim(1, 3)
+```
+
+```{r}
+ggplot(
+  yard_moves_by_year_unique, 
+  aes(x = freight_kind, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind by Nominal Length", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ nominal_length) +
+  geom_jitter(width = 0.2, size = 1, color = "blue", alpha = 0.005) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylim(0, 21)
+```
+
+Examining the freight types MTY and FCL in relation to the nominal length of the container, one insight stands out: containers with a nominal length of 45 have the shortest duration in the port when classified as MTY. For FCL, the duration for containers of this length is similar to that of other lengths.
+
+# Days in Yard Analysis
+
+```{r}
+
+days_in_yard_base <- yard_moves_by_year.df_base %>%
+  group_by(
+    ufv_gkey,
+    requires_power,
+    freight_kind,
+    arrive_pos_loctype,
+    category,
+    nominal_length,
+    to_pos_Yard,
+    to_pos_YardArea,
+    to_pos_YardProductivityArea,
+    to_pos_YardLocation
+  ) %>%
+  summarise(
+    time_out = max(as.POSIXct(future_t_fetch, format = "%Y-%m-%d %H:%M:%S")),
+    time_in = min(as.POSIXct(t_put, format = "%Y-%m-%d %H:%M:%S")),
+    DAYS_IN_YARD = round(as.numeric(difftime(time_out, time_in, units = "days"))),
+    count = n()
+  ) %>%
+  arrange(desc(DAYS_IN_YARD))
+```
+
+```{r}
+days_in_yard_clean <- days_in_yard_base[!is.na(days_in_yard_base$DAYS_IN_YARD), ]
+days_in_yard_clean <- days_in_yard_clean[days_in_yard_clean$time_in != days_in_yard_clean$time_out, ]
+days_in_yard_clean <- days_in_yard_clean[!is.na(days_in_yard_clean$to_pos_Yard), ]
+
+days_in_yard_clean$time_in_day <-
+  as.integer(format(days_in_yard_clean$time_in, "%d"))
+days_in_yard_clean$time_in_month <-
+  as.integer(format(days_in_yard_clean$time_in, "%m"))
+days_in_yard_clean$time_in_year <-
+  as.integer(format(days_in_yard_clean$time_in, "%Y"))
+days_in_yard_clean$time_in_weekday <-
+  as.integer(strftime(days_in_yard_clean$time_in, "%u"))
+days_in_yard_clean$time_in_hour <- as.numeric(format(days_in_yard_clean$time_in, "%H"))
+
+days_in_yard_clean$time_in_week_of_month <- (as.integer(format(days_in_yard_clean$time_in, "%d")) - 1) %/% 7 + 1
+days_in_yard_clean$time_in_week_of_year <- as.integer(strftime(days_in_yard_clean$time_in, "%V"))
+days_in_yard_clean$time_in_business_day = ifelse(
+  days_in_yard_clean$time_in_weekday >= 1 &
+    days_in_yard_clean$time_in_weekday <= 5,
+  1,
+  0
+)
+
+days_in_yard_clean <- days_in_yard_clean[!days_in_yard_clean$ufv_gkey==9236702,]
+```
+
+## Yards
+
+```{r}
+ggplot(days_in_yard_clean[!is.na(days_in_yard_clean$DAYS_IN_YARD) &
+                            days_in_yard_clean$DAYS_IN_YARD, ],
+       aes(x = fm_pos_Yard, y = DAYS_IN_YARD)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2, size = 1, color = "blue", alpha = 0.005) +
+  labs(title = "Days in Yard by Yard", x = "Yard", y = "Days in Yard") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylim(0, 21)
+```
+
+
+```{r}
+days_in_yard_clean[days_in_yard_clean$ufv_gkey==9490315,]
+
+ggplot(days_in_yard_clean[!is.na(days_in_yard_clean$DAYS_IN_YARD) &
+                            days_in_yard_clean$DAYS_IN_YARD, ],
+       aes(x = to_pos_Yard, y = DAYS_IN_YARD)) +
+  geom_boxplot() +
+  geom_jitter(width = 0.2, size = 1, color = "blue", alpha = 0.005) +
+  labs(title = "Days in Yard by Yard", x = "Yard", y = "Days in Yard") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ylim(0, 15) +
+  scale_y_continuous(limits = c(1, 15), breaks = seq(1, 15, by = 1))
+```
+The boxplot shows how long containers stay in three different yard locations: “Empty,” “Fergusson,” and “Truck Grid.” Most containers in the “Empty” yard have short stays, but some outliers stay up to 10 days. The “Fergusson” yard has the most variation, with some containers staying much longer. The “Truck Grid” yard containers spends almost no time there.
+
+```{r}
+ggplot(days_in_yard_clean[!is.na(days_in_yard_clean$DAYS_IN_YARD) &
+                            days_in_yard_clean$to_pos_Yard != 'Truck Grid', ], aes(x = to_pos_YardArea, y = DAYS_IN_YARD)) +
+  geom_boxplot() +
+  facet_wrap(~ to_pos_Yard) +
+  labs(title = "Days in Yard (Empty and Fergusson) by Yard Area", x = "Yard", y = "Days in Yard") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  geom_jitter(width = 0.15, size = 1, color = "blue", alpha = 0.005) +
+  ylim(0, 21)
+```
+
+The boxplot shows how long containers stay in different yard areas within the “Empty” and “Fergusson” yards. In the Empty yard, most containers leave within 1 and 5 days. The Fergusson yard shows more variability, with different areas like “Automation,” “Manual,” and “Reefer” having longer average.
+
+## Days in Fergusson Yard
+
+```{r}
+ggplot(days_in_yard_clean[!is.na(days_in_yard_clean$DAYS_IN_YARD) &
+                            days_in_yard_clean$DAYS_IN_YARD <= 8 & 
+                            days_in_yard_clean$to_pos_Yard == 'Fergusson', ],
+       aes(x = to_pos_YardProductivityArea, y = DAYS_IN_YARD)) +
+  geom_boxplot() +
+  labs(title = "Days in Fergusson Yard", x = "Yard", y = "Days in Yard") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## Days in Empty Yard
+
+```{r}
+ggplot(days_in_yard_clean[!is.na(days_in_yard_clean$DAYS_IN_YARD) &
+                            days_in_yard_clean$DAYS_IN_YARD <= 8 & 
+                            days_in_yard_clean$to_pos_Yard == 'Empty' & 
+                            days_in_yard_clean$to_pos_YardArea == 'Empty', ],
+       aes(x = to_pos_YardLocation, y = DAYS_IN_YARD)) +
+  geom_boxplot() +
+  labs(title = "Days in Empty Yard", x = "Yard", y = "Days in Yard") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## Fergusson Yard Locations
+
+```{r}
+fergusson_yard <- days_in_yard_clean[!is.na(days_in_yard_clean$DAYS_IN_YARD) &
+                            days_in_yard_clean$to_pos_Yard == 'Fergusson', ]
+
+  # Plot the distribution using ggplot2
+  ggplot(
+    fergusson_yard %>%
+      group_by(to_pos_YardArea) %>%
+      summarise(count = (n()/1000)) %>%
+      arrange(desc(count)),
+    aes(x = reorder(to_pos_YardArea, -count), y = count)
+  ) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Distribution of Fergusson Containers by Yard Area", x = "Yard Area", y = "Count of Containers (Thousand)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+fergusson_manual <- fergusson_yard[fergusson_yard$to_pos_YardArea == 'Manual', ]
+
+  # Plot the distribution using ggplot2
+  ggplot(
+    fergusson_manual %>%
+      group_by(to_pos_YardLocation) %>%
+      summarise(count = (n()/1000)) %>%
+      arrange(desc(count)),
+    aes(x = reorder(to_pos_YardLocation, -count), y = count)
+  ) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Distribution of Ferguson Manual Area Containers by Yard Location", x = "Yard Location", y = "Count of Containers (Thousand)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+fergusson_yard_location <- fergusson_manual[fergusson_manual$to_pos_YardLocation == 'Fergusson', ]
+
+ggplot(
+  fergusson_yard_location[
+    fergusson_yard_location$DAYS_IN_YARD < 21 &
+      fergusson_yard_location$time_in_month >= 5 &
+      fergusson_yard_location$time_in_month <= 8 &
+      !fergusson_yard_location$category == 'TRSHP' &
+      !fergusson_yard_location$category == 'THRGH' &
+      !fergusson_yard_location$category == 'STRGE',
+  ], 
+  aes(x = category, y = DAYS_IN_YARD)) +
+  geom_boxplot() +
+  labs(title = "Days in Yard by Vehicle, Jul and Ago", x = "Vehicle", y = "Days in Port") +
+  facet_wrap(~ time_in_month + freight_kind) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+fergusson_yard_location %>%
+  group_by(
+    category,
+    nominal_length,
+    freight_kind,
+    arrive_pos_loctype,
+    requires_power
+  ) %>%
+  summarise(
+    Q1 = quantile(DAYS_IN_YARD, 0.25, na.rm = TRUE),
+    # Calculate 1st quartile (Q1)
+    Q3 = quantile(DAYS_IN_YARD, 0.75, na.rm = TRUE),
+    # Calculate 3rd quartile (Q3)
+    IQR = IQR(DAYS_IN_YARD, na.rm = TRUE),
+    # Calculate Interquartile Range (IQR)
+    .groups = 'drop'                                  # Ungroup after summarising
+  ) %>%
+  rowwise() %>%
+  mutate(
+    max_in_iqr = max(fergusson_yard_location$DAYS_IN_YARD[
+                                                       days_in_yard_clean$DAYS_IN_YARD >= (Q1 - 1.5 * IQR) &
+                                                       days_in_yard_clean$DAYS_IN_YARD <= (Q3 + 1.5 * IQR)], na.rm = TRUE),
+    min_in_iqr = min(fergusson_yard_location$DAYS_IN_YARD[
+                                                       days_in_yard_clean$DAYS_IN_YARD >= (Q1 - 1.5 * IQR) &
+                                                       days_in_yard_clean$DAYS_IN_YARD <= (Q3 + 1.5 * IQR)], na.rm = TRUE)
+  ) %>%
+  mutate(range_in_iqr = paste0("[", min_in_iqr, " to ", max_in_iqr, "]")) %>%
+  select(
+    category,
+    nominal_length,
+    freight_kind,
+    arrive_pos_loctype,
+    requires_power,
+    Q1,
+    Q3,
+    range_in_iqr
+  )
+```
+```{r}
+subset_fergusson_df <- subset(
+  days_in_yard_clean,
+  select = c(
+    requires_power,
+    freight_kind,
+    arrive_pos_loctype,
+    category,
+    nominal_length,
+    time_in,
+    time_in_business_day,
+    time_in_week_of_year,
+    time_in_week_of_month,
+    time_in_weekday,
+    to_pos_YardArea,
+    time_in_month,
+    time_in_hour,
+    DAYS_IN_YARD
+  )
+) %>%
+  rename(DAYS_IN_PORT = DAYS_IN_YARD)
+
+subset_fergusson_df$FOR_TEST <- FALSE
+
+subset_fergusson_df[subset_fergusson_df$time_in > as.POSIXct("2023-12-31 23:59:59"), ]$FOR_TEST <- TRUE
+
+write.csv(subset_fergusson_df,
+          "../python_modeling/dataset/subset_fergusson.csv",
+          row.names = TRUE)
+```
+
+## Selecting movements to check predictions
+
+```{r}
+library(openxlsx)
+library(writexl)
+
+yard_moves_by_ufv_gkey_2024 <- yard_moves_by_year.df_base[!is.na(yard_moves_by_year.df_base$time_in_year) &
+                                                            yard_moves_by_year.df_base$time_in_year == 2024, ] %>%
+  group_by(ufv_gkey) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count))
+
+
+write.xlsx(yard_moves_by_year.df_base[yard_moves_by_year.df_base$ufv_gkey == yard_moves_by_ufv_gkey_2024$ufv_gkey[1], ], "filtered_data.xlsx", rowNames = FALSE)
+```

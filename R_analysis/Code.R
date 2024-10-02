@@ -3,10 +3,11 @@
 ###############################################################################################################
 ###############################################################################################################
 
-library(dplyr)
 # Load datasets
+
 yard_moves_by_year.df_base <-
   read.csv("yard_moves_for_year.csv", header = TRUE)
+
 yard_location_mapping.df <-
   read.csv("yard_location_mapping.csv", header = TRUE)
 stack_row_block.df <- read.csv("stack_row_block.csv", header = TRUE)
@@ -448,18 +449,210 @@ subset_df <- subset(
 
 subset_df <- subset_df[subset_df$time_in_year > 2022, ]
 subset_df <- subset_df[!is.na(subset_df$time_in_year), ]
+subset_df <- subset_df[!is.na(subset_df$DAYS_IN_PORT),]
 
 subset_df$FOR_TEST <- FALSE
 
 subset_df[subset_df$time_in > as.POSIXct("2023-12-31 23:59:59"), ]$FOR_TEST <- TRUE
+
+str(subset_df)
 
 write.csv(subset_df,
           "../python_modeling/dataset/subset_base.csv",
           row.names = TRUE)
 
 
+nrow(subset_df[subset_df$FOR_TEST==FALSE,])
+
 min(subset_df$time_in)
 max(subset_df$time_in)
+
+max(subset_df$DAYS_IN_PORT, na.rm = TRUE)
+
+str(subset_df)
+
+
+nrow(subset_df[subset_df$DAYS_IN_PORT > 21, ])
+
+
+ggplot(subset_df[subset_df$DAYS_IN_PORT < 21 &
+                   subset_df$category == 'EXPRT', ], aes(x = nominal_length, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind, Faceted by Category", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ freight_kind + time_in_month) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+unique(subset_df$arrive_pos_loctype)
+
+ggplot(
+  subset_df[
+    subset_df$DAYS_IN_PORT < 21 &
+    subset_df$category == 'IMPRT' &
+    subset_df$freight_kind == 'FCL',
+  ], 
+  aes(x = arrive_pos_loctype, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind, Faceted by Category", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ time_in_month) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+ggplot(
+  subset_df[
+    subset_df$DAYS_IN_PORT < 21 &
+      subset_df$category == 'EXPRT' &
+      subset_df$freight_kind == 'FCL',
+  ], 
+  aes(x = arrive_pos_loctype, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind, Faceted by Category", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ time_in_month) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+ggplot(
+  subset_df[
+    subset_df$DAYS_IN_PORT < 21 &
+      subset_df$category == 'IMPRT' &
+      subset_df$freight_kind == 'MTY',
+  ], 
+  aes(x = arrive_pos_loctype, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind, Faceted by Category", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ time_in_month) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+
+
+
+ggplot(
+  subset_df[
+    subset_df$DAYS_IN_PORT < 21 &
+      subset_df$category == 'EXPRT',
+  ], 
+  aes(x = freight_kind, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind, Faceted by Category", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ time_in_month + arrive_pos_loctype) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplot(
+  subset_df[
+    subset_df$DAYS_IN_PORT < 21 &
+      subset_df$time_in_month == 6,
+  ], 
+  aes(x = arrive_pos_loctype, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind, Faceted by Category", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ freight_kind + category) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+ggplot(subset_df, aes(x = category)) +
+  geom_bar() +
+  labs(title = "Distribution of Categories", 
+       x = "Category", 
+       y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# THRGH can be removed from the dataset, it takes 1 days to be removed
+
+ggplot(
+  subset_df[
+    subset_df$DAYS_IN_PORT < 21 &
+      subset_df$category == 'THRGH',
+  ], 
+  aes(x = arrive_pos_loctype, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind, Faceted by Category", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ freight_kind + category) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+ggplot(
+  subset_df[
+    subset_df$DAYS_IN_PORT < 21 &
+      subset_df$category == 'STRGE',
+  ], 
+  aes(x = arrive_pos_loctype, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind, Faceted by Category", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ time_in_month + nominal_length + category) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+ggplot(
+  subset_df[
+    subset_df$DAYS_IN_PORT < 21 &
+      subset_df$time_in_month < 6 &
+      !subset_df$category == 'TRSHP' &
+      !subset_df$category == 'THRGH' &
+      !subset_df$category == 'STRGE',
+  ], 
+  aes(x = category, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind, Faceted by Category", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ time_in_month + arrive_pos_loctype) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplot(
+  subset_df[
+    subset_df$DAYS_IN_PORT < 21 &
+      subset_df$time_in_month >= 6 &
+      !subset_df$category == 'TRSHP' &
+      !subset_df$category == 'THRGH' &
+      !subset_df$category == 'STRGE',
+  ], 
+  aes(x = category, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind, Faceted by Category", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ time_in_month + arrive_pos_loctype) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplot(
+  subset_df[
+    subset_df$DAYS_IN_PORT < 21 &
+      subset_df$time_in_month < 6 &
+      !subset_df$category == 'TRSHP' &
+      !subset_df$category == 'THRGH' &
+      !subset_df$category == 'STRGE',
+  ], 
+  aes(x = arrive_pos_loctype, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind, Faceted by Category", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ time_in_month + nominal_length + category) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+
+ggplot(
+  subset_df[
+    subset_df$DAYS_IN_PORT < 21 &
+      subset_df$category == 'TRSHP',
+  ], 
+  aes(x = arrive_pos_loctype, y = DAYS_IN_PORT)) +
+  geom_boxplot() +
+  labs(title = "Days in Port by Freight Kind, Faceted by Category", x = "Freight Kind", y = "Days in Port") +
+  facet_wrap(~ time_in_month + freight_kind + category) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 
 
 
@@ -735,7 +928,7 @@ subset_df <- subset(
 
 
 write.csv(subset_df,
-          "python_modeling/dataset/subset_base.csv",
+          "python_modeling/dataset/subset_fergusson.csv",
           row.names = TRUE)
 
 str(subset_df)
@@ -965,3 +1158,174 @@ unique(road_events$eventIsland)
 unique(road_events$restrictions)
 unique(road_events$impact)
 unique(road_events$eventDescription)
+
+
+library(stringr)
+
+# Get the unique blocks ordered by string length (longest to shortest)
+blocks <- unique(stack_row_block.df$block[order(nchar(stack_row_block.df$block), decreasing = TRUE)])
+
+stack
+
+stack_row_block.df[1,]
+
+
+temporal_map <- data.frame(pos_name = unique(union(
+  unique(yard_moves_by_year.df_base$fm_pos_name),
+  unique(yard_moves_by_year.df_base$to_pos_name)
+)))
+
+
+str(yard_moves_by_year.df_base)
+
+print(nrow(stack_row_block.df))
+for (i in 1:nrow(stack_row_block.df)) {
+  # Create the pattern based on the block value
+  current_row_value <- stack_row_block.df[i, ]
+  pattern <- current_row_value$stack
+  
+  # Find matching rows in dataframe2 where pos_name contains the block value
+  matching_rows <- grepl(pattern, temporal_map$pos_name)
+  # Update pos_name in dataframe2 to match the block value where it matches
+  print(paste0(round((
+    i / nrow(stack_row_block.df)
+  ) * 100, 2), '%'))
+  temporal_map$block[matching_rows] <- current_row_value$block
+  temporal_map$stack[matching_rows] <- current_row_value$stack
+  temporal_map$row[matching_rows] <- current_row_value$row
+  level_pattern <- paste0(".*", pattern, "[^0-9]*([0-9]+)$")
+  temporal_map$level[matching_rows] <- sub(level_pattern, "\\1", temporal_map$pos_name[matching_rows])
+}
+temporal_map$level <- as.numeric(temporal_map$level)
+temporal_map <-
+  left_join(temporal_map,
+            yard_location_mapping.df,
+            by = c("block" = "Block"))
+
+str(yard_moves_by_year.df_base)
+
+joined_df <- left_join(yard_moves_by_year.df_base,
+                       temporal_map,
+                       by = c("to_pos_name" = "pos_name"))
+
+# Identify the new columns added from temporal_map
+new_columns <- setdiff(names(joined_df), names(yard_moves_by_year.df_base))
+names(joined_df)[names(joined_df) %in% new_columns] <- paste0("to_pos_", new_columns)
+
+yard_moves_by_year.df_base <- joined_df
+
+joined_df <- left_join(yard_moves_by_year.df_base,
+                       temporal_map,
+                       by = c("fm_pos_name" = "pos_name"))
+
+# Identify the new columns added from temporal_map
+new_columns <- setdiff(names(joined_df), names(yard_moves_by_year.df_base))
+names(joined_df)[names(joined_df) %in% new_columns] <- paste0("fm_pos_", new_columns)
+
+yard_moves_by_year.df_base <- joined_df
+
+
+
+
+
+write.xlsx(yard_moves_by_year.df_base[yard_moves_by_year.df_base$ufv_gkey == 9490315, ], "filtered_data.xlsx", rowNames = FALSE)
+
+write.xlsx(yard_moves_by_year.df_base[yard_moves_by_year.df_base$freight_kind == 'MTY', ], "filtered_data_MTY.xlsx", rowNames = FALSE)
+
+str(yard_moves_by_year.df_base)
+
+
+
+
+
+
+tempo <- subset(
+  yard_moves_by_year.df_base,
+  select = c(
+    to_pos_name,
+    to_pos_name_N,
+    to_pos_block,
+    to_pos_block_row,
+    to_pos_name_test
+  )
+)
+
+unique(tempo[is.na(tempo$to_pos_block), ]$to_pos_name)
+
+str(stack_row_block.df)
+
+unique(stack_row_block.df$block)
+
+unique(tempo[!is.na(tempo$to_pos_block), ]$to_pos_block)
+unique(tempo[!is.na(tempo$to_pos_name_test), ]$to_pos_name_test)
+
+tempo[tempo$to_pos_block=='F350', ]
+
+stack_row_block.df[stack_row_block.df$stack=='F350',]
+stack_row_block.df[stack_row_block.df$row=='F350',]
+stack_row_block.df[stack_row_block.df$block=='F350',]
+
+table(tempo$to_pos_name_test)
+
+
+table(stack_row_block.df$stack)[table(stack_row_block.df$stack)>1]
+
+
+
+
+table(yard_moves_by_year.df_base$to_pos_name_stack)
+
+
+
+
+
+
+
+
+
+yard_moves_by_year.df_base$time_out <- as.POSIXct(yard_moves_by_year.df_base$time_out, format = "%Y-%m-%d %H:%M:%S")
+yard_moves_by_year.df_base$time_in <-
+  as.POSIXct(yard_moves_by_year.df_base$time_in, format = "%Y-%m-%d %H:%M:%S")
+
+
+# Split time_in data column into day, month, year, and weekday
+yard_moves_by_year.df_base$time_in_day <-
+  as.integer(format(yard_moves_by_year.df_base$time_in, "%d"))
+yard_moves_by_year.df_base$time_in_month <-
+  as.integer(format(yard_moves_by_year.df_base$time_in, "%m"))
+yard_moves_by_year.df_base$time_in_year <-
+  as.integer(format(yard_moves_by_year.df_base$time_in, "%Y"))
+yard_moves_by_year.df_base$time_in_weekday <-
+  as.integer(strftime(yard_moves_by_year.df_base$time_in, "%u"))
+yard_moves_by_year.df_base$time_in_hour <- as.numeric()
+
+
+as.Date(strftime(yard_moves_by_year.df_base$time_out, "%Y-%m-%d %H:%M:%S"))
+
+
+
+library(ggplot2)
+library(openxlsx)
+library(writexl)
+library(dplyr)
+
+ggplot(
+  yard_moves_by_year_unique %>%
+    mutate(date_in = as.Date(strftime(
+      time_in, "%Y-%m-%d %H:%M:%S"
+    ))) %>%
+    mutate(
+      year = format(date_in, "%Y"),
+      month = format(date_in, "%m"),
+      date_month = as.Date(cut(date_in, breaks = "month"))  # Explicitly cut the dates into months
+    ) %>%
+    filter(year == "2024"),
+  aes(x = date_month)
+) +
+  geom_bar(aes(y = ..count.. / 1000),
+           fill = "steelblue",
+           color = "white") +
+  labs(title = "Distribution of ufv_gkey in 2024 per Month", x = "Month", y = "Count (in thousands)") +
+  scale_x_date(date_labels = "%B", date_breaks = "1 month") +  # Show each month on the x-axis
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
