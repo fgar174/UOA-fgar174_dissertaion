@@ -98,7 +98,7 @@ class DataPreprocessor:
             labels = [f"{self.bins[i]:02} - {self.bins[i + 1] - 1:02}" for i in range(len(self.bins) - 1)]
         return labels
 
-    def preprocess(self):
+    def preprocess(self, keep_mve_gkey=False):
         labels = self.create_labels()
         self.dataset.loc[:, 'DAYS_IN_PORT_CATEGORY'] = pd.cut(
             self.dataset['DAYS_IN_PORT'],
@@ -108,6 +108,8 @@ class DataPreprocessor:
         )
         data = self.dataset.dropna(subset=['DAYS_IN_PORT_CATEGORY'])
 
+        if keep_mve_gkey:
+            feature_columns.append('mve_gkey')
         X = data[feature_columns]
         y = data['DAYS_IN_PORT_CATEGORY']
         return X, y
@@ -537,6 +539,30 @@ class ModelTrainer:
         new_metrics = self.predict_and_evaluate(X_final_test, y_final_test)
         self.save_week_test(month, week, new_metrics)
 
+    def predict(self, df_data):
+        print(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+        print("Predicting Data :::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+        print(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
+
+        df_data['time_in'] = pd.to_datetime(df_data['time_in'], errors='coerce')
+        test_data_preprocessor = DataPreprocessor(dataset=df_data, bins=self.bins)
+        X_processed_ori, _ = test_data_preprocessor.preprocess(keep_mve_gkey=True)
+        X_processed = self.preprocessor.transform(X_processed_ori)
+
+        y_pred = self.best_model.predict(X_processed)
+
+        # Flatten y_pred if necessary
+        if len(y_pred.shape) > 1:
+            y_pred = y_pred.flatten()
+
+        # Add predictions to the DataFrame
+        X_processed_ori['Predictions'] = y_pred
+
+        output_file_path = "dataset/predictions_output.xlsx"
+        X_processed_ori.to_excel(output_file_path, index=False)
+
+        return X_processed_ori
+
 
 class ReportGenerator:
     def __init__(
@@ -927,7 +953,6 @@ def run_all_combinations(dataset_name, train_df, final_test_df):
         report_generator.generate_classification_reports_comparison()
         report_generator.generate_month_week_classification_reports()
         report_generator.generate_week_month_testing_metrics()
-        run_all_combinations(dataset_name, train_df, final_test_df)
 
 
 def run_all_month_weeks_tuned(train_df, dataset_name, model_type: ModelType, final_test_df, scoring: ScoringMetrics):
@@ -950,27 +975,72 @@ def run_all_month_weeks_tuned(train_df, dataset_name, model_type: ModelType, fin
             trainer.evaluate_testing_data(final_test_df, month, week)
 
 
-if __name__ == '__main__':
+def predict_sample_data(trainer: ModelTrainer):
+    dataset_name = 'ufv_gkey_9770765.csv'
+    file_path = f"dataset/{dataset_name}"
+    data = pd.read_csv(file_path)
+    predictions = trainer.predict(data)
+
+    result = pd.merge(data, predictions, how='inner', on='mve_gkey')
+    # # Save the DataFrame to an Excel file
+    output_file_path = "dataset/predictions_output.xlsx"
+    result.to_excel(output_file_path, index=False)
+    #
+    # # Print the first few rows to verify
+
+
+def train_base_models(model: ModelType):
     dataset_name = 'subset_base.csv'
     file_path = f"dataset/{dataset_name}"
     data = pd.read_csv(file_path)
 
-    # train_df = data[data['FOR_TEST'] == False].copy()
-    # final_test_df = data[data['FOR_TEST'] == True].copy()
+    train_df = data[data['FOR_TEST'] == False].copy()
+    trainer = ModelTrainer(
+        split_test_size=0.2,
+        model_type=model,
+        dataset_name=dataset_name,
+        scaled_data=False,
+        save=False,
+        bins=[0, 4, 12, 21],
+        param_grid={
+            "model__C": [1],
+            "model__l1_ratio": [0.0],
+            "model__penalty": ["l2"],
+            "model__solver": ["newton-cg"]
+        },
+        stratified_split_testing=False,
+        scoring=ScoringMetrics.F1_WEIGHTED.value
+    )
+    trainer.train_model(train_df)
+    predict_sample_data(trainer)
+
+
+if __name__ == '__main__':
+
+    train_base_models(ModelType.LOGISTIC_REGRESSION)
+
+    dataset_name = 'subset_base.csv'
+    file_path = f"dataset/{dataset_name}"
+    data = pd.read_csv(file_path)
+
+
+    train_df = data[data['FOR_TEST'] == False].copy()
+    final_test_df = data[data['FOR_TEST'] == True].copy()
 
     # This run all the base models
-    # run_all_combinations(dataset_name, train_df, final_test_df)
+    run_all_combinations(dataset_name, train_df, final_test_df)
 
-    # run_all_month_weeks_tuned(
-    #     train_df,
-    #     dataset_name,
-    #     ModelType.GRADIENT_BOOSTING,
-    #     final_test_df,
-    #     ScoringMetrics.F1_WEIGHTED
-    # )
-    # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.LOGISTIC_REGRESSION, final_test_df)
-    # run_all_month_weeks_tuned(train_df, dataset_name, ModelType.RANDOM_FOREST, final_test_df)
+    # This run for tune in base a model
+    run_all_month_weeks_tuned(
+        train_df,
+        dataset_name,
+        ModelType.GRADIENT_BOOSTING,
+        final_test_df,
+        ScoringMetrics.F1_WEIGHTED
+    )
 
+
+    # These generate all the reports
     report_generator = ReportGenerator(output_dir="model_metrics", result_dir="model_results", tuned=True)
     report_generator.generate_model_comparison()
     report_generator.generate_classification_reports_comparison()

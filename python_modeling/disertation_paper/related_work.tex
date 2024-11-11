@@ -1,0 +1,113 @@
+\chapter{Literature Review / Related Works}%    \chapter{}  = level 1, top level
+	Container stacking and decision support systems (DSS) have evolved significantly in port operations management.
+	\\
+	\\
+	While numerous studies have addressed container stacking problems
+	\cite{gharehgozli2014decision, ries2014fuzzy, bazzazi2009genetic, guven2019modelling, guerra2018heuristic,
+		nishimura2009container, sharma2014genetic, park2011dynamic, goerigk2016robust}, developing comprehensive DSS
+	solutions has been relatively limited. Notable exceptions include the work of Murty et al.
+	\cite{murty2005decision}, Liu et al. \cite{liu2010decision}, and Legato and Mazza \cite{legato2018decision},
+	though these studies did not integrate predictive analytics or consider dwell times in their optimization models.
+	\\
+	\\
+	Even though dwell time performance is an important indicator, affected by multiple factor (Table~
+	\ref{tab:dwell_time_factors}
+	), a gap exists in the literature regarding container dwell time prediction to solve optimization yard
+	problems. Only some studies address this challenge; Moini et al. \cite{moini2012estimating}
+	analyzed U.S. ports, identifying crucial features such as port type, geographical location, and container traffic
+	patterns. Based on this foundation, Kourounioti et al. \cite{kourounioti2016development}
+	employed regression models and neural networks to predict dwell time.
+	\\
+	\\
+	The hierarchical approach to decision-making has emerged as a common framework in container terminal
+	operations.
+	As documented by several researchers \cite{zhang2003storage, chen2012storage, park2011dynamic}, this two-stage
+	process first considers block assignment at an aggregated level, followed by real-time decisions about specific
+	container locations. Some insights about storage yard operations are provided by Carlo et al.
+	\cite{carlo2014storage}.
+	\\
+	\\
+	Historical perspectives reveal the evolution of DSS applications for container handling. Starting with the
+	early contribution from Van Hee and Wijbrands \cite{van1988decision}, the field has expanded to cover many
+	operational aspects.
+	Recent studies have addressed specific challenges such as real-time transportation planning
+	\cite{bandeira2009dss, van2016real, shen1995dss}, crane scheduling, berth allocation
+	\cite{wang2007stochastic}, and the integrated berth allocation and quay crane assignment Problem (BACAP) problem
+	\cite{ursavas2014decision}.
+	\\
+	\\
+	The effectiveness of category-based stacking policies in reducing rehandles has been well-documented. As a
+	reference, Dekker et al. \cite{dekker2007advanced} demonstrated the benefits of category-based stacking. On the
+	other hand, Borgman et al. \cite{borgman2010online} have highlighted the importance of departure time-based
+	classification. Historical data can reduce operational costs, improving service levels for port users by
+	leveraging and designing more effective stacking rules.
+	\\
+	\\
+	This research builds upon a study by Gaete et al. \cite{gaete2018novel}, which explored dwell time prediction using
+	multi-class classification. Also, follows some of the ideas for a DSS architecture proposed by Maldonado et al.
+	\cite{maldonado2019analytics} which uses machine learning models for decision-making in port operations across a
+	decision support system.
+	\\
+	\\
+	The current approach introduces a methodology for dwell time prediction by classifiers adjusted to The Ports of
+	Auckland's operational context. It explains how these predictions could be integrated into DSS architecture that
+	could be implemented in real-world port operations to optimize the yard finally.
+
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{|p{0.45\textwidth}|c|c|}
+			\toprule
+			\hline
+			\textbf{Factor} & \textbf{References}
+			& \textbf{Type} \\
+			\hline
+			\midrule
+			Vessel sailing schedule frequency & \cite{merckx2005issue, moini2012estimating}
+			& Unique value
+			\\
+			\hline
+			Container specifications\textsuperscript{*} & \cite{merckx2005issue, moini2012estimating}
+			& Nominal
+			\\
+			\hline
+			Hinterland connections & \cite{merckx2005issue, moini2012estimating}
+			& Unique value \\
+			\hline
+			Port governance structure & \cite{merckx2005issue, moini2012estimating}
+			& Unique value \\
+			\hline
+			Terminal location \& logistics & \cite{merckx2005issue, moini2012estimating}
+			& Unique value
+			\\
+			\hline
+			Terminal operations schedule &
+			\cite{merckx2005issue, moini2012estimating, rodrigue2009terminalization}
+			& Unique value
+			\\
+			\hline
+			Shippers and consignees & \cite{moini2012estimating, rodrigue2009terminalization}
+			& Nominal
+			\\
+			\hline
+			Regulatory procedures & \cite{moini2012estimating}
+			& Unique value \\
+			\hline
+			Transport corridors & \cite{moini2012estimating}
+			& Nominal \\
+			\hline
+			Maritime shipping details\textsuperscript{†} & \cite{moini2012estimating}
+			& Nominal \\
+			\hline
+			Container flow balance & \cite{moini2012estimating}
+			& Nominal \\
+			\hline
+			\bottomrule
+			\multicolumn{3}{l}
+			{\footnotesize \textsuperscript{*}Including type (empty/full, dry/reefer), size (20/40 TEUs), contents}
+			\\
+			\multicolumn{3}{l}{\footnotesize \textsuperscript{†}Ocean carriers and empty container demurrage time}
+			\\
+		\end{tabular}
+		\caption{Factors Influencing Container Dwell Time \cite{gaete2018novel}}
+		\label{tab:dwell_time_factors}
+	\end{table}

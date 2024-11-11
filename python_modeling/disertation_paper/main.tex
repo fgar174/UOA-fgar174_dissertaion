@@ -1,0 +1,99 @@
+\documentclass[11pt]{book}
+
+\usepackage{amsfonts, amsmath, amssymb}
+\usepackage{times}
+\usepackage{multicol}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=red, urlcolor=blue]{hyperref}
+\usepackage{biblatex}
+\usepackage{float}
+\addbibresource{main.bib}
+\usepackage{etoolbox}
+\patchcmd{\chapter}{\cleardoublepage}{\clearpage}{}{}
+
+%\usepackage[backref=page,pagebackref=true,linkcolor = blue,citecolor = red]{hyperref}
+%\usepackage[backref=page]{backref}
+
+
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+
+\setlength{\oddsidemargin}{1.5cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\topmargin}{1mm}
+\setlength{\headheight}{1.36cm}
+\setlength{\headsep}{1.00cm}
+%\setlength{\textheight}{20.84cm}
+\setlength{\textheight}{19cm}
+\setlength{\textwidth}{14.5cm}
+\setlength{\marginparsep}{1mm}
+\setlength{\marginparwidth}{3cm}
+\setlength{\footskip}{2.36cm}
+
+
+\begin{document}
+	\pagestyle{empty}
+
+	\begin{center}
+
+		\vspace{1cm}
+
+%%% Type the thesis title below%%%%%%%%%%%%%%%%
+		{\Huge Predictive Container Dwell Time Modeling for Optimized Port Yard Placement: A Machine Learning Approach}
+
+		\vspace{15mm}
+
+		\includegraphics[width=2cm]{images/logo}
+
+		\vspace{45mm}
+
+%%%%%Type Your Name Below%%%%%%%%%%%%
+		{\Large       Fabio Andrés García Sánchez}
+
+		\vspace{1ex}
+
+		School of Computer Science
+
+		The University of Auckland
+
+		\vspace{5ex}
+
+		%%%%%Typing Your Supervisors Name Below%%%%%%%%%%%%
+		Supervisor: Kaiqi Zhao
+
+		\vspace{30mm}
+
+		A dissertation submitted in partial fulfillment of the requirements for the degree of Master of
+		Data Science, The University of Auckland, 2024.
+
+	\end{center}
+
+
+%: --------------------------------------------------------------
+%:                  FRONT MATTER:  abstract,..
+% --------------------------------------------------------------
+	\input{abstract}
+
+	\input{acknowledgment}
+
+	\tableofcontents
+
+	\input{introduction}
+
+	\input{related_work}
+
+	\input{dataset}
+
+	\input{methodology}
+
+	\input{results}
+
+	\input{limitations}
+
+	\input{conclusion}
+
+	\input{appendices}
+
+	\printbibliography
+
+\end{document}

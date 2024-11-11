@@ -1,0 +1,29 @@
+\chapter*{Abstract}
+	\setcounter{page}{1}
+	\pagestyle{headings}
+% \pagenumbering{roman}
+
+	\addcontentsline{toc}{chapter}{Abstract}
+
+
+	\begin{abstract}
+		This research industry project presents a machine learning approach to predict container dwell times at the
+		Ports of Auckland, aiming to optimize yard operations through data-driven decision support. The study analyzed
+		over 1.5 million container movement records to develop predictive models that could effectively categorize
+		container dwell times into three meaningful ranges: short-term (0-3 days), medium-term (4-11 days), and
+		long-term (12+ days). Multiple machine learning algorithms were evaluated, including Random Forest, K-Nearest
+		Neighbors, Logistic Regression, and Gradient Boosting. Logistic Regression was the most effective model,
+		achieving F1 scores consistently above
+		73\% in weekly predictions during the first quarter of 2024, with solid performance in short-term ( 86\% F1
+		score) and medium-term (80\% F1 score) predictions. K-Nearest Neighbors demonstrated complementary capabilities
+		as a secondary validation model. The research established that container characteristics and temporal
+		patterns were significant predictors of dwell time, while environmental factors such as wind conditions
+		recorded by Ports of Auckland, provided for training, showed no meaningful impact on prediction accuracy.
+		Models' strong performance in short- and medium-term scenarios, represented in most operational cases,
+		indicated their readiness for practical implementation. Both models struggled with long-term predictions.
+		This study also proposed integrating these predictive models into a Decision Support System (DSS) to automate
+		container allocation decisions to reduce unnecessary container movements and improve space utilization. The
+		findings provide bases for enhancing operational efficiency in port yard management, with clear pathways for
+		future development through extended data collection, granular yard-level analysis, and real-time DSS
+		implementation.
+	\end{abstract}

@@ -1,0 +1,68 @@
+\contentsline {chapter}{Abstract}{1}{chapter*.1}%
+\contentsline {chapter}{\numberline {1}Introduction}{6}{chapter.1}%
+\contentsline {section}{\numberline {1.1}System Architecture and Research Focus}{7}{section.1.1}%
+\contentsline {chapter}{\numberline {2}Literature Review / Related Works}{10}{chapter.2}%
+\contentsline {chapter}{\numberline {3}Dataset}{12}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Introduction to container dataset}{12}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Data Features Overview}{12}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Data Preprocessing}{15}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Data Augmentation}{15}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Data Cleaning}{15}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Data Reduction}{15}{subsection.3.3.3}%
+\contentsline {section}{\numberline {3.4}Data analysis}{16}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Initial Exploratory Approach}{16}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Tool Selection: R}{16}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Iterative Development Process}{17}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}Data Exploration}{17}{subsection.3.4.4}%
+\contentsline {chapter}{\numberline {4}Methodology}{22}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Problem Definition}{22}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Dataset Strategy and Model Evaluation}{22}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Selecting Time Range Categories and Classifiers}{23}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Finding Ranges and Defining data scaling strategy}{24}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Class Imbalance Analysis}{26}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Selecting the Metric: F1 Score}{26}{subsection.4.3.3}%
+\contentsline {subsubsection}{Addressing the Imbalance:}{26}{section*.4}%
+\contentsline {subsubsection}{Balancing Precision and Recall (Trade-off):}{27}{section*.5}%
+\contentsline {section}{\numberline {4.4}Model Refinement and Optimization}{27}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}The Scoring Metric: Weighted F1 Score}{27}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}The hyperparameters}{28}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}The Best Parameters}{28}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Analysis of Model Tuning Results}{29}{subsection.4.4.4}%
+\contentsline {section}{\numberline {4.5}Code Implementation Details}{29}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Overview}{29}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Core Components}{30}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Key Classes}{30}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Tuning, Features and Metrics}{30}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.5}Technical Implementation}{31}{subsection.4.5.5}%
+\contentsline {chapter}{\numberline {5}Results and Discussion / Model Evaluation}{32}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Comparative Performance Analysis of Models}{32}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Temporal Performance Analysis}{32}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Model-Specific Performance}{33}{subsection.5.1.2}%
+\contentsline {section}{\numberline {5.2}Logistic Regression}{34}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Model Performance Analysis}{34}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Class-Specific Performance Analysis}{35}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Feature Importance Analysis}{35}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}K-Nearest Neighbors}{36}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Model Performance Analysis}{36}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Class-Specific Performance Analysis}{37}{subsection.5.3.2}%
+\contentsline {section}{\numberline {5.4}Model Comparison and Integration Strategy}{38}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Limitations}{39}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Stakeholder Information Limitations}{39}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Cargo Content Information}{39}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Environmental Data Integration}{39}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Temporal Data Constraints}{40}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Time Series Analysis}{40}{subsection.6.4.1}%
+\contentsline {section}{\numberline {6.5}Scheduling Information Gaps}{40}{section.6.5}%
+\contentsline {chapter}{\numberline {7}Conclusion}{41}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Future Work}{42}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Granular Yard-Level Analysis}{42}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}Extended Training Data Implementation}{42}{subsection.7.1.2}%
+\contentsline {subsection}{\numberline {7.1.3}Weather Data Integration}{42}{subsection.7.1.3}%
+\contentsline {subsection}{\numberline {7.1.4}Model Simulation Framework}{42}{subsection.7.1.4}%
+\contentsline {subsection}{\numberline {7.1.5}DSS Implementation}{43}{subsection.7.1.5}%
+\contentsline {subsection}{\numberline {7.1.6}More sofisticates classifiers}{43}{subsection.7.1.6}%
+\contentsline {chapter}{\numberline {A}Appendices, List of Figures, List of Tables}{44}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Model Optimization}{44}{section.A.1}%
+\contentsline {subsection}{\numberline {A.1.1}Hyperparameter Tuning}{44}{subsection.A.1.1}%
+\contentsline {subsection}{\numberline {A.1.2}Best Parameters}{46}{subsection.A.1.2}%
+\contentsline {section}{\numberline {A.2}Feature Importance Analysis}{46}{section.A.2}%

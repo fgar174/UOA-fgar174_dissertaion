@@ -1,0 +1,222 @@
+\section{Interpretation}
+	In the analysis, the models that stood out due to their commendable accuracy were logistic regression (75.6\%)
+	(Figure ~\ref{fig:log_reg}), random forest(Figure ~\ref{fig:rand_fore}) (79.34\%), and gradient boosting (85.41\%)
+	(Figure ~\ref{fig:grad_boos}). These models consistently delivered reliable results, making them optimal choices
+	for the objectives of this study. The precision of these models in predicting outcomes highlighted their
+	efficiency and relevance for this particular data set and research goal.
+
+	\subsection{Logistic Regression}
+
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[scale=1]{images/dm_confu_mat_logi_regr}
+			\caption{Confusion Matrix Logistic Regression}
+			\label{fig:log_reg}
+		\end{figure}
+		\begin{table}[h!]
+			\centering
+			\caption{Feature Importance Logistic Regression}
+			\begin{tabularx}{0.8\textwidth}{lX}
+				\toprule
+				\textbf{Feature}                   & \textbf{Importance} \\
+				\midrule
+				social\_support                        & 4.0258              \\
+				positive\_affect                       & 0.54279             \\
+				life\_ladder                           & 0.38305             \\
+				perceptions\_of\_corruption            & 0.15111             \\
+				pig                                    & 0.00973             \\
+				fish\_and\_seafood                     & 0.00955             \\
+				beef                                   & 0.00204             \\
+				prevalence smoking                     & -0.00189            \\
+				liters\_of\_pure\_alcohol\_per\_capita & -0.01522            \\
+				sheep\_and\_goat                       & 0.03352             \\
+				poultry                                & -0.03421            \\
+				generosity                             & -0.17302            \\
+				freedom\_to\_make\_life\_choices       & 0.45903             \\
+				negative\_affect                       & 0.49376             \\
+				\bottomrule
+				\label{table:fi_logistic}
+			\end{tabularx}
+		\end{table}
+		\\
+		\\
+		In the logistic regression results, social\_support has an importance of 4.0258, which is notably higher than
+		any other feature. This implies that a strong community, interpersonal relationships, and the overall feeling
+		of being supported can significantly influence the dependent variable, presumably related to health outcomes.
+		Following social support, we have other indicators of emotional well-being, such as positive\_affect with the
+		importance of 0.54279 and negative\_affect with 0.49376. These values suggest that the presence of positive
+		emotions and the absence of negative ones are also vital contributors. Moreover, life\_ladder, which indicates
+		overall life satisfaction, has an importance of 0.38305, reinforcing the idea that mental well-being and life
+		satisfaction play crucial roles.
+		\\
+		\\
+		In comparison, dietary and lifestyle factors like pig, fish\_and\_seafood, beef, and
+		liters\_of\_pure\_alcohol\_per\_capita have much lower importance values, highlighting that while they might
+		play a role, they are not as influential as the aforementioned mental and emotional well-being factors.
+		Thus, when interpreting the results of this logistic regression, it's clear that mental and emotional health
+		attributes overshadow other factors in their impact. This emphasizes the importance of mental health and its
+		intricate link to broader health outcomes.
+		\\
+		\\
+
+		\paragraph{Insights:}
+			The main insight from the model logistic regression based in its feature importance
+			~\ref{table:fi_logistic}:
+			\\
+			\\
+			Social Support: The strongest predictor, social support, suggests a prominent role in maintaining lower
+			obesity rates. Nations with stronger community ties and support networks might be better equipped to combat
+			obesity.
+			\\
+			\\
+			Emotional Well-being: Both positive affect and negative affect play a role in obesity rates. Regions with
+			higher levels of happiness, contentment, and fewer negative emotions tend to have lower obesity prevalence.
+			\\
+			\\
+			Life Satisfaction: Countries with a higher "life ladder" score, indicating overall life satisfaction,
+			show a correlation with lower obesity rates.
+			\\
+			\\
+
+		\paragraph{Possible Actions:}
+			Holistic Health Education: Educational campaigns shouldn't just focus on diet but also on the importance
+			of emotional well-being, life satisfaction, and community support.
+			\\
+			\\
+			Empower Individual Choices: Recognize the power of individual autonomy and encourage informed
+			decision-making about personal health and lifestyle.
+			\\
+			\\
+			Foster Community Engagement: Governments and local bodies should promote community events, physical
+			activity groups, and support networks that encourage healthy lifestyles.
+
+\subsection{Random Forest and Gradient Boosting}
+
+	\paragraph{Logistic Regression:}
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[scale=1]{images/dm_confu_mat_rand_fore}
+			\caption{Confusion Matrix Random Forest}
+			\label{fig:rand_fore}
+		\end{figure}
+
+		\begin{table}[h!]
+			\centering
+			\caption{Feature Importances Random Forest}
+			\begin{tabularx}{0.8\textwidth}{lX}
+				\toprule
+				\textbf{Feature}                   & \textbf{Importance} \\
+				\midrule
+				pig                                    & 0.1423              \\
+				poultry                                & 0.132               \\
+				liters\_of\_pure\_alcohol\_per\_capita & 0.1029              \\
+				life\_ladder                           & 0.0971              \\
+				negative\_affect                       & 0.0909              \\
+				beef                                   & 0.082               \\
+				sheep\_and\_goat                       & 0.0725              \\
+				fish\_and\_seafood                     & 0.0661              \\
+				social support                         & 0.0552              \\
+				generosity                             & 0.0445              \\
+				prevalence\_smoking                    & 0.0357              \\
+				perceptions\_of\_corruption            & 0.0279              \\
+				positive\_affect                       & 0.0262              \\
+				freedom\_to\_make\_life\_choices       & 0.0248              \\
+				\bottomrule
+				\label{table:fi_random}
+			\end{tabularx}
+		\end{table}
+
+		\textbf{Mental Health Emphasis:} The most significant finding from the logistic regression model is the
+		emphasis on mental and emotional health indicators. Factors like \texttt{social\_support},
+		\texttt{positive\_affect}, and \texttt{negative\_affect} have high importance scores. This indicates that in
+		the logistic regression model, mental well-being plays a central role in the prediction. The model essentially
+		suggests that having a robust social support system and maintaining emotional equilibrium are primary
+		determinants of the outcome.
+
+	\paragraph{Random Forest}
+		\\
+		\\
+
+		\subparagraph{Dietary Importance:} Unlike the logistic regression, the Random Forest model places a higher
+			emphasis on dietary factors. Consumption patterns of pig, poultry, beef, and other meats suggest that
+			diet is
+			a pivotal component in determining outcomes when using this model.
+
+		\subparagraph{Moderate Mental Health Emphasis:} Although dietary patterns dominate, aspects of mental and
+			emotional
+			health like life satisfaction (\texttt{life\_ladder}) and negative emotions (\texttt{negative\_affect})
+			still
+			find relevance, but they are overshadowed by the diet.
+
+		\subparagraph{Additional Factors:} Alcohol consumption is also highlighted, pointing to its significance in
+			influencing the outcome. While social support is still relevant, its importance is notably reduced
+			compared to
+			the logistic regression.
+			\\
+			\\
+
+	\paragraph{Gradient Boosting}
+		\\
+		\\
+
+		\subparagraph{Dietary Dominance:} Similar to the Random Forest (Table ~\ref{table:fi_random}), Gradient
+			Boosting
+			(Table ~\ref{table:fi_gradient}) also underscores the importance of dietary patterns, with poultry and pig
+			taking the lead. This consistency between the two models reaffirms the significance of diet.
+
+		\subparagraph{Balanced Emphasis on Emotional Health:} While diet is primary, there's still an emphasis on the
+			balance between negative and positive emotions, suggesting that emotional well-being continues to play a
+			role,
+			albeit lesser than in logistic regression.
+
+		\subparagraph{Varied Social Factors:} The importance of social aspects, such as social support, has further
+			decreased. However, the model sheds light on other societal factors like perceptions of corruption and the
+			freedom to make life choices.
+
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[scale=1]{images/dm_confu_mat_grad_boos}
+				\caption{Confusion Matrix Gradient Boosting}
+				\label{fig:grad_boos}
+			\end{figure}
+			\begin{table}[h!]
+				\centering
+				\caption{Feature Importances Gradient Boosting}
+				\begin{tabularx}{0.8\textwidth}{lX}
+					\toprule
+					\textbf{Feature}                  & \textbf{Importance} \\
+					\midrule
+					poultry                                & 0.1528              \\
+					pig                                    & 0.1069              \\
+					liters\_of\_pure\_alcohol\_per\_capita & 0.1045              \\
+					sheep\_and\_goat                       & 0.1023              \\
+					fish\_and\_seafood                     & 0.0926              \\
+					life\_ladder                           & 0.0907              \\
+					beef                                   & 0.068               \\
+					negative\_affect                       & 0.0509              \\
+					positive\_affect                       & 0.0507              \\
+					prevalence\_smoking                    & 0.0447              \\
+					perceptions\_of\_corruption            & 0.0387              \\
+					social\_support                        & 0.0373              \\
+					generosity                             & 0.0348              \\
+					freedom\_to\_make\_life\_choices       & 0.025               \\
+					\bottomrule
+					\label{table:fi_gradient}
+				\end{tabularx}
+			\end{table}
+			\\
+			\\
+			The analysis of feature importance across Logistic Regression, Random Forest, and Gradient Boosting models
+			underscores the multidimensional nature of the factors influencing the outcome. The Logistic Regression
+			model
+			prioritizes mental and emotional health, emphasizing the centrality of social support and emotional
+			balance in
+			predictions. In contrast, both Random Forest and Gradient Boosting pivot towards dietary patterns,
+			highlighting
+			their pivotal role while still acknowledging the role of mental and emotional health, albeit to a lower
+			extent.
+			Furthermore, the subtle differences in feature importance, such as the emphasis on alcohol consumption in
+			Random Forest and societal factors in Gradient Boosting, serve as a testament to the diverse perspectives
+			these models bring to the table. Finally, while each model offers unique insights, together, they provide a
+			comprehensive understanding, suggesting that both dietary habits and mental well-being, along with societal
+			influences, are integral to the outcome in question but do not support each other conclusion.

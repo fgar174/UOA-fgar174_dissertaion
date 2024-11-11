@@ -1,0 +1,1300 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{bandeira2009dss}{article}{}
+      \name{author}{3}{}{%
+        {{hash=d5b38d2047d1ec8421180a391880cf6d}{%
+           family={Bandeira},
+           familyi={B\bibinitperiod},
+           given={Denise\bibnamedelima Lindstrom},
+           giveni={D\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=00d963b295542d81ad9dc552d2460162}{%
+           family={Becker},
+           familyi={B\bibinitperiod},
+           given={João\bibnamedelima Luiz},
+           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=172be3da3827dd3c635b2cf00ca7b80d}{%
+           family={Borenstein},
+           familyi={B\bibinitperiod},
+           given={Denis},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{3d07331390109db6a156f45a658b59ff}
+      \strng{fullhash}{3d07331390109db6a156f45a658b59ff}
+      \strng{bibnamehash}{3d07331390109db6a156f45a658b59ff}
+      \strng{authorbibnamehash}{3d07331390109db6a156f45a658b59ff}
+      \strng{authornamehash}{3d07331390109db6a156f45a658b59ff}
+      \strng{authorfullhash}{3d07331390109db6a156f45a658b59ff}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Decision Support Systems}
+      \field{number}{4}
+      \field{title}{A DSS for integrated distribution of empty and full containers}
+      \field{volume}{47}
+      \field{year}{2009}
+      \field{pages}{383\bibrangedash 397}
+      \range{pages}{15}
+    \endentry
+    \entry{bazzazi2009genetic}{article}{}
+      \name{author}{3}{}{%
+        {{hash=1031365ed6244cf08b36f845eb1e9fc5}{%
+           family={Bazzazi},
+           familyi={B\bibinitperiod},
+           given={Mohammad},
+           giveni={M\bibinitperiod}}}%
+        {{hash=b56d5fc83116c81bc7bd468b375de149}{%
+           family={Safaei},
+           familyi={S\bibinitperiod},
+           given={Nima},
+           giveni={N\bibinitperiod}}}%
+        {{hash=b149cc75b3183189568ecf22be4e898d}{%
+           family={Javadian},
+           familyi={J\bibinitperiod},
+           given={Nikbakhsh},
+           giveni={N\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{f27d3745f129fa5b72b59b3575aa5145}
+      \strng{fullhash}{f27d3745f129fa5b72b59b3575aa5145}
+      \strng{bibnamehash}{f27d3745f129fa5b72b59b3575aa5145}
+      \strng{authorbibnamehash}{f27d3745f129fa5b72b59b3575aa5145}
+      \strng{authornamehash}{f27d3745f129fa5b72b59b3575aa5145}
+      \strng{authorfullhash}{f27d3745f129fa5b72b59b3575aa5145}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computers \& Industrial Engineering}
+      \field{number}{1}
+      \field{title}{A genetic algorithm to solve the storage space allocation problem in a container terminal}
+      \field{volume}{56}
+      \field{year}{2009}
+      \field{pages}{44\bibrangedash 52}
+      \range{pages}{9}
+    \endentry
+    \entry{borgman2010online}{article}{}
+      \name{author}{3}{}{%
+        {{hash=0113f599fb4bb931609aee8b22a35845}{%
+           family={Borgman},
+           familyi={B\bibinitperiod},
+           given={Bram},
+           giveni={B\bibinitperiod}}}%
+        {{hash=8e3ccf28de46c7b2a396454b8817b44e}{%
+           family={Van\bibnamedelima Asperen},
+           familyi={V\bibinitperiod\bibinitdelim A\bibinitperiod},
+           given={Eelco},
+           giveni={E\bibinitperiod}}}%
+        {{hash=1fa9968dfc5dfdb635fd29d3bc586404}{%
+           family={Dekker},
+           familyi={D\bibinitperiod},
+           given={Rommert},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{25b4612c834d5fd7702b0236d26b764c}
+      \strng{fullhash}{25b4612c834d5fd7702b0236d26b764c}
+      \strng{bibnamehash}{25b4612c834d5fd7702b0236d26b764c}
+      \strng{authorbibnamehash}{25b4612c834d5fd7702b0236d26b764c}
+      \strng{authornamehash}{25b4612c834d5fd7702b0236d26b764c}
+      \strng{authorfullhash}{25b4612c834d5fd7702b0236d26b764c}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{OR spectrum}
+      \field{title}{Online rules for container stacking}
+      \field{volume}{32}
+      \field{year}{2010}
+      \field{pages}{687\bibrangedash 716}
+      \range{pages}{30}
+    \endentry
+    \entry{carlo2014storage}{article}{}
+      \name{author}{3}{}{%
+        {{hash=92ee9c266f834224b386451c87de59f1}{%
+           family={Carlo},
+           familyi={C\bibinitperiod},
+           given={Héctor\bibnamedelima J},
+           giveni={H\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=03f537607d13fde1b9bba441c6a63c96}{%
+           family={Vis},
+           familyi={V\bibinitperiod},
+           given={Iris\bibnamedelima FA},
+           giveni={I\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=321b3e2ac2945475699ed7e63d9762e8}{%
+           family={Roodbergen},
+           familyi={R\bibinitperiod},
+           given={Kees\bibnamedelima Jan},
+           giveni={K\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{63936e18b5f9354041dafdac7abf826c}
+      \strng{fullhash}{63936e18b5f9354041dafdac7abf826c}
+      \strng{bibnamehash}{63936e18b5f9354041dafdac7abf826c}
+      \strng{authorbibnamehash}{63936e18b5f9354041dafdac7abf826c}
+      \strng{authornamehash}{63936e18b5f9354041dafdac7abf826c}
+      \strng{authorfullhash}{63936e18b5f9354041dafdac7abf826c}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{European journal of operational research}
+      \field{number}{2}
+      \field{title}{Storage yard operations in container terminals: Literature overview, trends, and research directions}
+      \field{volume}{235}
+      \field{year}{2014}
+      \field{pages}{412\bibrangedash 430}
+      \range{pages}{19}
+    \endentry
+    \entry{chen2012storage}{article}{}
+      \name{author}{2}{}{%
+        {{hash=54a3c319195500d522f4318c883d3e82}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Lu},
+           giveni={L\bibinitperiod}}}%
+        {{hash=0a9786e3bf4fbf19ae4414421f9bd197}{%
+           family={Lu},
+           familyi={L\bibinitperiod},
+           given={Zhiqiang},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{55eb52edf5365e5c5772cb06a1389c61}
+      \strng{fullhash}{55eb52edf5365e5c5772cb06a1389c61}
+      \strng{bibnamehash}{55eb52edf5365e5c5772cb06a1389c61}
+      \strng{authorbibnamehash}{55eb52edf5365e5c5772cb06a1389c61}
+      \strng{authornamehash}{55eb52edf5365e5c5772cb06a1389c61}
+      \strng{authorfullhash}{55eb52edf5365e5c5772cb06a1389c61}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Production Economics}
+      \field{number}{1}
+      \field{title}{The storage location assignment problem for outbound containers in a maritime terminal}
+      \field{volume}{135}
+      \field{year}{2012}
+      \field{pages}{73\bibrangedash 80}
+      \range{pages}{8}
+    \endentry
+    \entry{dekker2007advanced}{article}{}
+      \name{author}{3}{}{%
+        {{hash=1fa9968dfc5dfdb635fd29d3bc586404}{%
+           family={Dekker},
+           familyi={D\bibinitperiod},
+           given={Rommert},
+           giveni={R\bibinitperiod}}}%
+        {{hash=fe1cdaea8237feb4aabf1c81596dbc31}{%
+           family={Voogd},
+           familyi={V\bibinitperiod},
+           given={Patrick},
+           giveni={P\bibinitperiod}}}%
+        {{hash=8e3ccf28de46c7b2a396454b8817b44e}{%
+           family={Van\bibnamedelima Asperen},
+           familyi={V\bibinitperiod\bibinitdelim A\bibinitperiod},
+           given={Eelco},
+           giveni={E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{fb67157543c9cb792232faf4a59eb11d}
+      \strng{fullhash}{fb67157543c9cb792232faf4a59eb11d}
+      \strng{bibnamehash}{fb67157543c9cb792232faf4a59eb11d}
+      \strng{authorbibnamehash}{fb67157543c9cb792232faf4a59eb11d}
+      \strng{authornamehash}{fb67157543c9cb792232faf4a59eb11d}
+      \strng{authorfullhash}{fb67157543c9cb792232faf4a59eb11d}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Container Terminals and Cargo Systems: Design, Operations Management, and Logistics Control Issues}
+      \field{title}{Advanced methods for container stacking}
+      \field{year}{2007}
+      \field{pages}{131\bibrangedash 154}
+      \range{pages}{24}
+    \endentry
+    \entry{gaete2018novel}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=a8bdf133e1b0851440310ea4db2aa4eb}{%
+           family={Gaete},
+           familyi={G\bibinitperiod},
+           given={Myriam},
+           giveni={M\bibinitperiod}}}%
+        {{hash=0e9d09e5f9414c84cf04847f2b68dbc9}{%
+           family={González-Araya},
+           familyi={G\bibinithyphendelim A\bibinitperiod},
+           given={Marcela\bibnamedelima C},
+           giveni={M\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=56b77d3c36759f7d417fdab6425cad9c}{%
+           family={González-Ramírez},
+           familyi={G\bibinithyphendelim R\bibinitperiod},
+           given={Rosa\bibnamedelima G},
+           giveni={R\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=3a15ec17e26b4431e3d792e5572c4c3c}{%
+           family={Astudillo},
+           familyi={A\bibinitperiod},
+           given={César},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{bd09c3fb425dcd66ccd4a9ee29279352}
+      \strng{fullhash}{b5da6ddad192220c4e616f9cb8ed325c}
+      \strng{bibnamehash}{bd09c3fb425dcd66ccd4a9ee29279352}
+      \strng{authorbibnamehash}{bd09c3fb425dcd66ccd4a9ee29279352}
+      \strng{authornamehash}{bd09c3fb425dcd66ccd4a9ee29279352}
+      \strng{authorfullhash}{b5da6ddad192220c4e616f9cb8ed325c}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Operations Research and Enterprise Systems: 6th International Conference, ICORES 2017, Porto, Portugal, February 23--25, 2017, Revised Selected Papers 6}
+      \field{title}{A novel storage space allocation policy for import containers}
+      \field{year}{2018}
+      \field{pages}{293\bibrangedash 316}
+      \range{pages}{24}
+    \endentry
+    \entry{galle2018stochastic}{article}{}
+      \name{author}{5}{}{%
+        {{hash=57721fbdc04495273e13cf0c62909a5c}{%
+           family={Galle},
+           familyi={G\bibinitperiod},
+           given={Virgile},
+           giveni={V\bibinitperiod}}}%
+        {{hash=b2b5799ccb79616c262e33690a78b523}{%
+           family={Manshadi},
+           familyi={M\bibinitperiod},
+           given={Vahideh\bibnamedelima H},
+           giveni={V\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=3e6bc2bced7fce34d29bd2c26f4f0b1c}{%
+           family={Boroujeni},
+           familyi={B\bibinitperiod},
+           given={S\bibnamedelima Borjian},
+           giveni={S\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=5c095538aac859aac5ecbdaf48e8e7b0}{%
+           family={Barnhart},
+           familyi={B\bibinitperiod},
+           given={Cynthia},
+           giveni={C\bibinitperiod}}}%
+        {{hash=4e7a93e03ef6a84c05eec97201742c65}{%
+           family={Jaillet},
+           familyi={J\bibinitperiod},
+           given={Patrick},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {INFORMS}%
+      }
+      \strng{namehash}{8d9bab7b4b9b93c22092ed6ee8d26e3f}
+      \strng{fullhash}{4ca7c5d134287e50ac8a18c98a97b4e4}
+      \strng{bibnamehash}{8d9bab7b4b9b93c22092ed6ee8d26e3f}
+      \strng{authorbibnamehash}{8d9bab7b4b9b93c22092ed6ee8d26e3f}
+      \strng{authornamehash}{8d9bab7b4b9b93c22092ed6ee8d26e3f}
+      \strng{authorfullhash}{4ca7c5d134287e50ac8a18c98a97b4e4}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transportation Science}
+      \field{number}{5}
+      \field{title}{The stochastic container relocation problem}
+      \field{volume}{52}
+      \field{year}{2018}
+      \field{pages}{1035\bibrangedash 1058}
+      \range{pages}{24}
+    \endentry
+    \entry{githubrepo}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=256f578eb99deb6e74066fbd6362ba33}{%
+           family={García},
+           familyi={G\bibinitperiod},
+           given={Fabio},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{256f578eb99deb6e74066fbd6362ba33}
+      \strng{fullhash}{256f578eb99deb6e74066fbd6362ba33}
+      \strng{bibnamehash}{256f578eb99deb6e74066fbd6362ba33}
+      \strng{authorbibnamehash}{256f578eb99deb6e74066fbd6362ba33}
+      \strng{authornamehash}{256f578eb99deb6e74066fbd6362ba33}
+      \strng{authorfullhash}{256f578eb99deb6e74066fbd6362ba33}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{GitHub repository}
+      \field{title}{Predictive Container Dwell Time Modeling for Optimized Port Yard Placement}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://github.com/fgar174/UOA-fgar174_dissertaion
+      \endverb
+      \verb{url}
+      \verb https://github.com/fgar174/UOA-fgar174_dissertaion
+      \endverb
+    \endentry
+    \entry{gharehgozli2014decision}{article}{}
+      \name{author}{4}{}{%
+        {{hash=b26a59b3aecba304949360fb79d170da}{%
+           family={Gharehgozli},
+           familyi={G\bibinitperiod},
+           given={AH},
+           giveni={A\bibinitperiod}}}%
+        {{hash=de5901c3b12aed5c3d9466ccc833ac78}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={Yugang},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=f08d0a88bce782bfeb3194b2ce36a6f9}{%
+           family={Koster},
+           familyi={K\bibinitperiod},
+           given={R},
+           giveni={R\bibinitperiod},
+           prefix={de},
+           prefixi={d\bibinitperiod}}}%
+        {{hash=eb0b4d7e960006aa06c98b6cf73a2de3}{%
+           family={Udding},
+           familyi={U\bibinitperiod},
+           given={Jan\bibnamedelima T},
+           giveni={J\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+      }
+      \strng{namehash}{bb3c9de5dff810abe8530983014ed906}
+      \strng{fullhash}{8e1fed174272608dcf81c75551bb1479}
+      \strng{bibnamehash}{bb3c9de5dff810abe8530983014ed906}
+      \strng{authorbibnamehash}{bb3c9de5dff810abe8530983014ed906}
+      \strng{authornamehash}{bb3c9de5dff810abe8530983014ed906}
+      \strng{authorfullhash}{8e1fed174272608dcf81c75551bb1479}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Production Research}
+      \field{number}{9}
+      \field{title}{A decision-tree stacking heuristic for large scale reshuffling problems at a container yard}
+      \field{volume}{52}
+      \field{year}{2014}
+      \field{pages}{2592\bibrangedash 2611}
+      \range{pages}{20}
+    \endentry
+    \entry{goerigk2016robust}{article}{}
+      \name{author}{3}{}{%
+        {{hash=305a902385092457731da3e2ca254f2c}{%
+           family={Goerigk},
+           familyi={G\bibinitperiod},
+           given={Marc},
+           giveni={M\bibinitperiod}}}%
+        {{hash=a7fb1356c6ebcd1f5ac9e67bddc1baae}{%
+           family={Knust},
+           familyi={K\bibinitperiod},
+           given={Sigrid},
+           giveni={S\bibinitperiod}}}%
+        {{hash=ca49a8495f51b66742a9b0b571fa21c8}{%
+           family={Le},
+           familyi={L\bibinitperiod},
+           given={Xuan\bibnamedelima Thanh},
+           giveni={X\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{4a3151939a11d65c1149d78dd6bce7bb}
+      \strng{fullhash}{4a3151939a11d65c1149d78dd6bce7bb}
+      \strng{bibnamehash}{4a3151939a11d65c1149d78dd6bce7bb}
+      \strng{authorbibnamehash}{4a3151939a11d65c1149d78dd6bce7bb}
+      \strng{authornamehash}{4a3151939a11d65c1149d78dd6bce7bb}
+      \strng{authorfullhash}{4a3151939a11d65c1149d78dd6bce7bb}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{European Journal of Operational Research}
+      \field{number}{1}
+      \field{title}{Robust storage loading problems with stacking and payload constraints}
+      \field{volume}{253}
+      \field{year}{2016}
+      \field{pages}{51\bibrangedash 67}
+      \range{pages}{17}
+    \endentry
+    \entry{guerra2018heuristic}{article}{}
+      \name{author}{5}{}{%
+        {{hash=6735a8bf6fa2df9e24c162852b0f710e}{%
+           family={Guerra-Olivares},
+           familyi={G\bibinithyphendelim O\bibinitperiod},
+           given={Roberto},
+           giveni={R\bibinitperiod}}}%
+        {{hash=5f63549a5cf2ed4f31565af66db0e7c7}{%
+           family={Smith},
+           familyi={S\bibinitperiod},
+           given={Neale\bibnamedelima R},
+           giveni={N\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=56b77d3c36759f7d417fdab6425cad9c}{%
+           family={González-Ramírez},
+           familyi={G\bibinithyphendelim R\bibinitperiod},
+           given={Rosa\bibnamedelima G},
+           giveni={R\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=ba5aee48a53fe7f2031e5d67fdf94e38}{%
+           family={García-Mendoza},
+           familyi={G\bibinithyphendelim M\bibinitperiod},
+           given={Ezequiel},
+           giveni={E\bibinitperiod}}}%
+        {{hash=33474e1595f6af8a1951b1f126e60ec4}{%
+           family={Cárdenas-Barrón},
+           familyi={C\bibinithyphendelim B\bibinitperiod},
+           given={Leopoldo\bibnamedelima Eduardo},
+           giveni={L\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{c3a9d204e2b978697dc5aa72d54c1558}
+      \strng{fullhash}{42437b5b8a56db062edb09b610d72a98}
+      \strng{bibnamehash}{c3a9d204e2b978697dc5aa72d54c1558}
+      \strng{authorbibnamehash}{c3a9d204e2b978697dc5aa72d54c1558}
+      \strng{authornamehash}{c3a9d204e2b978697dc5aa72d54c1558}
+      \strng{authorfullhash}{42437b5b8a56db062edb09b610d72a98}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Machine Learning and Cybernetics}
+      \field{title}{A heuristic procedure for the outbound container space assignment problem for small and midsize maritime terminals}
+      \field{volume}{9}
+      \field{year}{2018}
+      \field{pages}{1719\bibrangedash 1732}
+      \range{pages}{14}
+    \endentry
+    \entry{guven2019modelling}{article}{}
+      \name{author}{2}{}{%
+        {{hash=9bb1174fb5f9a7326a75f47a0f240226}{%
+           family={Güven},
+           familyi={G\bibinitperiod},
+           given={Ceyhun},
+           giveni={C\bibinitperiod}}}%
+        {{hash=86b72b395fa86d866f93008f5e0da4f8}{%
+           family={Türsel\bibnamedelima Eliiyi},
+           familyi={T\bibinitperiod\bibinitdelim E\bibinitperiod},
+           given={Deniz},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Taylor \& Francis}%
+      }
+      \strng{namehash}{d84d9de5ab8e908be58ae3b0ba299915}
+      \strng{fullhash}{d84d9de5ab8e908be58ae3b0ba299915}
+      \strng{bibnamehash}{d84d9de5ab8e908be58ae3b0ba299915}
+      \strng{authorbibnamehash}{d84d9de5ab8e908be58ae3b0ba299915}
+      \strng{authornamehash}{d84d9de5ab8e908be58ae3b0ba299915}
+      \strng{authorfullhash}{d84d9de5ab8e908be58ae3b0ba299915}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Maritime Policy \& Management}
+      \field{number}{2}
+      \field{title}{Modelling and optimisation of online container stacking with operational constraints}
+      \field{volume}{46}
+      \field{year}{2019}
+      \field{pages}{201\bibrangedash 216}
+      \range{pages}{16}
+    \endentry
+    \entry{kourounioti2016development}{article}{}
+      \name{author}{3}{}{%
+        {{hash=3528499dfb8d74250f57b008a7eba1e5}{%
+           family={Kourounioti},
+           familyi={K\bibinitperiod},
+           given={Ioanna},
+           giveni={I\bibinitperiod}}}%
+        {{hash=c6d4d36de702dfbabb546bc5f6f0af17}{%
+           family={Polydoropoulou},
+           familyi={P\bibinitperiod},
+           given={Amalia},
+           giveni={A\bibinitperiod}}}%
+        {{hash=a9e651d92368ea40215a495ce26c5f6b}{%
+           family={Tsiklidis},
+           familyi={T\bibinitperiod},
+           given={Christos},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{5fa0fabc0a259c9d9d1c20acf2d26ca5}
+      \strng{fullhash}{5fa0fabc0a259c9d9d1c20acf2d26ca5}
+      \strng{bibnamehash}{5fa0fabc0a259c9d9d1c20acf2d26ca5}
+      \strng{authorbibnamehash}{5fa0fabc0a259c9d9d1c20acf2d26ca5}
+      \strng{authornamehash}{5fa0fabc0a259c9d9d1c20acf2d26ca5}
+      \strng{authorfullhash}{5fa0fabc0a259c9d9d1c20acf2d26ca5}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transportation Research Procedia}
+      \field{title}{Development of models predicting dwell time of import containers in port container terminals--an Artificial Neural Networks application}
+      \field{volume}{14}
+      \field{year}{2016}
+      \field{pages}{243\bibrangedash 252}
+      \range{pages}{10}
+    \endentry
+    \entry{legato2018decision}{article}{}
+      \name{author}{2}{}{%
+        {{hash=6162af3bfac225076e590eb0458d2e84}{%
+           family={Legato},
+           familyi={L\bibinitperiod},
+           given={Pasquale},
+           giveni={P\bibinitperiod}}}%
+        {{hash=28368102d2bba29b77933c60f49e7bfd}{%
+           family={Mazza},
+           familyi={M\bibinitperiod},
+           given={Rina\bibnamedelima Mary},
+           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{01a337317f302b50e609fcd3397cdb13}
+      \strng{fullhash}{01a337317f302b50e609fcd3397cdb13}
+      \strng{bibnamehash}{01a337317f302b50e609fcd3397cdb13}
+      \strng{authorbibnamehash}{01a337317f302b50e609fcd3397cdb13}
+      \strng{authornamehash}{01a337317f302b50e609fcd3397cdb13}
+      \strng{authorfullhash}{01a337317f302b50e609fcd3397cdb13}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Decision Support Systems}
+      \field{title}{A decision support system for integrated container handling in a transshipment hub}
+      \field{volume}{108}
+      \field{year}{2018}
+      \field{pages}{45\bibrangedash 56}
+      \range{pages}{12}
+    \endentry
+    \entry{lin2015container}{article}{}
+      \name{author}{3}{}{%
+        {{hash=b422ab4fb4524220a973d1f7473635d0}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Dung-Ying},
+           giveni={D\bibinithyphendelim Y\bibinitperiod}}}%
+        {{hash=903b9c483e449fd28e13786b6e259d31}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Yen-Ju},
+           giveni={Y\bibinithyphendelim J\bibinitperiod}}}%
+        {{hash=4136b0a929b27b889ee62e88fe5abe41}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Yusin},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{8fb405b079fa7b63824b77990d9eddcf}
+      \strng{fullhash}{8fb405b079fa7b63824b77990d9eddcf}
+      \strng{bibnamehash}{8fb405b079fa7b63824b77990d9eddcf}
+      \strng{authorbibnamehash}{8fb405b079fa7b63824b77990d9eddcf}
+      \strng{authornamehash}{8fb405b079fa7b63824b77990d9eddcf}
+      \strng{authorfullhash}{8fb405b079fa7b63824b77990d9eddcf}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transportation Research Part C: Emerging Technologies}
+      \field{title}{The container retrieval problem with respect to relocation}
+      \field{volume}{52}
+      \field{year}{2015}
+      \field{pages}{132\bibrangedash 143}
+      \range{pages}{12}
+    \endentry
+    \entry{liu2010decision}{article}{}
+      \name{author}{6}{}{%
+        {{hash=59bdc928e2eb38a26592461217052c4a}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Yanbin},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=0d86a7576dab5ca6bb096500cb7b2da5}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Chunguang},
+           giveni={C\bibinitperiod}}}%
+        {{hash=c998808592e5a72ebbb6736dfa77bd13}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={Dongwei},
+           giveni={D\bibinitperiod}}}%
+        {{hash=040b186ff3f72aab0f2901c4e7924a96}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Kangping},
+           giveni={K\bibinitperiod}}}%
+        {{hash=1ddff3f67692faa6df507a761ba205b0}{%
+           family={Pang},
+           familyi={P\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+        {{hash=bdb68e4a9e6541bff02db9a2a3b7f1ca}{%
+           family={Zhai},
+           familyi={Z\bibinitperiod},
+           given={Yandong},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{57b0c31e5f163bab933c9312a9f9862a}
+      \strng{fullhash}{0f4569ddf26c8d5ddae31215946fc525}
+      \strng{bibnamehash}{57b0c31e5f163bab933c9312a9f9862a}
+      \strng{authorbibnamehash}{57b0c31e5f163bab933c9312a9f9862a}
+      \strng{authornamehash}{57b0c31e5f163bab933c9312a9f9862a}
+      \strng{authorfullhash}{0f4569ddf26c8d5ddae31215946fc525}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Applied Soft Computing}
+      \field{number}{4}
+      \field{title}{A decision support system using soft computing for modern international container transportation services}
+      \field{volume}{10}
+      \field{year}{2010}
+      \field{pages}{1087\bibrangedash 1095}
+      \range{pages}{9}
+    \endentry
+    \entry{maldonado2019analytics}{article}{}
+      \name{author}{4}{}{%
+        {{hash=a07b766926959b330cdfbc231308f3fd}{%
+           family={Maldonado},
+           familyi={M\bibinitperiod},
+           given={Sebastián},
+           giveni={S\bibinitperiod}}}%
+        {{hash=56b77d3c36759f7d417fdab6425cad9c}{%
+           family={González-Ramírez},
+           familyi={G\bibinithyphendelim R\bibinitperiod},
+           given={Rosa\bibnamedelima G},
+           giveni={R\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=57a97cbdf6b690b9cef95e94f79220c4}{%
+           family={Quijada},
+           familyi={Q\bibinitperiod},
+           given={Francisca},
+           giveni={F\bibinitperiod}}}%
+        {{hash=faeb6ea92c984da6f6d800b84cfb92db}{%
+           family={Ramírez-Nafarrate},
+           familyi={R\bibinithyphendelim N\bibinitperiod},
+           given={Adrián},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{8278216ea5be69fffd9ff013bd3f3f0a}
+      \strng{fullhash}{3a537ed574bf44f3352cb3c758a08778}
+      \strng{bibnamehash}{8278216ea5be69fffd9ff013bd3f3f0a}
+      \strng{authorbibnamehash}{8278216ea5be69fffd9ff013bd3f3f0a}
+      \strng{authornamehash}{8278216ea5be69fffd9ff013bd3f3f0a}
+      \strng{authorfullhash}{3a537ed574bf44f3352cb3c758a08778}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Decision Support Systems}
+      \field{title}{Analytics meets port logistics: A decision support system for container stacking operations}
+      \field{volume}{121}
+      \field{year}{2019}
+      \field{pages}{84\bibrangedash 93}
+      \range{pages}{10}
+    \endentry
+    \entry{merckx2005issue}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=a3b4905cfd793196e1d0d424532efada}{%
+           family={Merckx},
+           familyi={M\bibinitperiod},
+           given={Filip},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{a3b4905cfd793196e1d0d424532efada}
+      \strng{fullhash}{a3b4905cfd793196e1d0d424532efada}
+      \strng{bibnamehash}{a3b4905cfd793196e1d0d424532efada}
+      \strng{authorbibnamehash}{a3b4905cfd793196e1d0d424532efada}
+      \strng{authornamehash}{a3b4905cfd793196e1d0d424532efada}
+      \strng{authorfullhash}{a3b4905cfd793196e1d0d424532efada}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings IAME 2005 Annual Conference, Limassol, Cyprus, 23-25 June 2005}
+      \field{title}{The issue of dwell time charges to optimize container terminal capacity}
+      \field{year}{2005}
+      \field{pages}{CD\bibrangedash ROM}
+      \range{pages}{-1}
+    \endentry
+    \entry{moini2012estimating}{article}{}
+      \name{author}{4}{}{%
+        {{hash=cb481c717c8233496434674471a41410}{%
+           family={Moini},
+           familyi={M\bibinitperiod},
+           given={Nadereh},
+           giveni={N\bibinitperiod}}}%
+        {{hash=c6b8c97148663dcad93c66c002b93951}{%
+           family={Boile},
+           familyi={B\bibinitperiod},
+           given={Maria},
+           giveni={M\bibinitperiod}}}%
+        {{hash=a62a46a4c22094ceea8c0b3c718bcdf4}{%
+           family={Theofanis},
+           familyi={T\bibinitperiod},
+           given={Sotiris},
+           giveni={S\bibinitperiod}}}%
+        {{hash=22447de0b04f47fec31332ca4aca8109}{%
+           family={Laventhal},
+           familyi={L\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{bf9fea2c9a6b48365fc309ef87cbfa13}
+      \strng{fullhash}{60c8c89f330e190ca3b73d5f2491a955}
+      \strng{bibnamehash}{bf9fea2c9a6b48365fc309ef87cbfa13}
+      \strng{authorbibnamehash}{bf9fea2c9a6b48365fc309ef87cbfa13}
+      \strng{authornamehash}{bf9fea2c9a6b48365fc309ef87cbfa13}
+      \strng{authorfullhash}{60c8c89f330e190ca3b73d5f2491a955}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Maritime economics \& logistics}
+      \field{title}{Estimating the determinant factors of container dwell times at seaports}
+      \field{volume}{14}
+      \field{year}{2012}
+      \field{pages}{162\bibrangedash 177}
+      \range{pages}{16}
+    \endentry
+    \entry{murty2005decision}{article}{}
+      \name{author}{4}{}{%
+        {{hash=20b08bd1decaf6030c54dd0bb0529e4d}{%
+           family={Murty},
+           familyi={M\bibinitperiod},
+           given={Katta\bibnamedelima G},
+           giveni={K\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=25b31dc5c09d209ea56e4432ee9b9810}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Jiyin},
+           giveni={J\bibinitperiod}}}%
+        {{hash=fb0c7a2865bd5da30591f24a8af4a718}{%
+           family={Wan},
+           familyi={W\bibinitperiod},
+           given={Yat-wah},
+           giveni={Y\bibinithyphendelim w\bibinitperiod}}}%
+        {{hash=e66a3dc51499306b055c32deb7e9065d}{%
+           family={Linn},
+           familyi={L\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{ec42e82c00f158434d4c398f0ec49067}
+      \strng{fullhash}{25146ba72be87fcf09b39eb78751355d}
+      \strng{bibnamehash}{ec42e82c00f158434d4c398f0ec49067}
+      \strng{authorbibnamehash}{ec42e82c00f158434d4c398f0ec49067}
+      \strng{authornamehash}{ec42e82c00f158434d4c398f0ec49067}
+      \strng{authorfullhash}{25146ba72be87fcf09b39eb78751355d}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Decision support systems}
+      \field{number}{3}
+      \field{title}{A decision support system for operations in a container terminal}
+      \field{volume}{39}
+      \field{year}{2005}
+      \field{pages}{309\bibrangedash 332}
+      \range{pages}{24}
+    \endentry
+    \entry{nishimura2009container}{article}{}
+      \name{author}{4}{}{%
+        {{hash=cf251a892845eceff42b7c9c4adbaf05}{%
+           family={Nishimura},
+           familyi={N\bibinitperiod},
+           given={Etsuko},
+           giveni={E\bibinitperiod}}}%
+        {{hash=25b3ce779bd4024dd6ecb6f06533bb6f}{%
+           family={Imai},
+           familyi={I\bibinitperiod},
+           given={Akio},
+           giveni={A\bibinitperiod}}}%
+        {{hash=8c301f6de792a3c5c412db2328695086}{%
+           family={Janssens},
+           familyi={J\bibinitperiod},
+           given={Gerrit\bibnamedelima K},
+           giveni={G\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=837b2ecc999c932b5f8180ce81668779}{%
+           family={Papadimitriou},
+           familyi={P\bibinitperiod},
+           given={Stratos},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{847cb127e3f4f3e04585ea35e9fd17c6}
+      \strng{fullhash}{a5046a5fbb6390a29910caff000006a7}
+      \strng{bibnamehash}{847cb127e3f4f3e04585ea35e9fd17c6}
+      \strng{authorbibnamehash}{847cb127e3f4f3e04585ea35e9fd17c6}
+      \strng{authornamehash}{847cb127e3f4f3e04585ea35e9fd17c6}
+      \strng{authorfullhash}{a5046a5fbb6390a29910caff000006a7}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transportation Research Part E: Logistics and Transportation Review}
+      \field{number}{5}
+      \field{title}{Container storage and transshipment marine terminals}
+      \field{volume}{45}
+      \field{year}{2009}
+      \field{pages}{771\bibrangedash 786}
+      \range{pages}{16}
+    \endentry
+    \entry{park2011dynamic}{article}{}
+      \name{author}{4}{}{%
+        {{hash=373ef13e908bab1ac8bf98709645568b}{%
+           family={Park},
+           familyi={P\bibinitperiod},
+           given={Taejin},
+           giveni={T\bibinitperiod}}}%
+        {{hash=d8efcd059cff08c1a92999f968a52545}{%
+           family={Choe},
+           familyi={C\bibinitperiod},
+           given={Ri},
+           giveni={R\bibinitperiod}}}%
+        {{hash=51dbd8671eab8f328f97473f64702c0b}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Young\bibnamedelima Hun},
+           giveni={Y\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=00ecf058c6d51ac44e696cb8fd6256a6}{%
+           family={Ryu},
+           familyi={R\bibinitperiod},
+           given={Kwang\bibnamedelima Ryel},
+           giveni={K\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{a95c5e889d0ea8243e6b8c7426f0b14d}
+      \strng{fullhash}{92856ba79fefa172c40d685b28a43d33}
+      \strng{bibnamehash}{a95c5e889d0ea8243e6b8c7426f0b14d}
+      \strng{authorbibnamehash}{a95c5e889d0ea8243e6b8c7426f0b14d}
+      \strng{authornamehash}{a95c5e889d0ea8243e6b8c7426f0b14d}
+      \strng{authorfullhash}{92856ba79fefa172c40d685b28a43d33}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Production Economics}
+      \field{number}{1}
+      \field{title}{Dynamic adjustment of container stacking policy in an automated container terminal}
+      \field{volume}{133}
+      \field{year}{2011}
+      \field{pages}{385\bibrangedash 392}
+      \range{pages}{8}
+    \endentry
+    \entry{ries2014fuzzy}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=b2924fcde44583a3b8e3d4dbedaae2d8}{%
+           family={Ries},
+           familyi={R\bibinitperiod},
+           given={Jana},
+           giveni={J\bibinitperiod}}}%
+        {{hash=56b77d3c36759f7d417fdab6425cad9c}{%
+           family={González-Ramírez},
+           familyi={G\bibinithyphendelim R\bibinitperiod},
+           given={Rosa\bibnamedelima G},
+           giveni={R\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=e5b1ea190c52bfed24c37df5130ba842}{%
+           family={Miranda},
+           familyi={M\bibinitperiod},
+           given={Pablo},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{7c249fc2c4ff7260b36d122c179ac092}
+      \strng{fullhash}{7c249fc2c4ff7260b36d122c179ac092}
+      \strng{bibnamehash}{7c249fc2c4ff7260b36d122c179ac092}
+      \strng{authorbibnamehash}{7c249fc2c4ff7260b36d122c179ac092}
+      \strng{authornamehash}{7c249fc2c4ff7260b36d122c179ac092}
+      \strng{authorfullhash}{7c249fc2c4ff7260b36d122c179ac092}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Computational Logistics: 5th International Conference, ICCL 2014, Valparaiso, Chile, September 24-26, 2014. Proceedings 5}
+      \field{title}{A fuzzy logic model for the container stacking problem at container terminals}
+      \field{year}{2014}
+      \field{pages}{93\bibrangedash 111}
+      \range{pages}{19}
+    \endentry
+    \entry{rodrigue2009terminalization}{article}{}
+      \name{author}{2}{}{%
+        {{hash=e14b83838eb71945757f91a4de96a3b1}{%
+           family={Rodrigue},
+           familyi={R\bibinitperiod},
+           given={Jean-Paul},
+           giveni={J\bibinithyphendelim P\bibinitperiod}}}%
+        {{hash=614fbd413e85fbf127bb3d3aa2a73ff8}{%
+           family={Notteboom},
+           familyi={N\bibinitperiod},
+           given={Theo},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Taylor \& Francis}%
+      }
+      \strng{namehash}{98357e1e75dbfd72789e415b20ae70f2}
+      \strng{fullhash}{98357e1e75dbfd72789e415b20ae70f2}
+      \strng{bibnamehash}{98357e1e75dbfd72789e415b20ae70f2}
+      \strng{authorbibnamehash}{98357e1e75dbfd72789e415b20ae70f2}
+      \strng{authornamehash}{98357e1e75dbfd72789e415b20ae70f2}
+      \strng{authorfullhash}{98357e1e75dbfd72789e415b20ae70f2}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Maritime Policy \& Management}
+      \field{number}{2}
+      \field{title}{The terminalization of supply chains: reassessing the role of terminals in port/hinterland logistical relationships}
+      \field{volume}{36}
+      \field{year}{2009}
+      \field{pages}{165\bibrangedash 183}
+      \range{pages}{19}
+    \endentry
+    \entry{sharma2014genetic}{article}{}
+      \name{author}{2}{}{%
+        {{hash=89bc735ebb4e3d7d8ae356b517755465}{%
+           family={Sharma},
+           familyi={S\bibinitperiod},
+           given={Jyoti},
+           giveni={J\bibinitperiod}}}%
+        {{hash=637726527b009790fdd82fa14986cd5a}{%
+           family={Shankar\bibnamedelima Singhal},
+           familyi={S\bibinitperiod\bibinitdelim S\bibinitperiod},
+           given={Ravi},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{5cd5581f56f3f12c0851425564205102}
+      \strng{fullhash}{5cd5581f56f3f12c0851425564205102}
+      \strng{bibnamehash}{5cd5581f56f3f12c0851425564205102}
+      \strng{authorbibnamehash}{5cd5581f56f3f12c0851425564205102}
+      \strng{authornamehash}{5cd5581f56f3f12c0851425564205102}
+      \strng{authorfullhash}{5cd5581f56f3f12c0851425564205102}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Computer Applications}
+      \field{number}{4}
+      \field{title}{Genetic algorithm and hybrid genetic algorithm for space allocation problems-a review}
+      \field{volume}{95}
+      \field{year}{2014}
+      \field{pages}{33\bibrangedash 37}
+      \range{pages}{5}
+    \endentry
+    \entry{shen1995dss}{article}{}
+      \name{author}{2}{}{%
+        {{hash=cd4c0e1a76fa0c37bb9383f75d4c38fb}{%
+           family={Shen},
+           familyi={S\bibinitperiod},
+           given={WS},
+           giveni={W\bibinitperiod}}}%
+        {{hash=50d63ab48337874c1c8f55c8f3cdb645}{%
+           family={Khoong},
+           familyi={K\bibinitperiod},
+           given={CM},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{c689c9ca4b86e9cc9540aa01f2b4221a}
+      \strng{fullhash}{c689c9ca4b86e9cc9540aa01f2b4221a}
+      \strng{bibnamehash}{c689c9ca4b86e9cc9540aa01f2b4221a}
+      \strng{authorbibnamehash}{c689c9ca4b86e9cc9540aa01f2b4221a}
+      \strng{authornamehash}{c689c9ca4b86e9cc9540aa01f2b4221a}
+      \strng{authorfullhash}{c689c9ca4b86e9cc9540aa01f2b4221a}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Decision Support Systems}
+      \field{number}{1}
+      \field{title}{A DSS for empty container distribution planning}
+      \field{volume}{15}
+      \field{year}{1995}
+      \field{pages}{75\bibrangedash 82}
+      \range{pages}{8}
+    \endentry
+    \entry{da2019reactive}{article}{}
+      \name{author}{3}{}{%
+        {{hash=5eb94c6240dc91aa2f7fb961a7250913}{%
+           family={Silva\bibnamedelima Firmino},
+           familyi={S\bibinitperiod\bibinitdelim F\bibinitperiod},
+           given={Andresson},
+           giveni={A\bibinitperiod},
+           prefix={da},
+           prefixi={d\bibinitperiod}}}%
+        {{hash=27e7fbfad4c24558a5a24e4ed3ee2cb8}{%
+           family={Abreu\bibnamedelima Silva},
+           familyi={A\bibinitperiod\bibinitdelim S\bibinitperiod},
+           given={Ricardo\bibnamedelima Martins},
+           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod},
+           prefix={de},
+           prefixi={d\bibinitperiod}}}%
+        {{hash=82b372f2b27ee38916ffb5fe82ed5436}{%
+           family={Times},
+           familyi={T\bibinitperiod},
+           given={Valéria\bibnamedelima Cesário},
+           giveni={V\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{528b9e8e92180faa19560b12e7950263}
+      \strng{fullhash}{528b9e8e92180faa19560b12e7950263}
+      \strng{bibnamehash}{528b9e8e92180faa19560b12e7950263}
+      \strng{authorbibnamehash}{528b9e8e92180faa19560b12e7950263}
+      \strng{authornamehash}{528b9e8e92180faa19560b12e7950263}
+      \strng{authorfullhash}{528b9e8e92180faa19560b12e7950263}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Heuristics}
+      \field{title}{A reactive GRASP metaheuristic for the container retrieval problem to reduce crane’s working time}
+      \field{volume}{25}
+      \field{year}{2019}
+      \field{pages}{141\bibrangedash 173}
+      \range{pages}{33}
+    \endentry
+    \entry{ursavas2014decision}{article}{}
+      \name{author}{1}{}{%
+        {{hash=948ddeea1871472ee7a169c9fdc91aa2}{%
+           family={Ursavas},
+           familyi={U\bibinitperiod},
+           given={Evrim},
+           giveni={E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{948ddeea1871472ee7a169c9fdc91aa2}
+      \strng{fullhash}{948ddeea1871472ee7a169c9fdc91aa2}
+      \strng{bibnamehash}{948ddeea1871472ee7a169c9fdc91aa2}
+      \strng{authorbibnamehash}{948ddeea1871472ee7a169c9fdc91aa2}
+      \strng{authornamehash}{948ddeea1871472ee7a169c9fdc91aa2}
+      \strng{authorfullhash}{948ddeea1871472ee7a169c9fdc91aa2}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Decision Support Systems}
+      \field{title}{A decision support system for quayside operations in a container terminal}
+      \field{volume}{59}
+      \field{year}{2014}
+      \field{pages}{312\bibrangedash 324}
+      \range{pages}{13}
+    \endentry
+    \entry{van1988decision}{article}{}
+      \name{author}{2}{}{%
+        {{hash=75fed8c802266a9e1d49eceec20122eb}{%
+           family={Van\bibnamedelima Hee},
+           familyi={V\bibinitperiod\bibinitdelim H\bibinitperiod},
+           given={KM},
+           giveni={K\bibinitperiod}}}%
+        {{hash=b602cbf77fa0d2905756afb5055b330b}{%
+           family={Wijbrands},
+           familyi={W\bibinitperiod},
+           given={RJ},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{9eec42a9efd27b0be6658f37ac68c373}
+      \strng{fullhash}{9eec42a9efd27b0be6658f37ac68c373}
+      \strng{bibnamehash}{9eec42a9efd27b0be6658f37ac68c373}
+      \strng{authorbibnamehash}{9eec42a9efd27b0be6658f37ac68c373}
+      \strng{authornamehash}{9eec42a9efd27b0be6658f37ac68c373}
+      \strng{authorfullhash}{9eec42a9efd27b0be6658f37ac68c373}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{European journal of operational research}
+      \field{number}{3}
+      \field{title}{Decision support system for container terminal planning}
+      \field{volume}{34}
+      \field{year}{1988}
+      \field{pages}{262\bibrangedash 272}
+      \range{pages}{11}
+    \endentry
+    \entry{van2016real}{article}{}
+      \name{author}{3}{}{%
+        {{hash=f2f6698e737fb769b7ac10096a96bfb4}{%
+           family={Van\bibnamedelima Riessen},
+           familyi={V\bibinitperiod\bibinitdelim R\bibinitperiod},
+           given={Bart},
+           giveni={B\bibinitperiod}}}%
+        {{hash=879cc3c898c99f1158dc446993b03b3f}{%
+           family={Negenborn},
+           familyi={N\bibinitperiod},
+           given={Rudy\bibnamedelima R},
+           giveni={R\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=1fa9968dfc5dfdb635fd29d3bc586404}{%
+           family={Dekker},
+           familyi={D\bibinitperiod},
+           given={Rommert},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{e3415421d490944ebcb31878bfec1435}
+      \strng{fullhash}{e3415421d490944ebcb31878bfec1435}
+      \strng{bibnamehash}{e3415421d490944ebcb31878bfec1435}
+      \strng{authorbibnamehash}{e3415421d490944ebcb31878bfec1435}
+      \strng{authornamehash}{e3415421d490944ebcb31878bfec1435}
+      \strng{authorfullhash}{e3415421d490944ebcb31878bfec1435}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Decision Support Systems}
+      \field{title}{Real-time container transport planning with decision trees based on offline obtained optimal solutions}
+      \field{volume}{89}
+      \field{year}{2016}
+      \field{pages}{1\bibrangedash 16}
+      \range{pages}{16}
+    \endentry
+    \entry{wang2007stochastic}{article}{}
+      \name{author}{2}{}{%
+        {{hash=66dfac55d28d09b3d290ce69004e7324}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Fan},
+           giveni={F\bibinitperiod}}}%
+        {{hash=9d1c12d36d8d55b2b4b33677f631b709}{%
+           family={Lim},
+           familyi={L\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{1b26e953fc2457b238bbc30249d3e49c}
+      \strng{fullhash}{1b26e953fc2457b238bbc30249d3e49c}
+      \strng{bibnamehash}{1b26e953fc2457b238bbc30249d3e49c}
+      \strng{authorbibnamehash}{1b26e953fc2457b238bbc30249d3e49c}
+      \strng{authornamehash}{1b26e953fc2457b238bbc30249d3e49c}
+      \strng{authorfullhash}{1b26e953fc2457b238bbc30249d3e49c}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Decision support systems}
+      \field{number}{4}
+      \field{title}{A stochastic beam search for the berth allocation problem}
+      \field{volume}{42}
+      \field{year}{2007}
+      \field{pages}{2186\bibrangedash 2196}
+      \range{pages}{11}
+    \endentry
+    \entry{zhang2003storage}{article}{}
+      \name{author}{5}{}{%
+        {{hash=f177a24ed73b12a0353d4eab1ac12069}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Chuqian},
+           giveni={C\bibinitperiod}}}%
+        {{hash=25b31dc5c09d209ea56e4432ee9b9810}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Jiyin},
+           giveni={J\bibinitperiod}}}%
+        {{hash=fb0c7a2865bd5da30591f24a8af4a718}{%
+           family={Wan},
+           familyi={W\bibinitperiod},
+           given={Yat-wah},
+           giveni={Y\bibinithyphendelim w\bibinitperiod}}}%
+        {{hash=20b08bd1decaf6030c54dd0bb0529e4d}{%
+           family={Murty},
+           familyi={M\bibinitperiod},
+           given={Katta\bibnamedelima G},
+           giveni={K\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=08c4c8940b17952f8db2529a5a46f1ea}{%
+           family={Linn},
+           familyi={L\bibinitperiod},
+           given={Richard\bibnamedelima J},
+           giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{2563857e3280371b5ad69ff8b9a263a5}
+      \strng{fullhash}{519bd98ee8a00449efbf0ad1b27eeba3}
+      \strng{bibnamehash}{2563857e3280371b5ad69ff8b9a263a5}
+      \strng{authorbibnamehash}{2563857e3280371b5ad69ff8b9a263a5}
+      \strng{authornamehash}{2563857e3280371b5ad69ff8b9a263a5}
+      \strng{authorfullhash}{519bd98ee8a00449efbf0ad1b27eeba3}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transportation Research Part B: Methodological}
+      \field{number}{10}
+      \field{title}{Storage space allocation in container terminals}
+      \field{volume}{37}
+      \field{year}{2003}
+      \field{pages}{883\bibrangedash 903}
+      \range{pages}{21}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

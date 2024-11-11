@@ -1,0 +1,61 @@
+\chapter{Limitations}
+
+	Considering its findings and possible applications, some limitations that should be acknowledged are related to
+	this dissertation.
+
+
+	\section{Stakeholder Information Limitations}
+
+		The model training could be improved by adding more features related to operators or companies handling
+		containers. Information regarding container origins and destinations or details about transportation companies
+		were unavailable. This lack of stakeholder-specific data restricts finding patterns related to operators and
+		company-specific operational tendencies.
+
+
+	\section{Cargo Content Information}
+
+		The research did not use cargo information, presenting another notable limitation. With no access to data
+		related to container contents and cargo priority, the training process could not learn from that information.
+		This limitation affects the understanding of content-specific dwell time patterns, prevents analysis of
+		differences between high-priority and standard cargo handling, and limits the identification of content-based
+		operational requirements that might influence container dwell times.
+
+
+	\section{Environmental Data Integration}
+
+		Integrating external official datasets to capture weather effects in port operations was challenging. The
+		weather dataset for 2023 was not available at the moment this project was performed, making it hard to see how
+		weather conditions might influence container movements. While the port provided some weather information, like
+		the recorded wind data, this did not significantly affect how well the models worked. Adding additional
+		features related to weather conditions could allow the models to predict container dwell times better. Future
+		research could look into how heavy rain or extreme temperatures affect dwell times by using official data to
+		make predictions even more accurate.
+
+
+	\section{Temporal Data Constraints}
+
+		The training data was limited to nine months, from the middle of March to December 2023, while testing data
+		covered only January through March 2024. Without a complete annual cycle in the training data, this restriction
+		could impact the model's capabilities to identify annual patterns in container movements for long-term
+		trends in port operations to capture seasonal variations that might occur throughout the year.
+
+		\subsection{Time Series Analysis}
+
+			Having just one year of data (2023-2024) limits the use of powerful prediction tools that work with
+			patterns over time. These time series models need several years of data to spot reliable patterns like
+			seasonal changes or yearly trends in how containers move through the port. For example, the training and
+			analysis could not see how summer peaks compare to winter lows across different years or how holiday
+			seasons affect container stay year after year.
+			\\
+			\\
+			While the current models work well for range predictions, having more years of historical data would let us
+			use specialized tools with different approaches to generate insights for longer-term patterns. A time
+			series analysis could help the Ports of Auckland better understand busy seasons and quiet periods and
+			create new features for training. It is something worth looking into once more historical data becomes
+			available.
+
+
+	\section{Scheduling Information Gaps}
+
+		The absence of scheduled pickup information presented another significant constraint in this research. It is
+		worth mentioning that was why predictions were necessary.

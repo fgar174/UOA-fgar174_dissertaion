@@ -1,0 +1,216 @@
+\appendix%%% start appendices here
+
+
+\chapter{Appendices, List of Figures, List of Tables}
+
+
+	\section{Model Optimization}
+
+		\subsection{Hyperparameter Tuning} \label{sec:hyperparameters}
+			\begin{table}[htbp]
+				\centering
+				\begin{tabular}{|l|l|l|}
+					\hline
+					\textbf{Parameter} & \textbf{Description} & \textbf{Values} \\
+					\hline
+					n\_estimators & Number of trees in the forest & 100, 200, 500, 1000
+					\\
+					max\_depth & Maximum depth of the trees & None, 10, 20, 30
+					\\
+					min\_samples\_split & Minimum samples required to split an internal node & 2, 5, 10
+					\\
+					min\_samples\_leaf & Minimum samples required at a leaf node & 1, 2, 4
+					\\
+					max\_features & Features to consider for best split & 'auto', 'sqrt',
+					'log2'
+					\\
+					bootstrap & Whether bootstrap samples are used & True, False
+					\\
+					\hline
+				\end{tabular}
+				\caption{Random Forest Classifier Hyperparameters}
+				\label{tab:random-forest-params}
+			\end{table}
+
+			\begin{table}[htbp]
+				\centering
+				\begin{tabular}{|l|l|l|}
+					\hline
+					\textbf{Parameter} & \textbf{Description} & \textbf{Values}
+					\\
+					\hline
+					C & Inverse of regularization strength & 0.001, 0.01, 0.1, 1, 10, 100
+					\\
+					penalty & Type of regularization & 'l1', 'l2', 'elasticnet', 'none'
+					\\
+					solver & Optimization algorithm & 'newton-cg', 'lbfgs', 'liblinear', 'sag',
+					'saga' \\
+					class\_weight & Weights associated with classes & None, 'balanced'
+					\\
+					l1\_ratio & Elastic-Net mixing parameter & 0.0, 0.5, 1.0
+					\\
+					\hline
+				\end{tabular}
+				\caption{Logistic Regression Hyperparameters}
+				\label{tab:logistic-regression-params}
+			\end{table}
+
+			\begin{table}[htbp]
+				\centering
+				\begin{tabular}{|l|l|l|}
+					\hline
+					\textbf{Parameter} & \textbf{Description}                   & \textbf{Values}        \\
+					\hline
+					n\_estimators           & Number of boosting stages              & 100, 200, 500          \\
+					learning\_rate          & Contribution shrinkage of each tree    & 0.01, 0.1, 0.05        \\
+					max\_depth              & Maximum depth of regression estimators & 3, 5, 10               \\
+					min\_samples\_split     & Minimum samples required to split node & 2, 5, 10               \\
+					min\_samples\_leaf      & Minimum samples required at leaf node  & 1, 2, 4                \\
+					subsample               & Fraction of samples for base learners  & 0.8, 1.0               \\
+					max\_features           & Features to consider for best split    & 'auto', 'sqrt', 'log2' \\
+					\hline
+				\end{tabular}
+				\caption{Gradient Boosting Classifier Hyperparameters}
+				\label{tab:gradient-boosting-params}
+			\end{table}
+
+			\begin{table}[htbp]
+				\centering
+				\begin{tabular}{|l|l|l|}
+					\hline
+					\textbf{Parameter} & \textbf{Description} & \textbf{Values} \\
+					\hline
+					n\_neighbors & Number of neighbors to use & 3, 5, 7, 10, 12, 14, 20, 23, 26, 40
+					\\
+					weights & Weight function used in prediction & 'uniform', 'distance'
+					\\
+					metric & Distance metric for the tree & 'euclidean', 'manhattan', 'minkowski'
+					\\
+					\hline
+				\end{tabular}
+				\caption{K-Nearest Neighbors Hyperparameters}
+				\label{tab:knn-params}
+			\end{table}
+
+		\subsection{Best Parameters} \label{sec:best_params}
+			\begin{table}[H]
+				\centering
+				\begin{tabular}{|l|l|l|}
+					\hline
+					\textbf{Model} & \textbf{Parameter}  & \textbf{Value} \\
+					\hline
+					Random Forest
+					& bootstrap           & true           \\
+					& max\_depth          & 20             \\
+					& max\_features       & ``sqrt''       \\
+					& min\_samples\_leaf  & 2              \\
+					& min\_samples\_split & 2              \\
+					& n\_estimators       & 500            \\
+					\hline
+					K-Nearest Neighbors
+					& metric              & ``manhattan''  \\
+					& n\_neighbors        & 23             \\
+					& weights             & ``distance''   \\
+					\hline
+					Gradient Boosting
+					& learning\_rate      & 0.1            \\
+					& max\_depth          & 5              \\
+					& max\_features       & ``sqrt''       \\
+					& min\_samples\_leaf  & 1              \\
+					& n\_estimators       & 500            \\
+					\hline
+					Logistic Regression
+					& C                   & 1              \\
+					& class\_weight       & null           \\
+					& l1\_ratio           & 0.0            \\
+					& penalty             & ``l2''         \\
+					& solver              & ``newton-cg''  \\
+					\hline
+				\end{tabular}
+				\caption{Best Hyperparameters by Model}
+				\label{tab:model-hyperparameters}
+			\end{table}
+
+
+	\section{Feature Importance Analysis}
+
+		\begin{table}[htbp]
+			\centering
+			\begin{tabular}{|l|r|p{7cm}|}
+				\hline
+				\textbf{Feature} & \textbf{Importance} & \textbf{Impact Description}
+				\\
+				\hline
+				\multicolumn{3}{|l|}{\textbf{Operational Categories}} \\
+				\hline
+				category\_THRGH & 2.688 & Strongest positive correlation, indicating
+				through
+				containers significantly predict shorter dwell times \\
+				\hline
+				category\_
+				TRSHP & -1.195 & Strong negative correlation, suggesting transshipment
+				containers tend toward longer dwell times \\
+				\hline
+				category\_STRGE & -1.101 & Significant negative influence, indicating
+				storage
+				containers typically have extended dwell times \\
+				\hline
+				category\_EXPRT & -1.078 & Notable negative correlation for export
+				containers
+				\\
+				\hline
+				category\_
+				IMPRT & 0.686 & Moderate positive influence on dwell time predictions
+				\\
+				\hline
+				\multicolumn{3}{|l|}{\textbf{Container Characteristics}} \\
+				\hline
+				nominal\_length\_
+				NOM45 & -0.385 & Strongest negative correlation among container sizes
+				\\
+				\hline
+				nominal\_length\_NOM20 & 0.197 & Moderate positive influence for 20-foot
+				containers
+				\\
+				\hline
+				nominal\_length\_NOM40 & 0.189 & Similar positive influence as 20-foot containers
+				\\
+				\hline
+				freight\_kind\_FCL & 0.147 & Positive correlation for full containers
+				\\
+				\hline
+				freight\_kind\_
+				MTY & -0.147 & Corresponding negative influence for empty containers
+				\\
+				\hline
+				\multicolumn{3}{|l|}{\textbf{Temporal Features}} \\
+				\hline
+				time\_in\_
+				weekday & -0.264 & Most influential temporal feature, indicating weekly
+				patterns \\
+				\hline
+				time\_in\_business\_day & -0.059 & Modest negative influence of business day status
+				\\
+				\hline
+				time\_in\_week\_of\_year & 0.040 & Minor positive correlation
+				\\
+				\hline
+				time\_in\_hour & 0.020 & Slight positive influence of hour of day
+				\\
+				\hline
+				time\_in\_week\_of\_month & -0.011 & Minimal negative influence
+				\\
+				\hline
+				time\_in\_month & -0.010 & Minimal negative influence
+				\\
+				\hline
+				\multicolumn{3}{|l|}{\textbf{Other Features}} \\
+				\hline
+				requires\_power & -0.041 & Slight negative correlation for powered
+				containers
+				\\
+				\hline
+			\end{tabular}
+			\caption{Logistic Regression Model Feature Importance Analysis}
+			\label{tab:feature_importance_logistic_regression}
+		\end{table}

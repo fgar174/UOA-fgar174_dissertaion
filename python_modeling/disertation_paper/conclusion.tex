@@ -1,0 +1,95 @@
+\chapter{Conclusion}%    \chapter{}  = level 1, top level
+
+	This research revealed significant findings regarding container dwell time prediction at the Ports of Auckland. It
+	identified temporal patterns and specific characteristics related to the containers that influence dwell times.
+	None of the weather-related variables, such as wind conditions, recorded by the port demonstrate significant
+	predictive gain for the implemented models.
+
+	The study established three meaningful dwell time categories that proved effective for predictive modeling:
+	\begin{itemize}
+		\item Short-term (0-3 days)
+		\item Medium-term (4-11 days)
+		\item Long-term (12+ days or more)
+	\end{itemize}
+
+	The proposed predictive models had a robust performance, with F1 Scores exceeding 73\%
+	for most weeks in the analysis period 2024. Only one week showed a lower performance of 69\%
+	in the F1 score, which is still a good metric for its predictive power. Among the machine learning
+	algorithms evaluated, Logistic Regression emerged as the most effective approach, followed closely by
+	K-Nearest Neighbors.
+
+
+	These models can become critical components to be integrated into a Decision Support System (DSS) workflow to know
+	how long a container will stay, which is essential in automating container allocation decisions. The Ports of
+	Auckland could significantly enhance its operational efficiency by integrating them to address yard optimization
+	challenges with data-driven solutions, which aligns with the primary goals of this project.
+
+	These models are highly reliable for operation planning, given that their performance suggests their predictive
+	power is significant. The following valuable steps are implementing them in a real-time DSS environment and
+	evaluating their performance in terms of time, costs, and rehandles.
+
+
+	\section{Future Work}
+
+		This research has established a foundation for predicting container dwell times that could help improve yard
+		optimization at the Ports of Auckland. From data movements, promising avenues for future research have been
+		identified that could improve the effectiveness and applicability of this work.
+
+		\subsection{Granular Yard-Level Analysis}
+
+			The current models operate at a port-wide level. However, implementing a more granular yard-level analysis
+			provides new research opportunities through the development of location-specific predictive models. These
+			models would account for individual yard section characteristics, specific operational constraints of
+			different areas, and local traffic patterns and accessibility. At this level, which is more granular, it
+			could provide better decision-making and practical and specific yard optimization strategies.
+
+		\subsection{Extended Training Data Implementation}
+
+			The current models were trained with nine months of 2023 data. Expanding the training dataset could improve
+			metrics by including additional months (January, February, and March). By adding these months, 2023 will be
+			complete for container movements, capturing missing seasonal patterns at the beginning of the year and
+			strengthening the model's understanding of monthly trends. This temporal expansion could improve the model
+			and its performance for the testing dataset and its months of January, February, and March.
+
+		\subsection{Weather Data Integration}
+
+			Data augmentation through meteorological data could enhance prediction metrics by integrating key weather
+			features, including precipitation patterns and visibility data. This would enable a comprehensive analysis
+			of weather-related impacts on container handling efficiency and dwell time variations. These new features
+			could provide valuable insights into environmental factors affecting port operations.
+
+		\subsection{Model Simulation Framework}
+
+			The evaluation of model-driven decisions in container yard operations presents significant challenges due
+			to the complex nature of container movements. Testing the effectiveness of predictive models in reducing
+			unnecessary movements is more complex than comparing simple before-and-after scenarios. Each container's
+			movement can affect multiple others, creating a ripple effect throughout the yard that's difficult to track
+			and quantify. For instance, moving one container might require shifting several others, and these
+			interdependencies multiply rapidly across thousands of containers.
+			\\
+			\\
+			Current data allows tracking actual movements, but simulating alternative scenarios - what could have
+			happened if containers were placed differently based on predicted dwell times - remains challenging. This
+			testing environment would need to copy actual port behavior: how putting a container in one spot limits
+			where others can go, how knowing a container's expected stay time affects where it should be placed,
+			and how all these choices add up over days and weeks of operation. Simulations would allow ports to
+			experiment with different container management strategies, helping to prove whether these prediction models
+			make ports run more smoothly and efficiently.
+
+		\subsection{DSS Implementation}
+
+			A practical next step would be building a user-friendly Decision Support System (DSS) that puts these
+			prediction models to work in day-to-day port operations. This system would take real-time data about
+			containers, run it through our models (mainly using Logistic Regression backed up by KNN), and give yard
+			operators straightforward suggestions about where to place containers. The idea is simple but powerful - if
+			it is known how long a container will likely stay, making decisions can be more thoughtful about where we
+			put it. A container leaving soon should be easily accessible, while one staying longer can go to a less
+			convenient spot. By tracking how many containers move, what we avoid, and how much faster we can get
+			containers in and out, metrics could show exactly how much time and money these predictions save. This
+			real-world testing would be the best way to prove whether these models can make ports run more efficiently.
+
+		\subsection{More sofisticates classifiers}
+
+			Adding new prediction models - like Neural Networks - could help spot patterns in container movements that
+			simpler methods might miss. Adding a third model to work alongside the current two could create a voting
+			system where the models work together to make better predictions.

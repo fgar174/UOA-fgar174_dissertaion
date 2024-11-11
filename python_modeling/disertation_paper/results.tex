@@ -1,0 +1,374 @@
+\chapter{Results and Discussion / Model Evaluation}%    \chapter{}  = level 1, top level
+
+
+	\section{Comparative Performance Analysis of Models}
+
+		\subsection{Temporal Performance Analysis}
+			\begin{table}[H]
+				\centering
+				\begin{tabular}{|c|c|c|c|c|c|c|}
+					\hline
+					\textbf{Month} & \textbf{Week} & \textbf{Max Acc} & \textbf{Max Prec}
+					& \textbf{Max Recall}
+					& \textbf{Max F1 Score}
+					& \textbf{Predictions}
+					\\ \hline
+					1 & 1 & 76.8\% & 75.3\% & 76.8\% &
+					76.0
+					\% & 4 \\ \hline
+					1 & 2 & 78.4\% & 78.0\% & 78.4\% &
+					78.0
+					\% & 4 \\ \hline
+					1 & 3 & 79.2\% & 78.2\% & 79.2\% &
+					78.0
+					\% & 4 \\ \hline
+					1 & 4 & 69.5\% & 67.8\% & 69.5\% &
+					69.0
+					\% & 4 \\ \hline
+					2 & 1 & 74.5\% & 74.2\% & 74.5\% &
+					74.0
+					\% & 4 \\ \hline
+					2 & 2 & 79.3\% & 77.9\% & 79.3\% &
+					79.0
+					\% & 4 \\ \hline
+					2 & 3 & 81.1\% & 81.9\% & 81.1\% &
+					81.0
+					\% & 4 \\ \hline
+					2 & 4 & 79.3\% & 78.7\% & 79.3\% &
+					79.0
+					\% & 4 \\ \hline
+					3 & 1 & 83.1\% & 82.2\% & 83.1\% &
+					83.0
+					\% & 4 \\ \hline
+					3 & 2 & 77.0\% & 79.7\% & 77.0\% &
+					77.0
+					\% & 4 \\ \hline
+					\textbf{Total} & & & & &
+					& \textbf{40} \\ \hline
+				\end{tabular}
+				\caption{Overal Models' Performance Metrics by Week and Month}
+				\label{tab:performance_metrics}
+			\end{table}
+
+			The performance metrics shown in Table~\ref{tab:performance_metrics}
+			reveal significant insights about the models' predictive capabilities across the first quarter of
+			2024. The models demonstrate strong overall performance, with accuracy consistently ranging between
+			69.5\% and 83.1\%
+			. The highest performance was achieved in the first week of March, where the model reached
+			its peak accuracy of 83.1\%, accompanied by strong precision (82.2\%) and F1 score (83.0\%
+			). Conversely, the final week of January showed the lowest performance across all metrics, with accuracy
+			dropping to 69.5\%
+			. An interesting trend emerges in February, where we observe steady improvement from the first to
+			the third
+			week, culminating in a robust 81.1\% accuracy and 81.0\%
+			F1 score in the third week, before slightly declining in the final week.
+			\\
+			\\
+			The consistency between accuracy and F1 scores throughout the dataset indicates well-balanced models with
+			good harmony between precision and recall, suggesting reliable and stable predictions. With a total of 40
+			predictions across the quarter, spanning from January through early March, the sample size provides
+			sufficient confidence in these performance metrics.
+
+		\subsection{Model-Specific Performance}
+			\begin{table}[H]
+				\centering
+				\begin{tabular}{|c|c|c|c|c|c|}
+					\hline
+					\textbf{Model} & \textbf{Max Acc} & \textbf{Max Prec} & \textbf{Max Recall}
+					& \textbf{Max F1 Score}
+					& \textbf{Min F1 Score}
+					\\ \hline
+					Log. Regression & 83.1\% & 82.2\% & 83.1\% & 83.0\% & 69.0\% \\ \hline
+					KNN             & 77.5\% & 75.6\% & 77.5\% & 77.0\% & 64.0\% \\ \hline
+					Random Forest   & 57.4\% & 71.7\% & 57.4\% & 57.0\% & 34.0\% \\ \hline
+					Grad. Boosting  & 22.6\% & 74.3\% & 22.6\% & 18.0\% & 0.0\%  \\ \hline
+				\end{tabular}
+				\caption{Model Performance Comparison Week and Month}
+				\label{tab:model_performance_comparison}
+			\end{table}
+
+			The comparative analysis of models, shown in Table~\ref{tab:model_performance_comparison}
+			, highlights significant differences in predictive effectiveness across various algorithms.
+			\\
+			\\
+			Logistic Regression is the best classifier, peaking at an accuracy of 83.1\% and an F1 score of 83.0\%
+			. Its consistent performance across diverse scenarios—evident from a minimum F1 score of 69.0\%
+			—demonstrates robust and reliable predictive power.
+			\\
+			\\
+			K-Nearest Neighbors (KNN) also performs well, ranking as the second-best model. It maintains stable
+			results,
+			with a maximum accuracy of 77.5\% and an F1 score reaching 77.0\%, though its minimum F1 score dips to 64.0
+			\%.
+			\\
+			\\
+			Random Forest achieves moderate results, with a maximum accuracy of 57.4\%
+			, though it demonstrates solid precision at 71.7\%
+			, indicating reliable positive predictions when the model is more optimistic.
+			\\
+			\\
+			The Gradient Boosting model struggles in this context, with a maximum accuracy of only 22.6\%
+			despite a decent precision of 74.3\%. Its F1 score, ranging from 18.0\% to as low as 0.0\%
+			, points to high instability and limited reliability for this specific task.
+			\\
+			\\
+			These findings suggest that linear models like Logistic Regression and instance-based learning methods like
+			KNN are better suited to this predictive task than more complex ensemble methods. The results indicate that
+			Logistic Regression should be used for core predictions and KNN as a validation tool.
+			The consistently strong performance (above 70\%
+			) for the top models suggests they are well-suited for integration into the operational
+			decision-making processes at the Ports of Auckland.
+
+
+	\section{Logistic Regression}
+
+		\subsection{Model Performance Analysis}
+			\begin{table}[H]
+				\centering
+				\begin{tabular}{|c|c|c|c|c|c|c|}
+					\hline
+					\textbf{Month} & \textbf{Week} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall}
+					& \textbf{F1 Score}
+					& \textbf{ROC AUC}
+					\\ \hline
+					1 & 1 & 76.8\% & 75.3\% & 76.8\% & 76.0\%
+					& 81.7\% \\ \hline
+					1 & 2 & 78.4\% & 78.0\% & 78.4\% & 78.0\%
+					& 84.8\% \\ \hline
+					1 & 3 & 79.2\% & 78.2\% & 79.2\% & 78.0\%
+					& 78.1\% \\ \hline
+					1 & 4 & 69.5\% & 67.8\% & 69.5\% & 69.0\%
+					& 79.6\% \\ \hline
+					2 & 1 & 74.5\% & 74.2\% & 74.5\% & 74.0\%
+					& 74.6\% \\ \hline
+					2 & 2 & 79.3\% & 77.9\% & 79.3\% & 79.0\%
+					& 83.8\% \\ \hline
+					2 & 3 & 81.1\% & 81.9\% & 81.1\% & 81.0\%
+					& 85.5\% \\ \hline
+					2 & 4 & 79.3\% & 78.7\% & 79.3\% & 79.0\%
+					& 83.9\% \\ \hline
+					3 & 1 & 83.1\% & 82.2\% & 83.1\% & 83.0\%
+					& 83.6\% \\ \hline
+					3 & 2 & 77.0\% & 79.7\% & 77.0\% & 77.0\%
+					& 86.8\% \\ \hline
+				\end{tabular}
+				\caption{Logistic Regression - Weekly and Monthly Model Performance Metrics}
+				\label{tab:weekly_monthly_performance_logistic_regression}
+			\end{table}
+
+			Table~\ref{tab:weekly_monthly_performance_logistic_regression}
+			presents the weekly and monthly performance metrics for the Logistic Regression model in predicting
+			container dwell times.This classifier performed well during the evaluated period. Its F1
+			scores were between 69.0\% and 83.0\%, often above 74\%
+			. Accuracy metrics supported its performance, which also fell within that range, peaking at 83.1\%
+			. Its ability to differentiate between dwell time categories was also impressive. ROC AUC values
+			between
+			74.6\% and 86.8\% consistently surpassed 83\%
+			, demonstrating its reliability in identifying different dwell time classes under various conditions.
+			\\
+			\\
+			Logistic regression was the best classifier for predicting container dwell times. Its stable F1 scores
+			above
+			74
+			\% in typical operational settings and high ROC AUC values, frequently over 83\%
+			, make it a strong choice for primary deployment in dwell time prediction. This model is particularly
+			effective in applications where clear separation between dwell time categories is essential, adding
+			real value in port operations where accurate dwell time predictions are critical for resource planning and
+			allocation. The Logistic Regression model is an ideal baseline for dwell time prediction and sets a
+			standard for evaluating other approaches.
+
+		\subsection{Class-Specific Performance Analysis}
+			\begin{table}[H]
+				\centering
+				\begin{tabular}{|c|c|c|c|c|}
+					\hline
+					\textbf{Class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1 Score} \\
+					\hline
+					From 00 to 03 days  & 88.0\%             & 85.0\%          & 86.0\%            \\
+					\hline
+					From 04 to 11 days  & 77.0\%             & 83.0\%          & 80.0\%            \\
+					\hline
+					From 12 to 20 days  & 0.0\%              & 0.0\%           & 0.0\%             \\
+					\hline
+				\end{tabular}
+				\caption{Logistic Regression - Performance Metrics by Class March Week 1}
+				\label{tab:performance_by_class_logistic_regression}
+			\end{table}
+
+			Table~\ref{tab:performance_by_class_logistic_regression}
+			looks at how well the Logistic Regression model performs across different dwell time categories in the
+			first week of March 2024, corresponding to its training timeframe from March 2023. This period allows
+			evaluations
+			of the model's effectiveness in similar seasonal periods in different years.
+			\\
+			\\
+			The model metrics showed predictive capabilities for shorter dwell times: containers in the 0-3 day range
+			were identified with an F1 score of 86.0\%, supported by 88.0\% precision and 85.0\%
+			recall. The model maintained robust performance for containers within the 4-11 day range with an 80.0\%
+			F1 score, demonstrating 77.0\% precision and 83.0\%
+			recall. However, this model did not identify containers with extended stays of 12-20 days,
+			recording 0\%
+			across all performance metrics for this category.
+			\\
+			\\
+			The metrics reveal insights about the model's operational capabilities and limitations. Under 11 days, the
+			model performed well when predicting, making it a reliable tool for short- to medium-term operational
+			planning. High precision in the 0-3 day range is valuable for identifying containers requiring immediate
+			attention. However, the model could have performed better when predicting extended dwell times (12-20
+			days),
+			indicating a substantial limitation. While the model effectively handles typical container dwell times,
+			these findings suggest enhancements to address the identification and management of extended-stay
+			containers.
+
+		\subsection{Feature Importance Analysis}
+			As shown in Table~\ref{tab:feature_importance_logistic_regression}
+			, the logistic regression model makes explicit patterns that affect how long
+			containers stay in port. The most critical factor is the container's purpose or category. Through
+			containers (marked as 'THRGH') strongly suggest shorter stays, with a high positive value of 2.688.
+			On the flip side, containers marked for transshipment ('TRSHP'), storage ('STRGE'), or export (
+			'EXPRT') typically stay longer, shown by their negative values around -1.1. Import containers (
+			'IMPRT') tend toward shorter stays but not as dramatically as through containers, with a moderate
+			positive value of 0.686.
+			\\
+			\\
+			The physical features of containers also matter, but their purpose is different. Regarding container sizes,
+			20-foot and 40-foot containers show similar mild positive effects (0.197 and 0.189), suggesting slightly
+			shorter stays. However, 45-foot containers tend toward longer stays, indicated by a negative value of
+			-0.385. Whether a container is full or empty also makes a difference: full containers (FCL) tend toward
+			shorter stays (0.147), while empty ones (MTY) lean toward longer stays (-0.147).
+			\\
+			\\
+			Time-related factors have more subtle effects on how long containers stay. The day of the week matters most
+			among these (-0.264), showing that container movements follow weekly patterns. Other time factors, like
+			whether it is a business day (-0.059), the week of the year (0.040), and the time of day (0.020), have
+			minor
+			effects. Interestingly, which month it is (-0.010) or which week of the month (-0.011) barely matters at
+			all. Whether a container needs power also has a negligible effect (-0.041), suggesting powered containers
+			might stay slightly longer. These findings help port operators understand what drives container stay times
+			and could help them make better planning decisions.
+
+
+	\section{K-Nearest Neighbors}
+
+		\subsection{Model Performance Analysis}
+			\begin{table}[H]
+				\centering
+				\begin{tabular}{|c|c|c|c|c|c|c|}
+					\hline
+					\textbf{Month} & \textbf{Week} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall}
+					& \textbf{F1 Score}
+					& \textbf{ROC AUC}
+					\\ \hline
+					1 & 1 & 65.1\% & 65.6\% & 65.1\% & 65.0\%
+					& 71.4\% \\ \hline
+					1 & 2 & 73.9\% & 74.8\% & 73.9\% & 74.0\%
+					& 78.0\% \\ \hline
+					1 & 3 & 65.3\% & 64.6\% & 65.3\% & 65.0\%
+					& 66.2\% \\ \hline
+					1 & 4 & 67.3\% & 65.3\% & 67.3\% & 66.0\%
+					& 70.1\% \\ \hline
+					2 & 1 & 64.3\% & 64.7\% & 64.3\% & 64.0\%
+					& 66.6\% \\ \hline
+					2 & 2 & 70.8\% & 72.7\% & 70.8\% & 71.0\%
+					& 77.5\% \\ \hline
+					2 & 3 & 67.3\% & 69.9\% & 67.3\% & 67.0\%
+					& 71.3\% \\ \hline
+					2 & 4 & 77.5\% & 75.6\% & 77.5\% & 77.0\%
+					& 71.5\% \\ \hline
+					3 & 1 & 71.9\% & 74.5\% & 71.9\% & 73.0\%
+					& 74.7\% \\ \hline
+					3 & 2 & 64.2\% & 74.7\% & 64.2\% & 67.0\%
+					& 78.6\% \\ \hline
+				\end{tabular}
+				\caption{K-Nearest Neighbors - Weekly and Monthly Model Performance Metrics}
+				\label{tab:weekly_monthly_performance_knn}
+			\end{table}
+
+			Table~\ref{tab:weekly_monthly_performance_knn}
+			presents the performance metrics for the K-Nearest Neighbors (KNN) model across different weeks
+			and months. This model performed consistently across the period. Its F1 scores went from 64.0\% to 77.0\%
+			, with scores above 65.0\% in most measurements. Additionally, ranging from 64.2\% to 77.5\%
+			, its accuracy demonstrated balanced precision and recall characteristics supporting the F1 scores.
+			Also, its ROC AUC values from 66.2\% to 78.6\%, with several periods exceeding 70\%
+			, indicating a reliable ability to distinguish between different dwell time classes, albeit at a
+			lower level than the Logistic Regression model.
+			\\
+			\\
+			This model was the second most effective classifier, becoming a valuable complementary tool to the primary
+			Logistic Regression model in container dwell time prediction. This model generally trailed Logistic
+			Regression by 5-8 percentage points but still performed solidly, with F1 scores above 65\%
+			under normal conditions and ROC AUC values often exceeding 70\%
+			. These results make it a dependable secondary tool for validating predictions. This model is
+			precious in providing independent verification of logistic regression predictions while offering an
+			alternative.
+
+		\subsection{Class-Specific Performance Analysis}
+			\begin{table}[H]
+				\centering
+				\begin{tabular}{|c|c|c|c|}
+					\hline
+					\textbf{Class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1 Score} \\ \hline
+					From 00 to 03 days  & 80.0\%             & 71.0\%          & 76.0\%            \\ \hline
+					From 04 to 11 days  & 68.0\%             & 74.0\%          & 71.0\%            \\ \hline
+					From 12 to 20 days  & 5.0\%              & 15.0\%          & 7.0\%             \\ \hline
+				\end{tabular}
+				\caption{K-Nearest Neighbors - Performance Metrics by Class Week 1}
+				\label{tab:performance_by_class_knn}
+			\end{table}
+
+			Table \ref{tab:performance_by_class_knn}
+			presents the class-specific performance metrics for the K-Nearest Neighbors (KNN) during the first week of
+			March 2024 that covers the same evaluation period corresponding to its training data from March 2023. The
+			model
+			showed good capability in identifying shorter dwell times, achieving a 76.0\%
+			F1 score for containers in the 0-3 day range, supported by 80.0\% precision and 71.0\%
+			recall. The model maintained moderate effectiveness for containers within the 4-11 day range with a
+			71.0
+			\% F1 score, exhibiting 68.0\% precision and 74.0\%
+			recall. Unlike the Logistic Regression model, the KNN algorithm demonstrated some ability to identify
+			extended stays of 12-20 days, albeit with limited success, achieving a 7.0\% F1 score with 5.0\%
+			precision and 15.0\% recall.
+			\\
+			\\
+			Despite its lower overall performance compared to Logistic Regression, this model is a valuable complement,
+			particularly in its capacity to detect extended dwell times. Its accuracy falls approximately 10\%
+			points below the Logistic Regression model for shorter stays, but it performs better identifying some
+			extended dwell times (12-20 days), providing additional operational value.
+			\\
+			\\
+			The KNN model works well as a supporting tool, especially for validating predictions on standard-length
+			stays.
+			This year-over-year analysis for the first week of March highlights its usefulness for a possible
+			dual-model
+			framework implementation, where its strengths can complement the Logistic Regression's weakness to improve
+			the
+			overall system's reliability.
+
+
+	\section{Model Comparison and Integration Strategy}
+
+		A comparative analysis of the Logistic Regression and K-Nearest Neighbors models reveals distinct performance
+		characteristics and complementary strengths in container dwell time prediction. The Logistic Regression model
+		has a superior overall performance, mainly in shorter dwell time ranges (0-3 days), with an F1 score of 86.0\%
+		compared to KNN's 76.0\%
+		. The same is true for the medium-range predictions (4-11 days), where Logistic Regression maintains an
+		F1 score of 80.0\% versus KNN's 71.0\%
+		. However, for extended dwell time prediction (12-20 days), Logistic Regression did not have detection
+		capabilities, while KNN, despite its modest performance, maintains some predictive ability with a 7.0\%
+		F1 score.
+		\\
+		\\
+		Complementing both models with the best of their characteristics could provide a potential enhancement through
+		ensemble methods. For instance, a stacking approach could be efficient by leveraging for shorter stays to the
+		high precision of Logistic Regression and incorporating KNN's ability to detect extended dwell times. Such an
+		ensemble could implement a weighted voting system, giving greater weight to Logistic Regression predictions for
+		containers likely to stay under 11 days while engaging KNN's predictions more heavily when extended stays are
+		suspected.
+		\\
+		\\
+		Looking ahead, these models could become the foundation for a practical decision support system (Figure~
+		\ref{fig:dds_architecture}) in ports.
+		Such a system could work with live container tracking data to provide different levels of alerts and
+		recommendations. When Logistic Regression shows high confidence in a short-stay prediction, the system could
+		automatically suggest resource allocation plans. Meanwhile, if KNN flags a container as potentially staying
+		longer, it could trigger early attention from port operators.
