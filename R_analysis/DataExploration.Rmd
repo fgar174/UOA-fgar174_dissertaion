@@ -7,12 +7,13 @@ output:
 ```{r}
 library(dplyr)
 library(ggplot2)
+library(readxl)
 yard_moves_by_year.df_base <-
   read.csv("yard_moves_for_year.csv", header = TRUE)
 yard_location_mapping.df <-
   read.csv("yard_location_mapping.csv", header = TRUE)
 stack_row_block.df <- read.csv("stack_row_block.csv", header = TRUE)
-
+wind_and_tide_data <- read_excel("wind_and_tide_data.xlsx")
 ```
 
 # Data Procesing
@@ -87,6 +88,7 @@ yard_moves_by_year.df_base$time_out_year <-
   as.integer(format(yard_moves_by_year.df_base$time_out, "%Y"))
 yard_moves_by_year.df_base$time_out_weekday <-
   as.integer(strftime(yard_moves_by_year.df_base$time_out, "%u"))
+
 ```
 
 ## Add future_t_fetch that will have the time the current movement will be move in the future
@@ -146,37 +148,37 @@ yard_moves_by_year.df_base$DAYS_IN_PORT <-
 ## Generates a mapping table from pos_name to stack
 
 ```{r, render=FALSE}
-# temporal_pos_name_to_stack <- data.frame(pos_name = unique(union(
-#   unique(yard_moves_by_year.df_base$fm_pos_name),
-#   unique(yard_moves_by_year.df_base$to_pos_name)
-# )))
-# 
-# 
-# str(yard_moves_by_year.df_base)
-# 
-# print(nrow(stack_row_block.df))
-# for (i in 1:nrow(stack_row_block.df)) {
-#   # Create the pattern based on the block value
-#   current_row_value <- stack_row_block.df[i, ]
-#   pattern <- current_row_value$stack
-# 
-#   # Find matching rows in dataframe2 where pos_name contains the block value
-#   matching_rows <- grepl(pattern, temporal_pos_name_to_stack$pos_name)
-#   # Update pos_name in dataframe2 to match the block value where it matches
-#   # print(paste0(round((
-#   #   i / nrow(stack_row_block.df)
-#   # ) * 100, 2), '%'))
-#   temporal_pos_name_to_stack$block[matching_rows] <- current_row_value$block
-#   temporal_pos_name_to_stack$stack[matching_rows] <- current_row_value$stack
-#   temporal_pos_name_to_stack$row[matching_rows] <- current_row_value$row
-#   level_pattern <- paste0(".*", pattern, "[^0-9]*([0-9]+)$")
-#   temporal_pos_name_to_stack$level[matching_rows] <- sub(level_pattern, "\\1", temporal_pos_name_to_stack$pos_name[matching_rows])
-# }
-# temporal_pos_name_to_stack$level <- as.numeric(temporal_pos_name_to_stack$level)
-# temporal_pos_name_to_stack <-
-#   left_join(temporal_pos_name_to_stack,
-#             yard_location_mapping.df,
-#             by = c("block" = "Block"))
+temporal_pos_name_to_stack <- data.frame(pos_name = unique(union(
+  unique(yard_moves_by_year.df_base$fm_pos_name),
+  unique(yard_moves_by_year.df_base$to_pos_name)
+)))
+
+
+str(yard_moves_by_year.df_base)
+
+print(nrow(stack_row_block.df))
+for (i in 1:nrow(stack_row_block.df)) {
+  # Create the pattern based on the block value
+  current_row_value <- stack_row_block.df[i, ]
+  pattern <- current_row_value$stack
+
+  # Find matching rows in dataframe2 where pos_name contains the block value
+  matching_rows <- grepl(pattern, temporal_pos_name_to_stack$pos_name)
+  # Update pos_name in dataframe2 to match the block value where it matches
+  # print(paste0(round((
+  #   i / nrow(stack_row_block.df)
+  # ) * 100, 2), '%'))
+  temporal_pos_name_to_stack$block[matching_rows] <- current_row_value$block
+  temporal_pos_name_to_stack$stack[matching_rows] <- current_row_value$stack
+  temporal_pos_name_to_stack$row[matching_rows] <- current_row_value$row
+  level_pattern <- paste0(".*", pattern, "[^0-9]*([0-9]+)$")
+  temporal_pos_name_to_stack$level[matching_rows] <- sub(level_pattern, "\\1", temporal_pos_name_to_stack$pos_name[matching_rows])
+}
+temporal_pos_name_to_stack$level <- as.numeric(temporal_pos_name_to_stack$level)
+temporal_pos_name_to_stack <-
+  left_join(temporal_pos_name_to_stack,
+            yard_location_mapping.df,
+            by = c("block" = "Block"))
 ```
 
 ## JOIN stack information
@@ -201,6 +203,8 @@ new_columns <- setdiff(names(joined_df), names(yard_moves_by_year.df_base))
 names(joined_df)[names(joined_df) %in% new_columns] <- paste0("fm_pos_", new_columns)
 
 yard_moves_by_year.df_base <- joined_df
+
+yard_moves_by_year.df_base <- yard_moves_by_year.df_base[order(yard_moves_by_year.df_base$mve_gkey), ]
 ```
 
 ## Creating the dadaset to trains models
@@ -362,7 +366,7 @@ For both *Export* and *Import* containers, it’s easy to observe how the number
 ggplot(yard_moves_by_year_unique, aes(x = category, fill = category)) +  # Add fill to color by category
   geom_bar(aes(y = ..count.. / 1000), stat = "count", width = 0.7) +  # Divide counts by 1000 and set bar width
   labs(
-    title = "Feature Selecction: Distribution of Categories",
+    title = "Distribution of Categories",
     subtitle = "By Years, 2023 and 2024",
     x = "Category",
     y = "Count (in thousands)"
@@ -376,13 +380,16 @@ ggplot(yard_moves_by_year_unique, aes(x = category, fill = category)) +  # Add f
     size = 1,
     linetype = "solid"
   ))  # Add a square-like border around facet labels
+
 ```
+
+
 ```{r}
 ggplot(yard_moves_by_year_unique,
        aes(x = freight_kind, fill = freight_kind)) +
   geom_bar(aes(y = ..count.. / 1000)) +  # Divide counts by 1000
   labs(
-    title = "Feature Selecction: Distribution of Freight Kind",
+    title = "Distribution of Freight Kind",
     subtitle = "By Years, 2023 and 2024",
     x = "Freight Kind",
     y = "Count (in thousands)"
@@ -437,6 +444,8 @@ ggplot(
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   ylim(1, 6)
 ```
+
+
 ```{r}
 ggplot(
   yard_moves_by_year_unique[yard_moves_by_year_unique$category %in% c('IMPRT', 'EXPRT'), ] %>%
@@ -457,7 +466,7 @@ ggplot(
     color = "Category"
   ) +
   scale_x_continuous(breaks = 1:12, labels = month.name) +  # Display month names
-  facet_wrap(~ time_in_weekday, labeller = as_labeller(
+  facet_wrap( ~ time_in_weekday, labeller = as_labeller(
     c(
       "1" = "Monday",
       "2" = "Tuesday",
@@ -472,6 +481,8 @@ ggplot(
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   ylim(1, 6)
 ```
+
+
 ```{r}
 ggplot(
   yard_moves_by_year_unique %>% filter(time_in_year == 2023),
@@ -485,7 +496,7 @@ ggplot(
   stat_summary(fun = mean, geom = "line", size = 1) +  # Add lines for monthly averages
   geom_point(stat = "summary", fun = mean, size = 3) +  # Add points for monthly averages
   labs(
-    title = "Average Days in Port Each Month in 2023 by Freight Kind",
+    title = "Average Days in Port Each Month in 2023 by Freight Kind and Category",
     x = "Month",
     y = "Average Days in Port",
     color = "Freight Kind"
@@ -719,45 +730,8 @@ ggplot(
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-```{r}
-fergusson_yard_location %>%
-  group_by(
-    category,
-    nominal_length,
-    freight_kind,
-    arrive_pos_loctype,
-    requires_power
-  ) %>%
-  summarise(
-    Q1 = quantile(DAYS_IN_YARD, 0.25, na.rm = TRUE),
-    # Calculate 1st quartile (Q1)
-    Q3 = quantile(DAYS_IN_YARD, 0.75, na.rm = TRUE),
-    # Calculate 3rd quartile (Q3)
-    IQR = IQR(DAYS_IN_YARD, na.rm = TRUE),
-    # Calculate Interquartile Range (IQR)
-    .groups = 'drop'                                  # Ungroup after summarising
-  ) %>%
-  rowwise() %>%
-  mutate(
-    max_in_iqr = max(fergusson_yard_location$DAYS_IN_YARD[
-                                                       days_in_yard_clean$DAYS_IN_YARD >= (Q1 - 1.5 * IQR) &
-                                                       days_in_yard_clean$DAYS_IN_YARD <= (Q3 + 1.5 * IQR)], na.rm = TRUE),
-    min_in_iqr = min(fergusson_yard_location$DAYS_IN_YARD[
-                                                       days_in_yard_clean$DAYS_IN_YARD >= (Q1 - 1.5 * IQR) &
-                                                       days_in_yard_clean$DAYS_IN_YARD <= (Q3 + 1.5 * IQR)], na.rm = TRUE)
-  ) %>%
-  mutate(range_in_iqr = paste0("[", min_in_iqr, " to ", max_in_iqr, "]")) %>%
-  select(
-    category,
-    nominal_length,
-    freight_kind,
-    arrive_pos_loctype,
-    requires_power,
-    Q1,
-    Q3,
-    range_in_iqr
-  )
-```
+## GENERATES DATABASE FOR YARDS
+
 ```{r}
 subset_fergusson_df <- subset(
   days_in_yard_clean,
@@ -782,12 +756,107 @@ subset_fergusson_df <- subset(
 
 subset_fergusson_df$FOR_TEST <- FALSE
 
-subset_fergusson_df[subset_fergusson_df$time_in > as.POSIXct("2023-12-31 23:59:59"), ]$FOR_TEST <- TRUE
 
 write.csv(subset_fergusson_df,
           "../python_modeling/dataset/subset_fergusson.csv",
           row.names = TRUE)
 ```
+
+## GENERATES DATABASE FOR THE WHOLE PORT
+
+```{r}
+subset_df <- subset(
+  yard_moves_by_year_unique,
+  select = c(
+    arrive_pos_loctype,
+    requires_power,
+    # fm_pos_yard,
+    time_in,
+    time_in_year,
+    time_in_weekday,
+    time_in_business_day,
+    time_in_week_of_year,
+    time_in_week_of_month,
+    time_in_month,
+    time_in_hour,
+    freight_kind,
+    category,
+    nominal_length,
+    DAYS_IN_PORT
+  )
+)
+
+subset_df <- subset_df[subset_df$time_in_year > 2022, ]
+subset_df <- subset_df[!is.na(subset_df$time_in_year), ]
+subset_df <- subset_df[!is.na(subset_df$DAYS_IN_PORT), ]
+
+subset_df$FOR_TEST <- FALSE
+
+subset_df[subset_df$time_in > as.POSIXct("2023-12-31 23:59:59"), ]$FOR_TEST <- TRUE
+
+subset_df[subset_df$time_in > as.POSIXct("2023-12-31 23:59:59"), ]$FOR_TEST <- TRUE
+subset_df$time_in <- as.Date(as.POSIXct(subset_df$time_in))
+
+subset_df <- inner_join(subset_df, wind_and_tide_data, by = c("time_in" = "DateTime"))
+
+write.csv(subset_df,
+          "../python_modeling/dataset/subset_base.csv",
+          row.names = TRUE)
+```
+
+
+## Data year 2023
+
+```{r}
+ggplot(
+  yard_moves_by_year_unique %>%
+    mutate(date_in = as.Date(strftime(
+      time_in, "%Y-%m-%d %H:%M:%S"
+    ))) %>%
+    mutate(
+      year = format(date_in, "%Y"),
+      month = format(date_in, "%m"),
+      date_month = as.Date(cut(date_in, breaks = "month"))  # Explicitly cut the dates into months
+    ) %>%
+    filter(year == "2023"),
+  aes(x = date_month)
+) +
+  geom_bar(aes(y = ..count.. / 1000),
+           fill = "steelblue",
+           color = "white") +
+  labs(title = "Number of container that arrived in 2023 per Month", x = "Month", y = "Count (in thousands)") +
+  scale_x_date(date_labels = "%B", date_breaks = "1 month") +  # Show each month on the x-axis
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+## Data year 2024
+
+```{r}
+ggplot(
+  yard_moves_by_year_unique %>%
+    mutate(date_in = as.Date(strftime(
+      time_in, "%Y-%m-%d %H:%M:%S"
+    ))) %>%
+    mutate(
+      year = format(date_in, "%Y"),
+      month = format(date_in, "%m"),
+      date_month = as.Date(cut(date_in, breaks = "month"))  # Explicitly cut the dates into months
+    ) %>%
+    filter(year == "2024"),
+  aes(x = date_month)
+) +
+  geom_bar(aes(y = ..count.. / 1000),
+           fill = "steelblue",
+           color = "white") +
+  labs(title = "Number of container that arrived in 2024 per Month", x = "Month", y = "Count (in thousands)") +
+  scale_x_date(date_labels = "%B", date_breaks = "1 month") +  # Show each month on the x-axis
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
 
 ## Selecting movements to check predictions
 
@@ -801,6 +870,172 @@ yard_moves_by_ufv_gkey_2024 <- yard_moves_by_year.df_base[!is.na(yard_moves_by_y
   summarise(count = n()) %>%
   arrange(desc(count))
 
+ufv_gkey <- yard_moves_by_ufv_gkey_2024$ufv_gkey[2]
+ufv_gkey_data <- yard_moves_by_year.df_base[yard_moves_by_year.df_base$ufv_gkey == ufv_gkey, ]
 
-write.xlsx(yard_moves_by_year.df_base[yard_moves_by_year.df_base$ufv_gkey == yard_moves_by_ufv_gkey_2024$ufv_gkey[1], ], "filtered_data.xlsx", rowNames = FALSE)
+# write.xlsx(ufv_gkey_data, "filtered_data.xlsx", rowNames = FALSE)
+
+ufv_gkey_data$t_fetch <-
+  as.POSIXct(ufv_gkey_data$t_fetch, format = "%Y-%m-%d %H:%M:%S")
+
+ufv_gkey_data$ACUM_DAYS_IN_PORT <- as.numeric(round(
+  difftime(ufv_gkey_data$t_fetch, ufv_gkey_data$time_in, units = "days")
+))
+
+subset(
+  ufv_gkey_data,
+  select = c(
+    "mve_gkey",
+    "fm_pos_stack",
+    "fm_pos_row",
+    "fm_pos_level",
+    "to_pos_stack",
+    "to_pos_row",
+    "to_pos_level",
+    "ACUM_DAYS_IN_PORT",
+    "time_out",
+    "t_fetch"
+  )
+)
+
+subset(ufv_gkey_data,
+       select = c("mve_gkey", "to_pos_stack", "to_pos_row", "to_pos_level"))
+
+
+yard_moves_by_year.df_base[yard_moves_by_year.df_base$mve_gkey >= min(ufv_gkey_data[!is.na(ufv_gkey_data$mve_gkey), ]$mve_gkey) &
+                             yard_moves_by_year.df_base$mve_gkey <= max(ufv_gkey_data[!is.na(ufv_gkey_data$mve_gkey), ]$mve_gkey), ]
+
+
+yard_moves_by_year.df_base <- yard_moves_by_year.df_base[order(yard_moves_by_year.df_base$mve_gkey), ]
+
+
+get_previous_levels <- function(df,
+                                current_to_pos_level,
+                                current_to_pos_row,
+                                current_to_pos_stack,
+                                min_mve_gkey) {
+  # Get the record for the one before if current_to_pos_level >= 2
+  lower_level <- tail(df[!is.na(df$mve_gkey) &
+                           df$mve_gkey < min_mve_gkey &
+                           !is.na(df$to_pos_stack) &
+                           df$to_pos_stack == current_to_pos_stack &
+                           !is.na(df$to_pos_row) &
+                           df$to_pos_row == current_to_pos_row &
+                           !is.na(df$to_pos_level) &
+                           df$to_pos_level == current_to_pos_level - 1, ], 1)
+  
+  lower_level_val <- head(df[!is.na(df$mve_gkey) &
+                               df$mve_gkey > min_mve_gkey &
+                               !is.na(df$fm_pos_stack) &
+                               df$fm_pos_stack == current_to_pos_stack &
+                               !is.na(df$fm_pos_row) &
+                               df$fm_pos_row == current_to_pos_row &
+                               !is.na(df$fm_pos_level) &
+                               df$fm_pos_level == current_to_pos_level - 1, ], 1)
+  
+  # Get the record for the one before if current_to_pos_level == 3
+  lower_level_2 <- tail(df[!is.na(df$mve_gkey) &
+                             df$mve_gkey < min_mve_gkey &
+                             !is.na(df$to_pos_stack) &
+                             df$to_pos_stack == current_to_pos_stack &
+                             !is.na(df$to_pos_row) &
+                             df$to_pos_row == current_to_pos_row &
+                             !is.na(df$to_pos_level) &
+                             df$to_pos_level == current_to_pos_level - 2, ], 1)
+  
+  lower_level_2_val <- head(df[!is.na(df$mve_gkey) &
+                                 df$mve_gkey > min_mve_gkey &
+                                 !is.na(df$fm_pos_stack) &
+                                 df$fm_pos_stack == current_to_pos_stack &
+                                 !is.na(df$fm_pos_row) &
+                                 df$fm_pos_row == current_to_pos_row &
+                                 !is.na(df$fm_pos_level) &
+                                 df$fm_pos_level == current_to_pos_level - 2, ], 1)
+  
+  # Initialize an empty result table
+  result <- data.frame()
+  # Check if lower_level and lower_level_val should be returned
+  if (nrow(lower_level) > 0 && nrow(lower_level_val) > 0) {
+    # Ensure both have matching ufv_gkey_data before appending
+    if (!is.na(lower_level$ufv_gkey) &&
+        !is.na(lower_level_val$ufv_gkey) &&
+        lower_level$ufv_gkey == lower_level_val$ufv_gkey) {
+      result <- rbind(result, lower_level, lower_level_val)
+    }
+  }
+  
+  # Check if lower_level_2 and lower_level_2_val should be returned
+  if (nrow(lower_level_2) > 0 && nrow(lower_level_2_val) > 0) {
+    # Ensure both have matching ufv_gkey_data before appending
+    if (!is.na(lower_level_2$ufv_gkey) &&
+        !is.na(lower_level_2_val$ufv_gkey) &&
+        lower_level_2$ufv_gkey == lower_level_2_val$ufv_gkey) {
+      result <- rbind(result, lower_level_2, lower_level_2_val)
+    }
+  }
+  
+  # Return the union of all valid, matching results
+  return(result)
+}
+
+combined_result <- data.frame()  # Initialize an empty dataframe to store results
+
+# Loop through each row of the ufv_gkey_data dataframe
+for (i in 1:nrow(ufv_gkey_data)) {
+  # Extract the necessary values for the current iteration
+  current_to_pos_level <- ufv_gkey_data$to_pos_level[i]
+  current_to_pos_row <- ufv_gkey_data$to_pos_row[i]
+  current_to_pos_stack <- ufv_gkey_data$to_pos_stack[i]
+  min_mve_gkey <- ufv_gkey_data$mve_gkey[i]
+  
+  # Run the get_previous_levels function
+  result <- get_previous_levels(
+    yard_moves_by_year.df_base,
+    current_to_pos_level = current_to_pos_level,
+    current_to_pos_row = current_to_pos_row,
+    current_to_pos_stack = current_to_pos_stack,
+    min_mve_gkey = min_mve_gkey
+  )
+  
+  # Append the result to the combined result dataframe if it's not empty
+  if (nrow(result) > 0) {
+    combined_result <- rbind(combined_result, result)
+  }
+}
+
+combined_result <- combined_result[order(combined_result$mve_gkey), ]
+
+# subset_fergusson_df[subset_fergusson_df$time_in > as.POSIXct("2023-12-31 23:59:59"), ]$FOR_TEST <- TRUE
+# subset_fergusson_df$time_in <- as.Date(subset_fergusson_df$time_in)
+# 
+# subset_fergusson_df <- inner_join(subset_fergusson_df,
+#                                   wind_and_tide_data,
+#                                   by = c("time_in" = "DateTime"))
+
+
+combined_result$RELATED <- TRUE
+
+# Get the unique values of ufv_gkey_data$to_pos_block
+unique_blocks <- unique(ufv_gkey_data[!is.na(ufv_gkey_data$to_pos_block), ]$to_pos_block)
+
+# Get the minimum and maximum values of mve_gkey in ufv_gkey_data
+min_mve_gkey <- min(ufv_gkey_data$mve_gkey, na.rm = TRUE)
+max_mve_gkey <- max(ufv_gkey_data$mve_gkey, na.rm = TRUE)
+
+ufv_gkey_data <- yard_moves_by_year.df_base[
+  yard_moves_by_year.df_base$to_pos_block %in% unique_blocks &
+  yard_moves_by_year.df_base$mve_gkey > min_mve_gkey &
+  yard_moves_by_year.df_base$mve_gkey < max_mve_gkey &
+  !yard_moves_by_year.df_base$mve_gkey %in% combined_result$mve_gkey,
+]
+
+ufv_gkey_data$RELATED <- FALSE
+
+ufv_gkey_data <- rbind(ufv_gkey_data, combined_result)
+
+write.csv(
+  ufv_gkey_data,
+  paste0("../python_modeling/dataset/ufv_gkey_", ufv_gkey, ".csv"),
+  row.names = TRUE
+)
 ```
